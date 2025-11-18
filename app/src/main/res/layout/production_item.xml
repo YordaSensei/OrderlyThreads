@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    tools:context=".MainActivity"
+    android:background="#f6f6f6">
+
+    <View
+        android:id="@+id/itemRectangle"
+        android:layout_width="360dp"
+        android:layout_height="170dp"
+        android:layout_marginBottom="25dp"
+        android:background="@drawable/white_background"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <View
+        android:id="@+id/itemGrayBg"
+        android:layout_width="115dp"
+        android:layout_height="110dp"
+        android:layout_marginStart="13dp"
+        android:layout_marginBottom="45dp"
+        android:background="@drawable/gray_background"
+        app:layout_constraintBottom_toBottomOf="@+id/itemRectangle"
+        app:layout_constraintStart_toStartOf="@+id/itemRectangle"
+        app:layout_constraintTop_toTopOf="@id/itemRectangle"/>
+
+    <Button
+        android:id="@+id/trackOrderBtn"
+        android:layout_width="330dp"
+        android:layout_height="30dp"
+        android:layout_marginBottom="10dp"
+        android:background="@drawable/verydarkgray_background"
+        android:fontFamily="@font/dm_sans_bold"
+        android:paddingHorizontal="20dp"
+        android:paddingVertical="0.5dp"
+        android:text="Track Order"
+        android:textSize="15dp"
+        app:backgroundTint="@null"
+        app:layout_constraintBottom_toBottomOf="@+id/itemRectangle"
+        app:layout_constraintEnd_toEndOf="@+id/itemRectangle"
+        app:layout_constraintStart_toStartOf="@+id/itemRectangle" />
+
+    <TextView
+        android:id="@+id/clientName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/dm_sans_extrabold"
+        android:textSize="17dp"
+        android:text="Client Name"
+        android:textColor="@color/black"
+        android:layout_marginStart="12dp"
+        android:layout_marginTop="7dp"
+        app:layout_constraintTop_toTopOf="@+id/itemGrayBg"
+        app:layout_constraintStart_toEndOf="@+id/itemGrayBg"/>
+</androidx.constraintlayout.widget.ConstraintLayout>
+
