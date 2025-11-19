@@ -12,6 +12,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.OrderlyThreads">
         <activity
+            android:name=".account_item"
+            android:exported="false" />
+        <activity
             android:name=".manage_accounts"
             android:exported="false" />
         <activity
