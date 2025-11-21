@@ -7,59 +7,60 @@
     android:layout_height="match_parent"
     tools:context=".Inventory">
 
+    <!-- TITLE -->
     <TextView
         android:id="@+id/sectionTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="12dp"
-        android:layout_marginEnd="100dp"
-        android:fontFamily="@font/league_spartan_bold"
         android:text="Inventory"
-        android:textColor="@color/black"
-        android:textSize="30dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.088"
+        android:textSize="28sp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:fontFamily="@font/league_spartan_bold"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"/>
 
-    <!--     SEARCH BAR -->
-    <FrameLayout
-        android:layout_width="100dp"
-        android:layout_height="30dp"
-        android:layout_margin="10dp"
-        android:background="@drawable/bg_default_white"
-        android:paddingStart="10dp"
-        android:paddingEnd="10dp"
-        tools:ignore="MissingConstraints"
-        tools:layout_editor_absoluteX="237dp"
-        tools:layout_editor_absoluteY="27dp">
 
-        <!-- Magnifying Glass Icon -->
-        <ImageView
-            android:id="@+id/searchIcon"
-            android:layout_width="20dp"
-            android:layout_height="20dp"
-            android:layout_gravity="end|center_vertical"
-            android:src="@drawable/ic_search" />
-
-    </FrameLayout>
-
-    <!--    ADD BUTTON -->
+    <!-- ADD BUTTON (rightmost) -->
     <FrameLayout
         android:id="@+id/addButton"
         android:layout_width="30dp"
         android:layout_height="30dp"
         android:background="@drawable/bg_default_white"
-        android:padding="5dp"
-        tools:ignore="MissingConstraints"
-        tools:layout_editor_absoluteX="350dp"
-        tools:layout_editor_absoluteY="27dp">
+        android:padding="8dp"
+        android:layout_marginEnd="45dp"
+        app:layout_constraintTop_toTopOf="@id/sectionTitle"
+        app:layout_constraintBottom_toBottomOf="@id/sectionTitle"
+        app:layout_constraintEnd_toEndOf="parent">
 
         <ImageView
-            android:layout_width="18dp"
-            android:layout_height="18dp"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
             android:layout_gravity="center"
-            android:src="@drawable/ic_plus" />
+            android:src="@drawable/ic_plus"/>
+    </FrameLayout>
+
+
+    <!-- SEARCH BAR  -->
+    <FrameLayout
+        android:id="@+id/searchBar"
+        android:layout_width="0dp"
+        android:layout_height="30dp"
+        android:background="@drawable/bg_default_white"
+        android:layout_marginStart="60dp"
+        android:layout_marginEnd="12dp"
+        app:layout_constraintTop_toTopOf="@id/sectionTitle"
+        app:layout_constraintBottom_toBottomOf="@id/sectionTitle"
+        app:layout_constraintStart_toEndOf="@id/sectionTitle"
+        app:layout_constraintEnd_toStartOf="@id/addButton">
+
+        <ImageView
+            android:id="@+id/searchIcon"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_gravity="end|center_vertical"
+            android:layout_marginEnd="8dp"
+            android:src="@drawable/ic_search"/>
     </FrameLayout>
 
     <!--    Category Navigation-->
@@ -71,7 +72,8 @@
         android:orientation="horizontal"
         android:paddingStart="16dp"
         android:paddingEnd="1dp"
-        tools:ignore="MissingConstraints"
+        android:layout_marginTop="16dp"
+        app:layout_constraintTop_toBottomOf="@+id/sectionTitle"
         tools:layout_editor_absoluteX="16dp"
         tools:layout_editor_absoluteY="65dp">
 
@@ -79,7 +81,7 @@
             android:id="@+id/tab1"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:layout_marginEnd="10dp"
+            android:layout_marginEnd="15dp"
             android:background="@drawable/btn_topbuttons"
             android:clickable="true"
             android:focusable="true"
@@ -96,7 +98,7 @@
             android:id="@+id/tab2"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:layout_marginEnd="10dp"
+            android:layout_marginEnd="15dp"
             android:background="@drawable/btn_topbuttons"
             android:clickable="true"
             android:focusable="true"
@@ -112,7 +114,7 @@
             android:id="@+id/tab3"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:layout_marginEnd="10dp"
+            android:layout_marginEnd="15dp"
             android:background="@drawable/btn_topbuttons"
             android:clickable="true"
             android:focusable="true"
@@ -140,398 +142,19 @@
             android:paddingEnd="8dp"/>
     </LinearLayout>
 
-    <GridLayout
-        android:id="@+id/fabricGrid"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:columnCount="2"
-        android:rowCount="3"
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/inventoryRecycler"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+        app:spanCount="2"
+        tools:itemCount="6"
+        tools:listitem="@layout/item_inventory_card"
+        app:layout_constraintTop_toBottomOf="@id/tabsContainer"
         app:layout_constraintBottom_toBottomOf="parent"
-        android:layout_marginTop="10dp"
-        android:alignmentMode="alignMargins"
-        android:useDefaultMargins="true"
-        android:padding="10dp">
-
-        <!-- CARD 1: Merino -->
-        <FrameLayout
-            android:id="@+id/fabricCard1"
-            android:layout_width="0dp"
-            android:layout_height="200dp"
-            android:layout_columnWeight="1"
-            android:layout_rowWeight="1"
-            android:layout_margin="5dp"
-            android:background="@drawable/bg_default_white">
-
-            <ImageView
-                android:id="@+id/fabricImage1"
-                android:layout_width="match_parent"
-                android:layout_height="120dp"
-                android:scaleType="centerCrop"
-                android:src="@drawable/ic_placeholder"/>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="bottom"
-                android:orientation="vertical"
-                android:padding="8dp"
-                android:background="@android:color/transparent">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:gravity="center_vertical"
-                    android:weightSum="1">
-
-                    <TextView
-                        android:id="@+id/fabricName1"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="0.9"
-                        android:text="Merino"
-                        android:textColor="@android:color/black"
-                        android:textSize="14sp"
-                        android:fontFamily="@font/dm_sans_bold"
-                        android:ellipsize="end"
-                        android:singleLine="true"/>
-
-                    <ImageView
-                        android:id="@+id/fabricMenu1"
-                        android:layout_width="24dp"
-                        android:layout_height="24dp"
-                        android:src="@drawable/ic_more_vert"
-                        android:contentDescription="Options"/>
-                </LinearLayout>
-
-                <TextView
-                    android:id="@+id/fabricQuantity1"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Item Quantity: 0"
-                    android:textColor="@android:color/darker_gray"
-                    android:textSize="12sp"
-                    android:fontFamily="@font/dm_sans_medium"
-                    android:layout_marginTop="2dp"/>
-            </LinearLayout>
-        </FrameLayout>
-
-        <!-- CARD 2: Souffle Yarn -->
-        <FrameLayout
-            android:id="@+id/fabricCard2"
-            android:layout_width="0dp"
-            android:layout_height="200dp"
-            android:layout_columnWeight="1"
-            android:layout_rowWeight="1"
-            android:layout_margin="5dp"
-            android:background="@drawable/bg_default_white">
-
-            <ImageView
-                android:id="@+id/fabricImage2"
-                android:layout_width="match_parent"
-                android:layout_height="120dp"
-                android:scaleType="centerCrop"
-                android:src="@drawable/ic_placeholder"/>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="bottom"
-                android:orientation="vertical"
-                android:padding="8dp">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:gravity="center_vertical"
-                    android:weightSum="1">
-
-                    <TextView
-                        android:id="@+id/fabricName2"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="0.9"
-                        android:text="Souffle Yarn"
-                        android:textColor="@android:color/black"
-                        android:textSize="14sp"
-                        android:fontFamily="@font/dm_sans_bold"
-                        android:ellipsize="end"
-                        android:singleLine="true"/>
-
-                    <ImageView
-                        android:id="@+id/fabricMenu2"
-                        android:layout_width="24dp"
-                        android:layout_height="24dp"
-                        android:src="@drawable/ic_more_vert"
-                        android:contentDescription="Options"/>
-                </LinearLayout>
-
-                <TextView
-                    android:id="@+id/fabricQuantity2"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Item Quantity: 0"
-                    android:textColor="@android:color/darker_gray"
-                    android:textSize="12sp"
-                    android:fontFamily="@font/dm_sans_medium"
-                    android:layout_marginTop="2dp"/>
-            </LinearLayout>
-        </FrameLayout>
-
-        <!-- CARD 3: Lambswool -->
-        <FrameLayout
-            android:id="@+id/fabricCard3"
-            android:layout_width="0dp"
-            android:layout_height="200dp"
-            android:layout_columnWeight="1"
-            android:layout_rowWeight="1"
-            android:layout_margin="5dp"
-            android:background="@drawable/bg_default_white">
-
-            <ImageView
-                android:id="@+id/fabricImage3"
-                android:layout_width="match_parent"
-                android:layout_height="120dp"
-                android:scaleType="centerCrop"
-                android:src="@drawable/ic_placeholder"/>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="bottom"
-                android:orientation="vertical"
-                android:padding="8dp">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:gravity="center_vertical"
-                    android:weightSum="1">
-
-                    <TextView
-                        android:id="@+id/fabricName3"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="0.9"
-                        android:text="Lambswool"
-                        android:textColor="@android:color/black"
-                        android:textSize="14sp"
-                        android:fontFamily="@font/dm_sans_bold"
-                        android:ellipsize="end"
-                        android:singleLine="true"/>
-
-                    <ImageView
-                        android:id="@+id/fabricMenu3"
-                        android:layout_width="24dp"
-                        android:layout_height="24dp"
-                        android:src="@drawable/ic_more_vert"
-                        android:contentDescription="Options"/>
-                </LinearLayout>
-
-                <TextView
-                    android:id="@+id/fabricQuantity3"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Item Quantity: 0"
-                    android:textColor="@android:color/darker_gray"
-                    android:textSize="12sp"
-                    android:fontFamily="@font/dm_sans_medium"
-                    android:layout_marginTop="2dp"/>
-            </LinearLayout>
-        </FrameLayout>
-
-        <!-- CARD 4: Cashmere -->
-        <FrameLayout
-            android:id="@+id/fabricCard4"
-            android:layout_width="0dp"
-            android:layout_height="200dp"
-            android:layout_columnWeight="1"
-            android:layout_rowWeight="1"
-            android:layout_margin="5dp"
-            android:background="@drawable/bg_default_white">
-
-            <ImageView
-                android:id="@+id/fabricImage4"
-                android:layout_width="match_parent"
-                android:layout_height="120dp"
-                android:scaleType="centerCrop"
-                android:src="@drawable/ic_placeholder"/>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="bottom"
-                android:orientation="vertical"
-                android:padding="8dp">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:gravity="center_vertical"
-                    android:weightSum="1">
-
-                    <TextView
-                        android:id="@+id/fabricName4"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="0.9"
-                        android:text="Cashmere"
-                        android:textColor="@android:color/black"
-                        android:textSize="14sp"
-                        android:fontFamily="@font/dm_sans_bold"
-                        android:ellipsize="end"
-                        android:singleLine="true"/>
-
-                    <ImageView
-                        android:id="@+id/fabricMenu4"
-                        android:layout_width="24dp"
-                        android:layout_height="24dp"
-                        android:src="@drawable/ic_more_vert"
-                        android:contentDescription="Options"/>
-                </LinearLayout>
-
-                <TextView
-                    android:id="@+id/fabricQuantity4"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Item Quantity: 0"
-                    android:textColor="@android:color/darker_gray"
-                    android:textSize="12sp"
-                    android:fontFamily="@font/dm_sans_medium"
-                    android:layout_marginTop="2dp"/>
-            </LinearLayout>
-        </FrameLayout>
-
-        <!-- CARD 5: Milano Ribbed -->
-        <FrameLayout
-            android:id="@+id/fabricCard5"
-            android:layout_width="0dp"
-            android:layout_height="200dp"
-            android:layout_columnWeight="1"
-            android:layout_rowWeight="1"
-            android:layout_margin="5dp"
-            android:background="@drawable/bg_default_white">
-
-            <ImageView
-                android:id="@+id/fabricImage5"
-                android:layout_width="match_parent"
-                android:layout_height="120dp"
-                android:scaleType="centerCrop"
-                android:src="@drawable/ic_placeholder"/>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="bottom"
-                android:orientation="vertical"
-                android:padding="8dp">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:gravity="center_vertical"
-                    android:weightSum="1">
-
-                    <TextView
-                        android:id="@+id/fabricName5"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="0.9"
-                        android:text="Milano Ribbed"
-                        android:textColor="@android:color/black"
-                        android:textSize="14sp"
-                        android:fontFamily="@font/dm_sans_bold"
-                        android:ellipsize="end"
-                        android:singleLine="true"/>
-
-                    <ImageView
-                        android:id="@+id/fabricMenu5"
-                        android:layout_width="24dp"
-                        android:layout_height="24dp"
-                        android:src="@drawable/ic_more_vert"
-                        android:contentDescription="Options"/>
-                </LinearLayout>
-
-                <TextView
-                    android:id="@+id/fabricQuantity5"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Item Quantity: 0"
-                    android:textColor="@android:color/darker_gray"
-                    android:textSize="12sp"
-                    android:fontFamily="@font/dm_sans_medium"
-                    android:layout_marginTop="2dp"/>
-            </LinearLayout>
-        </FrameLayout>
-
-        <!-- CARD 6: Alpaca -->
-        <FrameLayout
-            android:id="@+id/fabricCard6"
-            android:layout_width="0dp"
-            android:layout_height="200dp"
-            android:layout_columnWeight="1"
-            android:layout_rowWeight="1"
-            android:layout_margin="5dp"
-            android:background="@drawable/bg_default_white">
-
-            <ImageView
-                android:id="@+id/fabricImage6"
-                android:layout_width="match_parent"
-                android:layout_height="120dp"
-                android:scaleType="centerCrop"
-                android:src="@drawable/ic_placeholder"/>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="bottom"
-                android:orientation="vertical"
-                android:padding="8dp">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:gravity="center_vertical"
-                    android:weightSum="1">
-
-                    <TextView
-                        android:id="@+id/fabricName6"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="0.9"
-                        android:text="Alpaca"
-                        android:textColor="@android:color/black"
-                        android:textSize="14sp"
-                        android:fontFamily="@font/dm_sans_bold"
-                        android:ellipsize="end"
-                        android:singleLine="true"/>
-
-                    <ImageView
-                        android:id="@+id/fabricMenu6"
-                        android:layout_width="24dp"
-                        android:layout_height="24dp"
-                        android:src="@drawable/ic_more_vert"
-                        android:contentDescription="Options"/>
-                </LinearLayout>
-
-                <TextView
-                    android:id="@+id/fabricQuantity6"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Item Quantity: 0"
-                    android:textColor="@android:color/darker_gray"
-                    android:textSize="12sp"
-                    android:fontFamily="@font/dm_sans_medium"
-                    android:layout_marginTop="2dp"/>
-            </LinearLayout>
-        </FrameLayout>
-
-    </GridLayout>
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:padding="12dp"/>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
