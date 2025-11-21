@@ -1,0 +1,517 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".selectSampleDesign">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginBottom="55sp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/orderClerkTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="34.5sp"
+                android:layout_marginTop="34.5sp"
+                android:fontFamily="@font/league_spartan_bold"
+                android:text="@string/make_an_order"
+                android:textColor="@color/black"
+                android:textSize="11.7pt" />
+
+            <Button
+                android:id="@+id/makeOrderBtn"
+                android:layout_width="343.5sp"
+                android:layout_height="45sp"
+                android:layout_marginStart="34.5sp"
+                android:layout_marginTop="17sp"
+                android:layout_marginEnd="40sp"
+                android:background="@drawable/rounded_bg"
+                android:backgroundTint="@color/white"
+                android:fontFamily=""
+                android:text="@string/add_order"
+                android:textColor=""
+                android:textSize="25sp"
+                app:backgroundTint="@null" />
+
+            <TextView
+                android:id="@+id/sampleDesignsTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="34.5sp"
+                android:layout_marginTop="34sp"
+                android:fontFamily="@font/league_spartan_bold"
+                android:text="@string/sample_designs"
+                android:textColor="@color/black"
+                android:textSize="11.7pt" />
+
+            <GridLayout
+                android:id="@+id/gridSampleDesigns"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:columnCount="2"
+                android:rowCount="4"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/sampleDesignsTitle">
+
+                <FrameLayout
+                    android:layout_width="160sp"
+                    android:layout_height="236sp"
+                    android:layout_marginStart="31.5sp"
+                    android:layout_marginTop="20sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.104"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_bias="0.340">
+
+                    <ImageView
+                        android:id="@+id/sampleDesign1"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="@drawable/rounded_bg"
+                        android:clickable="true"
+                        android:clipToOutline="true"
+                        android:contentDescription="@string/design_1"
+                        android:focusable="true"
+                        android:scaleType="centerCrop"
+                        android:src="@drawable/sample_design_test"
+                        tools:targetApi="31" />
+
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="bottom|start"
+                        android:layout_marginTop="8sp"
+                        android:fontFamily="@font/league_spartan_bold"
+                        android:paddingLeft="12sp"
+                        android:paddingRight="12sp"
+                        android:paddingBottom="28sp"
+                        android:text="@string/gown"
+                        android:textColor="#FFFFFF"
+                        android:textSize="16sp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="bottom|start"
+                        android:layout_marginTop="8sp"
+                        android:fontFamily="@font/dm_sans"
+                        android:paddingLeft="12sp"
+                        android:paddingRight="12sp"
+                        android:paddingBottom="12sp"
+                        android:text="@string/custom_order"
+                        android:textColor="#FFFFFF"
+                        android:textSize="9sp"
+                        tools:ignore="SmallSp" />
+
+
+                </FrameLayout>
+
+                <FrameLayout
+                    android:layout_width="160sp"
+                    android:layout_height="236sp"
+                    android:layout_marginStart="26.5sp"
+                    android:layout_marginTop="20sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.104"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_bias="0.340">
+
+                    <ImageView
+                        android:id="@+id/sampleDesign2"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="@drawable/rounded_bg"
+                        android:clickable="true"
+                        android:clipToOutline="true"
+                        android:contentDescription="@string/design_2"
+                        android:focusable="true"
+                        android:scaleType="centerCrop"
+                        android:src="@drawable/sample_design_test"
+                        tools:targetApi="31" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="bottom|start"
+                        android:layout_marginTop="8sp"
+                        android:fontFamily="@font/league_spartan_bold"
+                        android:paddingLeft="12sp"
+                        android:paddingRight="12sp"
+                        android:paddingBottom="28sp"
+                        android:text="@string/gown"
+                        android:textColor="#FFFFFF"
+                        android:textSize="16sp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="bottom|start"
+                        android:layout_marginTop="8sp"
+                        android:fontFamily="@font/dm_sans"
+                        android:paddingLeft="12sp"
+                        android:paddingRight="12sp"
+                        android:paddingBottom="12sp"
+                        android:text="@string/custom_order"
+                        android:textColor="#FFFFFF"
+                        android:textSize="9sp"
+                        tools:ignore="SmallSp" />
+
+
+                </FrameLayout>
+
+                <FrameLayout
+                    android:layout_width="160sp"
+                    android:layout_height="236sp"
+                    android:layout_marginStart="31.5sp"
+                    android:layout_marginTop="28sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.104"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_bias="0.340">
+
+                    <ImageView
+                        android:id="@+id/sampleDesign3"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="@drawable/rounded_bg"
+                        android:clickable="true"
+                        android:clipToOutline="true"
+                        android:contentDescription="@string/design_3"
+                        android:focusable="true"
+                        android:scaleType="centerCrop"
+                        android:src="@drawable/sample_design_test"
+                        tools:targetApi="31" />
+
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="bottom|start"
+                        android:layout_marginTop="8sp"
+                        android:fontFamily="@font/league_spartan_bold"
+                        android:paddingLeft="12sp"
+                        android:paddingRight="12sp"
+                        android:paddingBottom="28sp"
+                        android:text="@string/gown"
+                        android:textColor="#FFFFFF"
+                        android:textSize="16sp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="bottom|start"
+                        android:layout_marginTop="8sp"
+                        android:fontFamily="@font/dm_sans"
+                        android:paddingLeft="12sp"
+                        android:paddingRight="12sp"
+                        android:paddingBottom="12sp"
+                        android:text="@string/custom_order"
+                        android:textColor="#FFFFFF"
+                        android:textSize="9sp"
+                        tools:ignore="SmallSp" />
+
+
+                </FrameLayout>
+
+                <FrameLayout
+                    android:layout_width="160sp"
+                    android:layout_height="236sp"
+                    android:layout_marginStart="26.5sp"
+                    android:layout_marginTop="28sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.104"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_bias="0.340">
+
+                    <ImageView
+                        android:id="@+id/sampleDesign4"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="@drawable/rounded_bg"
+                        android:clickable="true"
+                        android:clipToOutline="true"
+                        android:contentDescription="@string/design_4"
+                        android:focusable="true"
+                        android:scaleType="centerCrop"
+                        android:src="@drawable/sample_design_test"
+                        tools:targetApi="31" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="bottom|start"
+                        android:layout_marginTop="8sp"
+                        android:fontFamily="@font/league_spartan_bold"
+                        android:paddingLeft="12sp"
+                        android:paddingRight="12sp"
+                        android:paddingBottom="28sp"
+                        android:text="@string/gown"
+                        android:textColor="#FFFFFF"
+                        android:textSize="16sp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="bottom|start"
+                        android:layout_marginTop="8sp"
+                        android:fontFamily="@font/dm_sans"
+                        android:paddingLeft="12sp"
+                        android:paddingRight="12sp"
+                        android:paddingBottom="12sp"
+                        android:text="@string/custom_order"
+                        android:textColor="#FFFFFF"
+                        android:textSize="9sp"
+                        tools:ignore="SmallSp" />
+
+
+                </FrameLayout>
+
+                <FrameLayout
+                    android:layout_width="160sp"
+                    android:layout_height="236sp"
+                    android:layout_marginStart="31.5sp"
+                    android:layout_marginTop="20sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.104"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_bias="0.340">
+
+                    <ImageView
+                        android:id="@+id/sampleDesign5"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="@drawable/rounded_bg"
+                        android:clickable="true"
+                        android:clipToOutline="true"
+                        android:contentDescription="@string/design_7"
+                        android:focusable="true"
+                        android:scaleType="centerCrop"
+                        android:src="@drawable/sample_design_test"
+                        tools:targetApi="31" />
+
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="bottom|start"
+                        android:layout_marginTop="8sp"
+                        android:fontFamily="@font/league_spartan_bold"
+                        android:paddingLeft="12sp"
+                        android:paddingRight="12sp"
+                        android:paddingBottom="28sp"
+                        android:text="@string/gown"
+                        android:textColor="#FFFFFF"
+                        android:textSize="16sp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="bottom|start"
+                        android:layout_marginTop="8sp"
+                        android:fontFamily="@font/dm_sans"
+                        android:paddingLeft="12sp"
+                        android:paddingRight="12sp"
+                        android:paddingBottom="12sp"
+                        android:text="@string/custom_order"
+                        android:textColor="#FFFFFF"
+                        android:textSize="9sp"
+                        tools:ignore="SmallSp" />
+
+
+                </FrameLayout>
+
+                <FrameLayout
+                    android:layout_width="160sp"
+                    android:layout_height="236sp"
+                    android:layout_marginStart="26.5sp"
+                    android:layout_marginTop="20sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.104"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_bias="0.340">
+
+                    <ImageView
+                        android:id="@+id/sampleDesign6"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="@drawable/rounded_bg"
+                        android:clickable="true"
+                        android:clipToOutline="true"
+                        android:contentDescription="@string/design_8"
+                        android:focusable="true"
+                        android:scaleType="centerCrop"
+                        android:src="@drawable/sample_design_test"
+                        tools:targetApi="31" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="bottom|start"
+                        android:layout_marginTop="8sp"
+                        android:fontFamily="@font/league_spartan_bold"
+                        android:paddingLeft="12sp"
+                        android:paddingRight="12sp"
+                        android:paddingBottom="28sp"
+                        android:text="@string/gown"
+                        android:textColor="#FFFFFF"
+                        android:textSize="16sp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="bottom|start"
+                        android:layout_marginTop="8sp"
+                        android:fontFamily="@font/dm_sans"
+                        android:paddingLeft="12sp"
+                        android:paddingRight="12sp"
+                        android:paddingBottom="12sp"
+                        android:text="@string/custom_order"
+                        android:textColor="#FFFFFF"
+                        android:textSize="9sp"
+                        tools:ignore="SmallSp" />
+
+
+                </FrameLayout>
+
+                <FrameLayout
+                    android:layout_width="160sp"
+                    android:layout_height="236sp"
+                    android:layout_marginStart="31.5sp"
+                    android:layout_marginTop="28sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.104"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_bias="0.340">
+
+                    <ImageView
+                        android:id="@+id/sampleDesign7"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="@drawable/rounded_bg"
+                        android:clickable="true"
+                        android:clipToOutline="true"
+                        android:contentDescription="@string/design_6"
+                        android:focusable="true"
+                        android:scaleType="centerCrop"
+                        android:src="@drawable/sample_design_test"
+                        tools:targetApi="31" />
+
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="bottom|start"
+                        android:layout_marginTop="8sp"
+                        android:fontFamily="@font/league_spartan_bold"
+                        android:paddingLeft="12sp"
+                        android:paddingRight="12sp"
+                        android:paddingBottom="28sp"
+                        android:text="@string/gown"
+                        android:textColor="#FFFFFF"
+                        android:textSize="16sp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="bottom|start"
+                        android:layout_marginTop="8sp"
+                        android:fontFamily="@font/dm_sans"
+                        android:paddingLeft="12sp"
+                        android:paddingRight="12sp"
+                        android:paddingBottom="12sp"
+                        android:text="@string/custom_order"
+                        android:textColor="#FFFFFF"
+                        android:textSize="9sp"
+                        tools:ignore="SmallSp" />
+
+
+                </FrameLayout>
+
+                <FrameLayout
+                    android:layout_width="160sp"
+                    android:layout_height="236sp"
+                    android:layout_marginStart="26.5sp"
+                    android:layout_marginTop="28sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.104"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_bias="0.340">
+
+                    <ImageView
+                        android:id="@+id/sampleDesign8"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="@drawable/rounded_bg"
+                        android:clickable="true"
+                        android:clipToOutline="true"
+                        android:contentDescription="@string/design_3"
+                        android:focusable="true"
+                        android:scaleType="centerCrop"
+                        android:src="@drawable/sample_design_test"
+                        tools:targetApi="31" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="bottom|start"
+                        android:layout_marginTop="8sp"
+                        android:fontFamily="@font/league_spartan_bold"
+                        android:paddingLeft="12sp"
+                        android:paddingRight="12sp"
+                        android:paddingBottom="28sp"
+                        android:text="@string/gown"
+                        android:textColor="#FFFFFF"
+                        android:textSize="16sp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="bottom|start"
+                        android:layout_marginTop="8sp"
+                        android:fontFamily="@font/dm_sans"
+                        android:paddingLeft="12sp"
+                        android:paddingRight="12sp"
+                        android:paddingBottom="12sp"
+                        android:text="@string/custom_order"
+                        android:textColor="#FFFFFF"
+                        android:textSize="9sp"
+                        tools:ignore="SmallSp" />
+
+
+                </FrameLayout>
+
+
+            </GridLayout>
+
+
+        </LinearLayout>
+    </ScrollView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

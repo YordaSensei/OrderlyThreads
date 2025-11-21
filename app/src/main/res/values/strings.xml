@@ -1,3 +1,16 @@
 <resources>
     <string name="app_name">OrderlyThreads</string>
+    <string name="make_an_order">Make an Order</string>
+    <string name="sample_designs">Sample Designs</string>
+    <string name="design_1">Design 1</string>
+    <string name="gown">Gown</string>
+    <string name="custom_order">Custom Order</string>
+    <string name="design_2">Design 2</string>
+    <string name="design_3">Design 3</string>
+    <string name="design_5">Design 5</string>
+    <string name="design_4">Design 4</string>
+    <string name="design_6">Design 6</string>
+    <string name="design_7">Design 7</string>
+    <string name="design_8">Design 8</string>
+    <string name="add_order">Add Order</string>
 </resources>
