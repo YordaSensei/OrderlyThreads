@@ -7,7 +7,11 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 
-data class InventoryItem(val name: String, val quantity: String, val imageRes: Int)
+//MODEL
+data class InventoryItem(
+    val name: String,
+    val quantity: String,
+    val imageRes: Int)
 
 class InventoryAdapter(
     private var data: MutableList<InventoryItem>,

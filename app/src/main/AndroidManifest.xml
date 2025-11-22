@@ -12,11 +12,11 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.OrderlyThreads" >
         <activity
-            android:name=".Order_Stock_Check"
+            android:name=".Inventory"
             android:exported="false"
             android:theme="@style/Theme.OrderlyThreads" />
         <activity
-            android:name=".Inventory"
+            android:name=".Order_Stock_Check"
             android:exported="true" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
