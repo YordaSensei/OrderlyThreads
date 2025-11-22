@@ -10,7 +10,7 @@ import androidx.recyclerview.widget.RecyclerView
 // MODEL
 data class OrderItem(
     val name: String,
-    val dateTime: String,
+    val date: String,
     val label: String,
     var status: String,
     val imageRes: Int
@@ -24,7 +24,7 @@ class OrdersAdapter(
     inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val image = view.findViewById<ImageView>(R.id.orderShirtImage)
         val name = view.findViewById<TextView>(R.id.orderName)
-        val dateTime = view.findViewById<TextView>(R.id.orderDateTime)
+        val date = view.findViewById<TextView>(R.id.orderDateTime)
         val label = view.findViewById<TextView>(R.id.orderLabel)
         val status = view.findViewById<TextView>(R.id.orderStatus)
         val verifyButton = view.findViewById<TextView>(R.id.verifyStockButton)
@@ -43,7 +43,7 @@ class OrdersAdapter(
 
         holder.image.setImageResource(item.imageRes)
         holder.name.text = item.name
-        holder.dateTime.text = item.dateTime
+        holder.date.text = item.date
         holder.label.text = item.label
         holder.status.text = item.status
 

@@ -148,7 +148,6 @@
         android:layout_height="0dp"
         app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
         app:spanCount="2"
-        tools:itemCount="6"
         tools:listitem="@layout/item_inventory_card"
         app:layout_constraintTop_toBottomOf="@id/tabsContainer"
         app:layout_constraintBottom_toBottomOf="parent"
