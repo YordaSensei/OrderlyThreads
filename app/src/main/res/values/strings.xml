@@ -13,4 +13,23 @@
     <string name="design_7">Design 7</string>
     <string name="design_8">Design 8</string>
     <string name="add_order">Add Order</string>
+    <string name="add_sign">+</string>
+    <string name="upper_wear">Upper Wear</string>
+    <string name="lower_wear">Lower Wear</string>
+    <string name="client_and_order_details"><![CDATA[Client & Order Details]]></string>
+    <string name="select_garment_type">Select Garment Type</string>
+    <string name="casual">Casual</string>
+    <string name="formal">Formal</string>
+    <string name="material">Material</string>
+    <string name="fabric">Fabric</string>
+    <string name="color">Color</string>
+    <string name="additional_notes">Additional Notes</string>
+    <string name="measurements">Measurements</string>
+    <string name="chest_bust">Chest / Bust</string>
+    <string name="armhole_bicep">Armhole / Bicep</string>
+    <string name="garment_length">Garment Length</string>
+    <string name="shoulder_width">Shoulder Width</string>
+    <string name="waist">Waist</string>
+    <string name="upper_wear_header_color">Upper Wear Header Color</string>
+    <string name="casual_design_1">Casual Design 1</string>
 </resources>

@@ -1,18 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main"
+    tools:context=".selectSampleDesign"
+    android:background="#f6f6f6"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".selectSampleDesign">
-
-    <ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginBottom="55sp">
+    android:layout_marginBottom="55sp">
 
         <LinearLayout
+
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
@@ -35,13 +33,13 @@
                 android:layout_marginStart="34.5sp"
                 android:layout_marginTop="17sp"
                 android:layout_marginEnd="40sp"
-                android:background="@drawable/rounded_bg"
+                android:background="@drawable/bg_dashboard"
                 android:backgroundTint="@color/white"
-                android:fontFamily=""
-                android:text="@string/add_order"
-                android:textColor=""
+                android:fontFamily="@font/dm_sans_bold"
+                android:text="@string/add_sign"
                 android:textSize="25sp"
-                app:backgroundTint="@null" />
+                app:backgroundTint="@null"
+                tools:ignore="VisualLintButtonSize" />
 
             <TextView
                 android:id="@+id/sampleDesignsTitle"
@@ -85,7 +83,36 @@
                         android:contentDescription="@string/design_1"
                         android:focusable="true"
                         android:scaleType="centerCrop"
+                        android:layout_marginTop="11sp"
                         android:src="@drawable/sample_design_test"
+                        tools:targetApi="31" />
+
+                    <ImageView
+                        android:id="@+id/sampleDesignGradient1"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="@android:color/transparent"
+                        android:clickable="true"
+                        android:clipToOutline="true"
+                        android:contentDescription="@string/design_1"
+                        android:focusable="true"
+                        android:scaleType="centerCrop"
+                        android:src="@drawable/sample_order_gradient"
+                        android:layout_marginTop="125sp"
+                        tools:targetApi="31" />
+
+                    <ImageView
+                        android:id="@+id/sampleDesignTop1"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="@android:color/transparent"
+                        android:clickable="true"
+                        android:clipToOutline="true"
+                        android:contentDescription="@string/design_1"
+                        android:focusable="true"
+                        android:scaleType="centerCrop"
+                        android:src="@drawable/sample_order_top"
+                        android:layout_marginBottom="215sp"
                         tools:targetApi="31" />
 
 
@@ -142,8 +169,36 @@
                         android:focusable="true"
                         android:scaleType="centerCrop"
                         android:src="@drawable/sample_design_test"
+                        android:layout_marginTop="11sp"
                         tools:targetApi="31" />
 
+                    <ImageView
+                        android:id="@+id/sampleDesignGradient2"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="@android:color/transparent"
+                        android:clickable="true"
+                        android:clipToOutline="true"
+                        android:contentDescription="@string/design_1"
+                        android:focusable="true"
+                        android:scaleType="centerCrop"
+                        android:src="@drawable/sample_order_gradient"
+                        android:layout_marginTop="125sp"
+                        tools:targetApi="31" />
+
+                    <ImageView
+                        android:id="@+id/sampleDesignTop2"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="@android:color/transparent"
+                        android:clickable="true"
+                        android:clipToOutline="true"
+                        android:contentDescription="@string/design_1"
+                        android:focusable="true"
+                        android:scaleType="centerCrop"
+                        android:src="@drawable/sample_order_top"
+                        android:layout_marginBottom="215sp"
+                        tools:targetApi="31" />
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -193,12 +248,41 @@
                         android:background="@drawable/rounded_bg"
                         android:clickable="true"
                         android:clipToOutline="true"
-                        android:contentDescription="@string/design_3"
+                        android:contentDescription="@string/design_1"
                         android:focusable="true"
                         android:scaleType="centerCrop"
+                        android:layout_marginTop="11sp"
                         android:src="@drawable/sample_design_test"
                         tools:targetApi="31" />
 
+                    <ImageView
+                        android:id="@+id/sampleDesignGradient3"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="@android:color/transparent"
+                        android:clickable="true"
+                        android:clipToOutline="true"
+                        android:contentDescription="@string/design_1"
+                        android:focusable="true"
+                        android:scaleType="centerCrop"
+                        android:src="@drawable/sample_order_gradient"
+                        android:layout_marginTop="125sp"
+                        tools:targetApi="31" />
+
+                    <ImageView
+                        android:id="@+id/sampleDesignTop3"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginBottom="215sp"
+                        android:background="@android:color/transparent"
+                        android:clickable="true"
+                        android:clipToOutline="true"
+                        android:contentDescription="@string/design_1"
+                        android:focusable="true"
+                        android:scaleType="centerCrop"
+                        android:src="@drawable/sample_order_top"
+                        tools:ignore="TouchTargetSizeCheck"
+                        tools:targetApi="31" />
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -253,6 +337,36 @@
                         android:focusable="true"
                         android:scaleType="centerCrop"
                         android:src="@drawable/sample_design_test"
+                        android:layout_marginTop="11sp"
+                        tools:targetApi="31" />
+
+                    <ImageView
+                        android:id="@+id/sampleDesignGradient4"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="@android:color/transparent"
+                        android:clickable="true"
+                        android:clipToOutline="true"
+                        android:contentDescription="@string/design_1"
+                        android:focusable="true"
+                        android:scaleType="centerCrop"
+                        android:src="@drawable/sample_order_gradient"
+                        android:layout_marginTop="125sp"
+                        tools:targetApi="31" />
+
+                    <ImageView
+                        android:id="@+id/sampleDesignTop4"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginBottom="215sp"
+                        android:background="@android:color/transparent"
+                        android:clickable="true"
+                        android:clipToOutline="true"
+                        android:contentDescription="@string/design_1"
+                        android:focusable="true"
+                        android:scaleType="centerCrop"
+                        android:src="@drawable/sample_order_top"
+                        tools:ignore="TouchTargetSizeCheck,TouchTargetSizeCheck"
                         tools:targetApi="31" />
 
                     <TextView
@@ -308,8 +422,37 @@
                         android:focusable="true"
                         android:scaleType="centerCrop"
                         android:src="@drawable/sample_design_test"
+                        android:layout_marginTop="11sp"
                         tools:targetApi="31" />
 
+                    <ImageView
+                        android:id="@+id/sampleDesignGradient5"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="@android:color/transparent"
+                        android:clickable="true"
+                        android:clipToOutline="true"
+                        android:contentDescription="@string/design_1"
+                        android:focusable="true"
+                        android:scaleType="centerCrop"
+                        android:src="@drawable/sample_order_gradient"
+                        android:layout_marginTop="125sp"
+                        tools:targetApi="31" />
+
+                    <ImageView
+                        android:id="@+id/sampleDesignTop5"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginBottom="215sp"
+                        android:background="@android:color/transparent"
+                        android:clickable="true"
+                        android:clipToOutline="true"
+                        android:contentDescription="@string/design_1"
+                        android:focusable="true"
+                        android:scaleType="centerCrop"
+                        android:src="@drawable/sample_order_top"
+                        tools:ignore="TouchTargetSizeCheck"
+                        tools:targetApi="31" />
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -364,6 +507,36 @@
                         android:focusable="true"
                         android:scaleType="centerCrop"
                         android:src="@drawable/sample_design_test"
+                        android:layout_marginTop="11sp"
+                        tools:targetApi="31" />
+
+                    <ImageView
+                        android:id="@+id/sampleDesignGradient6"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="@android:color/transparent"
+                        android:clickable="true"
+                        android:clipToOutline="true"
+                        android:contentDescription="@string/design_1"
+                        android:focusable="true"
+                        android:scaleType="centerCrop"
+                        android:src="@drawable/sample_order_gradient"
+                        android:layout_marginTop="125sp"
+                        tools:targetApi="31" />
+
+                    <ImageView
+                        android:id="@+id/sampleDesignTop6"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginBottom="215sp"
+                        android:background="@android:color/transparent"
+                        android:clickable="true"
+                        android:clipToOutline="true"
+                        android:contentDescription="@string/design_1"
+                        android:focusable="true"
+                        android:scaleType="centerCrop"
+                        android:src="@drawable/sample_order_top"
+                        tools:ignore="TouchTargetSizeCheck"
                         tools:targetApi="31" />
 
                     <TextView
@@ -419,8 +592,37 @@
                         android:focusable="true"
                         android:scaleType="centerCrop"
                         android:src="@drawable/sample_design_test"
+                        android:layout_marginTop="11sp"
                         tools:targetApi="31" />
 
+                    <ImageView
+                        android:id="@+id/sampleDesignGradient7"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="@android:color/transparent"
+                        android:clickable="true"
+                        android:clipToOutline="true"
+                        android:contentDescription="@string/design_1"
+                        android:focusable="true"
+                        android:scaleType="centerCrop"
+                        android:src="@drawable/sample_order_gradient"
+                        android:layout_marginTop="125sp"
+                        tools:targetApi="31" />
+
+                    <ImageView
+                        android:id="@+id/sampleDesignTop7"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginBottom="215sp"
+                        android:background="@android:color/transparent"
+                        android:clickable="true"
+                        android:clipToOutline="true"
+                        android:contentDescription="@string/design_1"
+                        android:focusable="true"
+                        android:scaleType="centerCrop"
+                        android:src="@drawable/sample_order_top"
+                        tools:ignore="TouchTargetSizeCheck"
+                        tools:targetApi="31" />
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -475,6 +677,36 @@
                         android:focusable="true"
                         android:scaleType="centerCrop"
                         android:src="@drawable/sample_design_test"
+                        android:layout_marginTop="11sp"
+                        tools:targetApi="31" />
+
+                    <ImageView
+                        android:id="@+id/sampleDesignGradient8"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="@android:color/transparent"
+                        android:clickable="true"
+                        android:clipToOutline="true"
+                        android:contentDescription="@string/design_1"
+                        android:focusable="true"
+                        android:scaleType="centerCrop"
+                        android:src="@drawable/sample_order_gradient"
+                        android:layout_marginTop="125sp"
+                        tools:targetApi="31" />
+
+                    <ImageView
+                        android:id="@+id/sampleDesignTop8"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginBottom="215sp"
+                        android:background="@android:color/transparent"
+                        android:clickable="true"
+                        android:clipToOutline="true"
+                        android:contentDescription="@string/design_1"
+                        android:focusable="true"
+                        android:scaleType="centerCrop"
+                        android:src="@drawable/sample_order_top"
+                        tools:ignore="TouchTargetSizeCheck"
                         tools:targetApi="31" />
 
                     <TextView
@@ -512,6 +744,4 @@
 
 
         </LinearLayout>
-    </ScrollView>
-
-</androidx.constraintlayout.widget.ConstraintLayout>
+</ScrollView>

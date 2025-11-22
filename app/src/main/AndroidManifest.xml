@@ -12,10 +12,10 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.OrderlyThreads">
         <activity
-            android:name=".selectDesignAttributes"
+            android:name=".selectSampleDesign"
             android:exported="false" />
         <activity
-            android:name=".selectSampleDesign"
+            android:name=".selectDesignAttributes"
             android:exported="true">
         <intent-filter>
             <action android:name="android.intent.action.MAIN" />
