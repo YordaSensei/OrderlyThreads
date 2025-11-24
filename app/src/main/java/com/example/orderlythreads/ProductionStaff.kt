@@ -32,7 +32,6 @@ class ProductionStaff : AppCompatActivity() {
 
                 tab.isSelected = true //highlights the selected tab
             }
-
         }
     }
 }

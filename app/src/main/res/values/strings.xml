@@ -1,3 +1,10 @@
 <resources>
     <string name="app_name">OrderlyThreads</string>
+
+    <string-array name="process_items">
+        <item>Pending</item>
+        <item>Cutting</item>
+        <item>Sewing</item>
+        <item>Finishing</item>
+    </string-array>
 </resources>

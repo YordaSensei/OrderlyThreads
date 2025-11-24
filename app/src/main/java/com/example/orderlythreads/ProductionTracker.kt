@@ -5,6 +5,14 @@ import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import android.widget.Spinner
+import android.widget.ArrayAdapter
+import android.widget.ImageView
+import android.graphics.Color
+import android.view.View
+import android.widget.AdapterView
+import android.widget.TextView
+
 
 class ProductionTracker : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -15,6 +23,51 @@ class ProductionTracker : AppCompatActivity() {
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
+        }
+
+        //Spinner adapter
+        val spinner = findViewById<Spinner>(R.id.spinnerProcess)
+        val items = resources.getStringArray(R.array.process_items)
+
+        val adapter = ArrayAdapter(
+            this,
+            R.layout.spinner_process_item,
+            items
+        )
+
+        adapter.setDropDownViewResource(R.layout.spinner_process_item)
+
+        spinner.adapter = adapter
+
+        //Icon and text color handler for production status
+        val processIcon = listOf<ImageView>(
+            findViewById<ImageView>(R.id.hourglassIcon),
+            findViewById<ImageView>(R.id.cuttingIcon),
+            findViewById<ImageView>(R.id.sewingIcon),
+            findViewById<ImageView>(R.id.checkIcon)
+        )
+
+        val processTitle =  listOf<TextView>(
+            findViewById<TextView>(R.id.hourglassTitle),
+            findViewById<TextView>(R.id.cuttingTitle),
+            findViewById<TextView>(R.id.sewingTitle),
+            findViewById<TextView>(R.id.finishingTitle)
+        )
+
+        spinner.onItemSelectedListener =  object : AdapterView.OnItemSelectedListener{
+            override fun onItemSelected(parent: AdapterView<*>, view: View?, position: Int, id: Long) {
+                for  (i in processIcon.indices) {
+                    // resets the color to gray for all icons and texts
+                    processIcon[i].setColorFilter(Color.parseColor("#8f8f8f"))
+                    processTitle[i].setTextColor(Color.parseColor("#8f8f8f"))
+                }
+
+                // sets the color to black when an item is selected in the spinner
+                processIcon[position].setColorFilter(Color.parseColor("#FF000000"))
+                processTitle[position].setTextColor(Color.parseColor("#FF000000"))
+            }
+
+            override fun onNothingSelected(parent: AdapterView<*>) {}
         }
     }
 }
