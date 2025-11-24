@@ -32,4 +32,6 @@
     <string name="waist">Waist</string>
     <string name="upper_wear_header_color">Upper Wear Header Color</string>
     <string name="casual_design_1">Casual Design 1</string>
+    <string name="accents">Accents</string>
+    <string name="select_accent">Select Accent</string>
 </resources>
