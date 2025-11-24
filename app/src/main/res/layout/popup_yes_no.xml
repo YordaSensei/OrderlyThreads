@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <FrameLayout
+        android:layout_width="315dp"
+        android:layout_height="300dp">
+
+        <View
+            android:id="@+id/view3"
+            android:layout_width="310dp"
+            android:layout_height="200dp"
+            android:background="@drawable/white_background"
+            android:layout_marginTop="75dp"/>
+
+        <FrameLayout
+            android:layout_width="310dp"
+            android:layout_height="80dp"
+            android:layout_marginTop="20dp">
+
+        <View
+            android:id="@+id/view"
+            android:layout_width="310dp"
+            android:layout_height="80dp"
+            android:background="@drawable/green_background" />
+
+
+        <View
+            android:id="@+id/view2"
+            android:layout_width="310dp"
+            android:layout_height="50dp"
+            android:background="@drawable/square_green"
+            android:layout_marginTop="30dp"/>
+
+        <TextView
+            android:id="@+id/title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Order Complete"
+            android:fontFamily="@font/league_spartan_extrabold"
+            android:textSize="33dp"
+            android:textColor="@color/white"
+            android:layout_marginStart="38dp"
+            android:layout_marginTop="14dp"/>
+
+        </FrameLayout>
+
+        <TextView
+            android:id="@+id/sureTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Are You Sure?"
+            android:fontFamily="@font/dm_sans"
+            android:textSize="25dp"
+            android:textColor="@color/black"
+            android:layout_marginStart="70dp"
+            android:layout_marginTop="138dp"/>
+
+        <LinearLayout
+            android:layout_width="270dp"
+            android:layout_height="45dp"
+            android:orientation="horizontal"
+            android:layout_marginTop="200dp"
+            android:layout_marginStart="18dp">
+
+        <Button
+            android:id="@+id/yesBtn"
+            android:layout_width="125dp"
+            android:layout_height="40dp"
+            android:text="Yes"
+            android:textColor="#81b673"
+            android:fontFamily="@font/dm_sans_bold"
+            android:textSize="17dp"
+            android:background="@drawable/green_outline"
+            app:backgroundTint="@null"/>
+
+        <Button
+            android:id="@+id/noBtn"
+            android:layout_width="125dp"
+            android:layout_height="40dp"
+            android:text="No"
+            android:textColor="@color/black"
+            android:fontFamily="@font/dm_sans_bold"
+            android:textSize="17dp"
+            android:background="@drawable/black_outline"
+            app:backgroundTint="@null"
+            android:layout_marginStart="20dp"/>
+
+        </LinearLayout>
+
+    </FrameLayout>
+
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

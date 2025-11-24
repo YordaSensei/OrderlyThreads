@@ -1,5 +1,6 @@
 package com.example.orderlythreads
 
+import android.app.Dialog
 import android.os.Bundle
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
@@ -12,9 +13,13 @@ import android.graphics.Color
 import android.view.View
 import android.widget.AdapterView
 import android.widget.TextView
+import android.widget.Button
+import android.widget.Toast
 
 
 class ProductionTracker : AppCompatActivity() {
+    private var selectedStatus: Int = 0 // Stores status as a global variable
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -56,6 +61,7 @@ class ProductionTracker : AppCompatActivity() {
 
         spinner.onItemSelectedListener =  object : AdapterView.OnItemSelectedListener{
             override fun onItemSelected(parent: AdapterView<*>, view: View?, position: Int, id: Long) {
+
                 for  (i in processIcon.indices) {
                     // resets the color to gray for all icons and texts
                     processIcon[i].setColorFilter(Color.parseColor("#8f8f8f"))
@@ -65,9 +71,40 @@ class ProductionTracker : AppCompatActivity() {
                 // sets the color to black when an item is selected in the spinner
                 processIcon[position].setColorFilter(Color.parseColor("#FF000000"))
                 processTitle[position].setTextColor(Color.parseColor("#FF000000"))
+
+                // saves current position to be accessed outside
+                selectedStatus = position
             }
 
             override fun onNothingSelected(parent: AdapterView<*>) {}
         }
+
+
+
+            // Pop up alert when order is completed
+            val dialog = Dialog(this)
+            dialog.setContentView(R.layout.popup_yes_no)
+            dialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
+
+            val yesBtn  =  dialog.findViewById<Button>(R.id.yesBtn)
+            val noBtn  =  dialog.findViewById<Button>(R.id.noBtn)
+            val completeBtn =  findViewById<Button>(R.id.completeBtn)
+
+            completeBtn.setOnClickListener { view ->
+                    if (selectedStatus == 3) {
+                    dialog.show()
+
+                    yesBtn.setOnClickListener {
+                        Toast.makeText(this, "Order Completed!", Toast.LENGTH_SHORT).show()
+                        dialog.dismiss()
+                    }
+
+                    noBtn.setOnClickListener {
+                        dialog.dismiss()
+                    }
+                }  else {
+                Toast.makeText(this, "Order still not yet finished!", Toast.LENGTH_SHORT).show()
+                    }
+            }
     }
 }
