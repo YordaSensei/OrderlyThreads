@@ -66,7 +66,7 @@
         android:textSize="14dp"
         android:text="Pending"
         android:textColor="@color/white"
-        android:background="@drawable/yellow_background"
+        android:background="@drawable/red_background"
         android:layout_marginStart="35dp"
         android:layout_marginTop="7dp"
         android:paddingStart="12dp"
