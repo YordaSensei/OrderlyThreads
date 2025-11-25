@@ -9,7 +9,7 @@ import androidx.room.Query
 @Dao
 interface AccountsDao {
 
-    @Insert(onConflict = OnConflictStrategy.IGNORE)
+    @Insert(onConflict = OnConflictStrategy.IGNORE)     //If registered user already exists = IGNORE
     suspend fun addAccount(accounts : Accounts)
 
     @Query("SELECT * FROM accounts ORDER BY userId ASC")
