@@ -5,6 +5,7 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
+import androidx.room.Update
 
 @Dao
 interface AccountsDao {
@@ -17,4 +18,7 @@ interface AccountsDao {
 
     @Query("DELETE FROM accounts WHERE userId = :userId")
     suspend fun deleteById(userId: Int)
+
+    @Update
+    suspend fun updateAccount(accounts : Accounts)
 }

@@ -23,6 +23,7 @@ import com.google.android.material.textfield.TextInputLayout
 
 private lateinit var viewModel: AccountsViewModel
 private var selectedAccountId: Int? = null
+private var selectedAccount: Accounts? = null
 
 class manage_accounts : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -96,6 +97,7 @@ class manage_accounts : AppCompatActivity() {
 
         val adapter = AccountsAdapter(emptyList()) { clickedAccount ->
 
+            selectedAccount = clickedAccount
             selectedAccountId = clickedAccount.userId
             // Get dialog views
             val infoUsername = infoDialog.findViewById<TextView>(R.id.txtNameInfo)
@@ -116,13 +118,54 @@ class manage_accounts : AppCompatActivity() {
         updateDialog.setContentView(R.layout.update_account_popup)
         updateDialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
 
+        val newUsernameInput = updateDialog.findViewById<TextInputLayout>(R.id.usernameTxtInput)
+        val newEmailInput = updateDialog.findViewById<TextInputLayout>(R.id.emailTxtInput)
+        val newPasswordInput = updateDialog.findViewById<TextInputLayout>(R.id.passwordTxtInput)
+        val newPositionSpinner = updateDialog.findViewById<Spinner>(R.id.positionSpinner)
+        val updateAccBtn = updateDialog.findViewById<Button>(R.id.updateAccBtn)
+
         val updateBtn = infoDialog.findViewById<Button>(R.id.updateAccBtn)
+
         updateBtn.setOnClickListener {
-            //selectedAccountId?.let{ id ->
-            //}
+
+            val acc = selectedAccount ?: return@setOnClickListener
+
+            // Prefill
+            newUsernameInput.editText?.setText(acc.username)
+            newEmailInput.editText?.setText(acc.email)
+            newPasswordInput.editText?.setText(acc.password)
+
+            // Spinner setup
+            val updatePositionsList = Positions.values().map { it.displayName }
+            val updateSpinnerAdapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, updatePositionsList)
+            updateSpinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+            newPositionSpinner.adapter = updateSpinnerAdapter
+
+            // Select current position
+            val posIndex = updatePositionsList.indexOf(acc.position)
+            if (posIndex >= 0) newPositionSpinner.setSelection(posIndex)
+
             infoDialog.dismiss()
             updateDialog.show()
         }
+
+        updateAccBtn.setOnClickListener {
+
+            val acc = selectedAccount ?: return@setOnClickListener
+
+            val updatedAccount = Accounts(
+                userId = acc.userId,
+                username = newUsernameInput.editText?.text.toString(),
+                email = newEmailInput.editText?.text.toString(),
+                password = newPasswordInput.editText?.text.toString(),
+                position = newPositionSpinner.selectedItem.toString()
+            )
+
+            viewModel.updateAccount(updatedAccount)
+            updateDialog.dismiss()
+        }
+
+
 
         val deleteBtn = infoDialog.findViewById<Button>(R.id.deleteAccBtn)
 

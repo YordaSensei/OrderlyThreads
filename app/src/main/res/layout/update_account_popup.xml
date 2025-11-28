@@ -96,7 +96,7 @@
         app:layout_constraintTop_toTopOf="@+id/positionSpinner" />
 
     <Button
-        android:id="@+id/createAccBtn"
+        android:id="@+id/updateAccBtn"
         android:layout_width="260dp"
         android:layout_height="60dp"
         android:layout_marginTop="80dp"

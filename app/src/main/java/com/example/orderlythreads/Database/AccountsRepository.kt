@@ -13,4 +13,8 @@ class AccountsRepository(private val accountsDao: AccountsDao) {
     suspend fun deleteById(id: Int) {
         accountsDao.deleteById(id)
     }
+
+    suspend fun updateAccount(accounts: Accounts) {
+        accountsDao.updateAccount(accounts)
+    }
 }

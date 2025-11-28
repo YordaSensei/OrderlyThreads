@@ -29,4 +29,10 @@ class AccountsViewModel(application: Application): AndroidViewModel(application)
             repository.deleteById(id)
         }
     }
+
+    fun updateAccount(accounts: Accounts){
+        viewModelScope.launch(Dispatchers.IO) {
+            repository.updateAccount(accounts)
+        }
+    }
 }
