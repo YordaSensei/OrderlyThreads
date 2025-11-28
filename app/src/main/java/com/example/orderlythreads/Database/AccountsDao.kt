@@ -15,4 +15,6 @@ interface AccountsDao {
     @Query("SELECT * FROM accounts ORDER BY userId ASC")
     fun readAllData(): LiveData<List<Accounts>>         //Lists all accounts (for Admin)
 
+    @Query("DELETE FROM accounts WHERE userId = :userId")
+    suspend fun deleteById(userId: Int)
 }

@@ -10,4 +10,7 @@ class AccountsRepository(private val accountsDao: AccountsDao) {
         accountsDao.addAccount(accounts)
     }
 
+    suspend fun deleteById(id: Int) {
+        accountsDao.deleteById(id)
+    }
 }

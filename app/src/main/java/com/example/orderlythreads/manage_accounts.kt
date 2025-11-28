@@ -22,6 +22,7 @@ import com.example.orderlythreads.Database.Positions
 import com.google.android.material.textfield.TextInputLayout
 
 private lateinit var viewModel: AccountsViewModel
+private var selectedAccountId: Int? = null
 
 class manage_accounts : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -95,6 +96,7 @@ class manage_accounts : AppCompatActivity() {
 
         val adapter = AccountsAdapter(emptyList()) { clickedAccount ->
 
+            selectedAccountId = clickedAccount.userId
             // Get dialog views
             val infoUsername = infoDialog.findViewById<TextView>(R.id.txtNameInfo)
             val infoEmail = infoDialog.findViewById<TextView>(R.id.txtEmailInfo)
@@ -110,6 +112,27 @@ class manage_accounts : AppCompatActivity() {
             infoDialog.show()
         }
 
+        val updateDialog = Dialog(this)
+        updateDialog.setContentView(R.layout.update_account_popup)
+        updateDialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
+
+        val updateBtn = infoDialog.findViewById<Button>(R.id.updateAccBtn)
+        updateBtn.setOnClickListener {
+            //selectedAccountId?.let{ id ->
+            //}
+            infoDialog.dismiss()
+            updateDialog.show()
+        }
+
+        val deleteBtn = infoDialog.findViewById<Button>(R.id.deleteAccBtn)
+
+        deleteBtn.setOnClickListener {
+            selectedAccountId?.let{ id ->
+                viewModel.deleteById(id)
+            }
+            infoDialog.dismiss()
+        }
+
         recyclerView.addItemDecoration(SpacingItemDecoration(20)) //Gap between items
         recyclerView.adapter = adapter
         recyclerView.layoutManager = LinearLayoutManager(this)
@@ -120,7 +143,6 @@ class manage_accounts : AppCompatActivity() {
                 adapter.setData(it)
             }
         }
-
 
     }
 }
