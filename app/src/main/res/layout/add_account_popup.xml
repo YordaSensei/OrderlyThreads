@@ -96,10 +96,10 @@
         app:layout_constraintTop_toTopOf="@+id/positionSpinner" />
 
     <Button
-        android:id="@+id/button"
+        android:id="@+id/createAccBtn"
         android:layout_width="260dp"
         android:layout_height="60dp"
-        android:layout_marginTop="72dp"
+        android:layout_marginTop="80dp"
         android:fontFamily="@font/dm_sans_extrabold"
         android:text="CREATE ACCOUNT"
         app:backgroundTint="#81b673"
