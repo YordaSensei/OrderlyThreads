@@ -54,7 +54,7 @@ class Inventory : AppCompatActivity() {
         val colorData = mutableListOf(
             InventoryItem("Solid", "10", R.drawable.img_solid_color),
             InventoryItem("Striped", "10", R.drawable.img_striped_color),
-            InventoryItem("Checkered", "10", R.drawable.img_checkered_color)
+            InventoryItem("Checkered", "10", R.drawable.img_checkered)
         )
 
         val closuresData = mutableListOf(
