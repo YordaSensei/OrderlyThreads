@@ -6,7 +6,7 @@
     tools:context=".selectDesignAttributes"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_marginBottom="55sp">
+    android:layout_marginBottom="55dp">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -17,679 +17,193 @@
             android:id="@+id/orderEditTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="28sp"
-            android:layout_marginTop="12.7sp"
+            android:layout_marginStart="28dp"
+            android:layout_marginTop="12.7dp"
             android:fontFamily="@font/league_spartan_bold"
             android:text="@string/make_an_order"
             android:textColor="@color/black"
             android:textSize="8.1pt" />
 
-            <androidx.cardview.widget.CardView
-                android:id="@+id/upperWearHeader"
+        <androidx.cardview.widget.CardView
+            android:id="@+id/upperWearHeader"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="29dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="30dp"
+            android:layout_marginBottom="7dp"
+            app:cardBackgroundColor="#444243"
+            app:cardCornerRadius="20dp"
+            app:cardElevation="10dp">
+
+            <LinearLayout
+                android:background="@color/white"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="29.1sp"
-                android:layout_marginTop="10sp"
-                android:layout_marginEnd="30sp"
-                android:layout_marginBottom="6.8sp"
-                app:cardBackgroundColor="#444243"
-                app:cardCornerRadius="20sp"
-                app:cardElevation="10sp"
-                tools:ignore="TouchTargetSizeCheck">
-
-                <!--            <ImageView-->
-                <!--                android:id="@+id/upperGarmentGradient"-->
-                <!--                android:layout_width="100sp"-->
-                <!--                android:layout_height="wrap_content"-->
-                <!--                android:layout_gravity="end"-->
-                <!--                android:layout_marginStart="100sp"-->
-                <!--                android:layout_marginTop="10sp"-->
-                <!--                android:background="@android:color/transparent"-->
-                <!--                android:contentDescription="@string/design_1"-->
-                <!--                android:src="@drawable/edit_order_gradient"-->
-                <!--                tools:targetApi="31" />-->
+                android:orientation="vertical"
+                android:animateLayoutChanges="true">
 
                 <LinearLayout
-                    android:background="@color/white"
+                    android:onClick="expandUpperWear"
+                    android:orientation="horizontal"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical" >
-
-                    <FrameLayout
-                        android:onClick="expandUpperWear"
-                        android:orientation="horizontal"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent">
-
-                        <ImageView
-                            android:layout_width="match_parent"
-                            android:layout_height="30sp"
-                            android:background="#444243"/>
-
-                        <TextView
-                            android:paddingStart="11sp"
-                            android:paddingTop="6.8sp"
-                            android:paddingEnd="11sp"
-                            android:paddingBottom="6.8sp"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:fontFamily="@font/dm_sans"
-                            android:text="@string/upper_wear"
-                            android:textColor="@color/white"
-                            android:textSize="12.5sp" />
-
-
-                        <ImageView
-                            android:id="@+id/upperWearIcon"
-                            android:layout_width="16.5sp"
-                            android:layout_height="16.5sp"
-                            android:layout_marginStart="315sp"
-                            android:layout_marginTop="7.4sp"
-                            android:src="@drawable/icon_plus" />
-
-                    </FrameLayout>
-
-                    <LinearLayout
-                        android:id="@+id/upperWearLayout"
-                        android:orientation="vertical"
-                        android:visibility="gone"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:paddingStart="11sp"
-                        android:paddingTop="6.8sp"
-                        android:paddingEnd="11sp"
-                        android:paddingBottom="6.8sp">
+                    android:layout_height="30dp"
+                    android:background="#444243"
+                    android:gravity="center_vertical">
 
                     <TextView
-                        android:layout_width="135sp"
+                        android:paddingStart="11dp"
+                        android:paddingEnd="11dp"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="5sp"
-                        android:background="@drawable/rounded_bg"
-                        android:backgroundTint="#444243"
-                        android:fontFamily="@font/league_spartan_bold"
-                        android:paddingStart="8sp"
-                        android:paddingTop="5sp"
-                        android:paddingEnd="20sp"
-                        android:paddingBottom="5sp"
-                        android:text="@string/select_garment_type"
+                        android:layout_weight="1"
+                        android:fontFamily="@font/dm_sans"
+                        android:text="@string/upper_wear"
                         android:textColor="@color/white"
-                        android:textSize="11sp" />
+                        android:textSize="12.5sp" />
 
+                    <ImageView
+                        android:id="@+id/upperWearIcon"
+                        android:layout_width="16.5dp"
+                        android:layout_height="16.5dp"
+                        android:layout_marginEnd="15dp"
+                        android:src="@drawable/icon_plus" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/upperWearLayout"
+                    android:orientation="vertical"
+                    android:visibility="visible"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingStart="11dp"
+                    android:paddingTop="7dp"
+                    android:paddingEnd="11dp"
+                    android:paddingBottom="7dp">
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="12sp"
+                        android:layout_marginTop="5dp"
+                        android:background="@drawable/rounded_bg"
+                        android:backgroundTint="#444243"
+                        android:fontFamily="@font/league_spartan_bold"
+                        android:paddingStart="8dp"
+                        android:paddingTop="5dp"
+                        android:paddingEnd="20dp"
+                        android:paddingBottom="5dp"
+                        android:text="@string/select_garment_type"
+                        android:textColor="@color/white"
+                        android:textSize="11sp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="12dp"
                         android:fontFamily="@font/dm_sans_medium"
                         android:text="@string/casual"
                         android:textColor="#444243"
                         android:textSize="11sp" />
 
-                    <HorizontalScrollView
-                        android:id="@+id/casualUpperScrollView"
-                        android:layout_width="fill_parent"
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/rvUpperCasual"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:scrollbars="none">
-
-                        <GridLayout
-                            android:id="@+id/gridUpperCasualDesigns"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:columnCount="4"
-                            android:rowCount="1"
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toBottomOf="@id/sampleDesignsTitle">
-
-                            <FrameLayout
-                                android:layout_width="85sp"
-                                android:layout_height="130sp"
-                                app:layout_constraintBottom_toBottomOf="parent"
-                                app:layout_constraintEnd_toEndOf="parent"
-                                app:layout_constraintHorizontal_bias="0.104"
-                                app:layout_constraintStart_toStartOf="parent"
-                                app:layout_constraintTop_toTopOf="parent"
-                                app:layout_constraintVertical_bias="0.340">
-
-                                <ImageView
-                                    android:id="@+id/upperCasual1"
-                                    android:layout_width="match_parent"
-                                    android:layout_height="match_parent"
-                                    android:layout_marginTop="11sp"
-                                    android:background="@drawable/rounded_bg"
-                                    android:clickable="true"
-                                    android:clipToOutline="true"
-                                    android:contentDescription="@string/casual_design_1"
-                                    android:focusable="true"
-                                    android:scaleType="centerCrop"
-                                    android:src="@drawable/sample_design_test"
-                                    tools:targetApi="31" />
-
-
-                            </FrameLayout>
-
-                            <FrameLayout
-                                android:layout_width="85sp"
-                                android:layout_height="130sp"
-                                android:layout_marginStart="10sp"
-                                app:layout_constraintBottom_toBottomOf="parent"
-                                app:layout_constraintEnd_toEndOf="parent"
-                                app:layout_constraintHorizontal_bias="0.104"
-                                app:layout_constraintStart_toStartOf="parent"
-                                app:layout_constraintTop_toTopOf="parent"
-                                app:layout_constraintVertical_bias="0.340">
-
-                                <ImageView
-                                    android:id="@+id/upperCasual2"
-                                    android:layout_width="match_parent"
-                                    android:layout_height="match_parent"
-                                    android:layout_marginTop="11sp"
-                                    android:background="@drawable/rounded_bg"
-                                    android:clickable="true"
-                                    android:clipToOutline="true"
-                                    android:contentDescription="@string/design_1"
-                                    android:focusable="true"
-                                    android:scaleType="centerCrop"
-                                    android:src="@drawable/sample_design_test"
-                                    tools:targetApi="31" />
-
-                            </FrameLayout>
-
-                            <FrameLayout
-                                android:layout_width="85sp"
-                                android:layout_height="130sp"
-                                android:layout_marginStart="10sp"
-                                app:layout_constraintBottom_toBottomOf="parent"
-                                app:layout_constraintEnd_toEndOf="parent"
-                                app:layout_constraintHorizontal_bias="0.104"
-                                app:layout_constraintStart_toStartOf="parent"
-                                app:layout_constraintTop_toTopOf="parent"
-                                app:layout_constraintVertical_bias="0.340">
-
-                                <ImageView
-                                    android:id="@+id/upperCasual3"
-                                    android:layout_width="match_parent"
-                                    android:layout_height="match_parent"
-                                    android:layout_marginTop="11sp"
-                                    android:background="@drawable/rounded_bg"
-                                    android:clickable="true"
-                                    android:clipToOutline="true"
-                                    android:contentDescription="@string/design_1"
-                                    android:focusable="true"
-                                    android:scaleType="centerCrop"
-                                    android:src="@drawable/sample_design_test"
-                                    tools:targetApi="31" />
-
-                            </FrameLayout>
-
-                            <FrameLayout
-                                android:layout_width="85sp"
-                                android:layout_height="130sp"
-                                android:layout_marginStart="10sp"
-                                app:layout_constraintBottom_toBottomOf="parent"
-                                app:layout_constraintEnd_toEndOf="parent"
-                                app:layout_constraintHorizontal_bias="0.104"
-                                app:layout_constraintStart_toStartOf="parent"
-                                app:layout_constraintTop_toTopOf="parent"
-                                app:layout_constraintVertical_bias="0.340">
-
-                                <ImageView
-                                    android:id="@+id/upperCasual4"
-                                    android:layout_width="match_parent"
-                                    android:layout_height="match_parent"
-                                    android:layout_marginTop="11sp"
-                                    android:background="@drawable/rounded_bg"
-                                    android:clickable="true"
-                                    android:clipToOutline="true"
-                                    android:contentDescription="@string/design_1"
-                                    android:focusable="true"
-                                    android:scaleType="centerCrop"
-                                    android:src="@drawable/sample_design_test"
-                                    tools:targetApi="31" />
-
-                            </FrameLayout>
-
-
-                        </GridLayout>
-
-                    </HorizontalScrollView>
+                        android:orientation="horizontal"
+                        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                        tools:listitem="@layout/item_garment_card"
+                        android:requiresFadingEdge="horizontal"
+                        android:fadingEdgeLength="40dp"/>
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="12sp"
+                        android:layout_marginTop="12dp"
                         android:fontFamily="@font/dm_sans_medium"
                         android:text="@string/formal"
                         android:textColor="#444243"
                         android:textSize="11sp" />
 
-                    <HorizontalScrollView
-                        android:id="@+id/formalUpperScrollView"
-                        android:layout_width="fill_parent"
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/rvUpperFormal"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:scrollbars="none">
-
-                        <GridLayout
-                            android:id="@+id/gridUpperFormalDesigns"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:columnCount="4"
-                            android:rowCount="1"
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toBottomOf="@id/sampleDesignsTitle">
-
-                            <FrameLayout
-                                android:layout_width="85sp"
-                                android:layout_height="130sp"
-                                app:layout_constraintBottom_toBottomOf="parent"
-                                app:layout_constraintEnd_toEndOf="parent"
-                                app:layout_constraintHorizontal_bias="0.104"
-                                app:layout_constraintStart_toStartOf="parent"
-                                app:layout_constraintTop_toTopOf="parent"
-                                app:layout_constraintVertical_bias="0.340">
-
-                                <ImageView
-                                    android:id="@+id/upperFormal1"
-                                    android:layout_width="match_parent"
-                                    android:layout_height="match_parent"
-                                    android:layout_marginTop="11sp"
-                                    android:background="@drawable/rounded_bg"
-                                    android:clickable="true"
-                                    android:clipToOutline="true"
-                                    android:contentDescription="@string/design_1"
-                                    android:focusable="true"
-                                    android:scaleType="centerCrop"
-                                    android:src="@drawable/sample_design_test"
-                                    tools:targetApi="31" />
-
-
-                            </FrameLayout>
-
-                            <FrameLayout
-                                android:layout_width="85sp"
-                                android:layout_height="130sp"
-                                android:layout_marginStart="10sp"
-                                app:layout_constraintBottom_toBottomOf="parent"
-                                app:layout_constraintEnd_toEndOf="parent"
-                                app:layout_constraintHorizontal_bias="0.104"
-                                app:layout_constraintStart_toStartOf="parent"
-                                app:layout_constraintTop_toTopOf="parent"
-                                app:layout_constraintVertical_bias="0.340">
-
-                                <ImageView
-                                    android:id="@+id/upperFormal2"
-                                    android:layout_width="match_parent"
-                                    android:layout_height="match_parent"
-                                    android:layout_marginTop="11sp"
-                                    android:background="@drawable/rounded_bg"
-                                    android:clickable="true"
-                                    android:clipToOutline="true"
-                                    android:contentDescription="@string/design_1"
-                                    android:focusable="true"
-                                    android:scaleType="centerCrop"
-                                    android:src="@drawable/sample_design_test"
-                                    tools:targetApi="31" />
-
-                            </FrameLayout>
-
-                            <FrameLayout
-                                android:layout_width="85sp"
-                                android:layout_height="130sp"
-                                android:layout_marginStart="10sp"
-                                app:layout_constraintBottom_toBottomOf="parent"
-                                app:layout_constraintEnd_toEndOf="parent"
-                                app:layout_constraintHorizontal_bias="0.104"
-                                app:layout_constraintStart_toStartOf="parent"
-                                app:layout_constraintTop_toTopOf="parent"
-                                app:layout_constraintVertical_bias="0.340">
-
-                                <ImageView
-                                    android:id="@+id/upperFormal3"
-                                    android:layout_width="match_parent"
-                                    android:layout_height="match_parent"
-                                    android:layout_marginTop="11sp"
-                                    android:background="@drawable/rounded_bg"
-                                    android:clickable="true"
-                                    android:clipToOutline="true"
-                                    android:contentDescription="@string/design_1"
-                                    android:focusable="true"
-                                    android:scaleType="centerCrop"
-                                    android:src="@drawable/sample_design_test"
-                                    tools:targetApi="31" />
-
-                            </FrameLayout>
-
-                            <FrameLayout
-                                android:layout_width="85sp"
-                                android:layout_height="130sp"
-                                android:layout_marginStart="10sp"
-                                app:layout_constraintBottom_toBottomOf="parent"
-                                app:layout_constraintEnd_toEndOf="parent"
-                                app:layout_constraintHorizontal_bias="0.104"
-                                app:layout_constraintStart_toStartOf="parent"
-                                app:layout_constraintTop_toTopOf="parent"
-                                app:layout_constraintVertical_bias="0.340">
-
-                                <ImageView
-                                    android:id="@+id/upperFormal4"
-                                    android:layout_width="match_parent"
-                                    android:layout_height="match_parent"
-                                    android:layout_marginTop="11sp"
-                                    android:background="@drawable/rounded_bg"
-                                    android:clickable="true"
-                                    android:clipToOutline="true"
-                                    android:contentDescription="@string/design_1"
-                                    android:focusable="true"
-                                    android:scaleType="centerCrop"
-                                    android:src="@drawable/sample_design_test"
-                                    tools:targetApi="31" />
-
-                            </FrameLayout>
-
-                        </GridLayout>
-
-                    </HorizontalScrollView>
+                        android:orientation="horizontal"
+                        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                        tools:listitem="@layout/item_garment_card"
+                        android:requiresFadingEdge="horizontal"
+                        android:fadingEdgeLength="40dp"/>
 
                     <TextView
-                        android:layout_width="135sp"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="15sp"
+                        android:layout_marginTop="15dp"
                         android:background="@drawable/rounded_bg"
                         android:backgroundTint="#444243"
                         android:fontFamily="@font/league_spartan_bold"
-                        android:paddingStart="8sp"
-                        android:paddingTop="5sp"
-                        android:paddingEnd="20sp"
-                        android:paddingBottom="5sp"
+                        android:paddingStart="8dp"
+                        android:paddingTop="5dp"
+                        android:paddingEnd="20dp"
+                        android:paddingBottom="5dp"
                         android:text="@string/material"
                         android:textColor="@color/white"
                         android:textSize="11sp" />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="10sp"
-                            android:fontFamily="@font/dm_sans_medium"
-                            android:text="@string/fabric"
-                            android:textColor="#444243"
-                            android:textSize="11sp" />
-
-
-                        <HorizontalScrollView
-                            android:id="@+id/fabricUpperScrollView"
-                            android:layout_width="fill_parent"
-                            android:layout_height="wrap_content"
-                            android:scrollbars="none">
-
-                            <GridLayout
-                                android:id="@+id/gridUpperFabrics"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:columnCount="4"
-                                android:rowCount="1"
-                                app:layout_constraintStart_toStartOf="parent"
-                                app:layout_constraintTop_toBottomOf="@id/sampleDesignsTitle">
-
-                                <FrameLayout
-                                    android:layout_width="100sp"
-                                    android:layout_height="110sp"
-                                    app:layout_constraintBottom_toBottomOf="parent"
-                                    app:layout_constraintEnd_toEndOf="parent"
-                                    app:layout_constraintHorizontal_bias="0.104"
-                                    app:layout_constraintStart_toStartOf="parent"
-                                    app:layout_constraintTop_toTopOf="parent"
-                                    app:layout_constraintVertical_bias="0.340">
-
-                                    <ImageView
-                                        android:id="@+id/searchFabric"
-                                        android:layout_width="match_parent"
-                                        android:layout_height="match_parent"
-                                        android:layout_marginTop="11sp"
-                                        android:background="@drawable/circle_bg"
-                                        android:clickable="true"
-                                        android:clipToOutline="true"
-                                        android:contentDescription="@string/design_1"
-                                        android:focusable="true"
-                                        android:scaleType="centerCrop"
-                                        android:src="@drawable/sample_design_test"
-                                        tools:targetApi="31"
-                                        tools:ignore="TooDeepLayout" />
-
-
-                                </FrameLayout>
-
-                                <FrameLayout
-                                    android:layout_width="100sp"
-                                    android:layout_height="110sp"
-                                    android:layout_marginStart="10sp"
-                                    app:layout_constraintBottom_toBottomOf="parent"
-                                    app:layout_constraintEnd_toEndOf="parent"
-                                    app:layout_constraintHorizontal_bias="0.104"
-                                    app:layout_constraintStart_toStartOf="parent"
-                                    app:layout_constraintTop_toTopOf="parent"
-                                    app:layout_constraintVertical_bias="0.340">
-
-                                    <ImageView
-                                        android:id="@+id/upperFabric1"
-                                        android:layout_width="match_parent"
-                                        android:layout_height="match_parent"
-                                        android:layout_marginTop="11sp"
-                                        android:background="@drawable/circle_bg"
-                                        android:clickable="true"
-                                        android:clipToOutline="true"
-                                        android:contentDescription="@string/design_1"
-                                        android:focusable="true"
-                                        android:scaleType="centerCrop"
-                                        android:src="@drawable/sample_design_test"
-                                        tools:targetApi="31" />
-
-                                </FrameLayout>
-
-                                <FrameLayout
-                                    android:layout_width="100sp"
-                                    android:layout_height="110sp"
-                                    android:layout_marginStart="10sp"
-                                    app:layout_constraintBottom_toBottomOf="parent"
-                                    app:layout_constraintEnd_toEndOf="parent"
-                                    app:layout_constraintHorizontal_bias="0.104"
-                                    app:layout_constraintStart_toStartOf="parent"
-                                    app:layout_constraintTop_toTopOf="parent"
-                                    app:layout_constraintVertical_bias="0.340">
-
-                                    <ImageView
-                                        android:id="@+id/upperFabric2"
-                                        android:layout_width="match_parent"
-                                        android:layout_height="match_parent"
-                                        android:layout_marginTop="11sp"
-                                        android:background="@drawable/circle_bg"
-                                        android:clickable="true"
-                                        android:clipToOutline="true"
-                                        android:contentDescription="@string/design_1"
-                                        android:focusable="true"
-                                        android:scaleType="centerCrop"
-                                        android:src="@drawable/sample_design_test"
-                                        tools:targetApi="31" />
-
-                                </FrameLayout>
-
-                                <FrameLayout
-                                    android:layout_width="100sp"
-                                    android:layout_height="110sp"
-                                    android:layout_marginStart="10sp"
-                                    app:layout_constraintBottom_toBottomOf="parent"
-                                    app:layout_constraintEnd_toEndOf="parent"
-                                    app:layout_constraintHorizontal_bias="0.104"
-                                    app:layout_constraintStart_toStartOf="parent"
-                                    app:layout_constraintTop_toTopOf="parent"
-                                    app:layout_constraintVertical_bias="0.340">
-
-                                    <ImageView
-                                        android:id="@+id/upperFabric3"
-                                        android:layout_width="match_parent"
-                                        android:layout_height="match_parent"
-                                        android:layout_marginTop="11sp"
-                                        android:background="@drawable/circle_bg"
-                                        android:clickable="true"
-                                        android:clipToOutline="true"
-                                        android:contentDescription="@string/design_1"
-                                        android:focusable="true"
-                                        android:scaleType="centerCrop"
-                                        android:src="@drawable/sample_design_test"
-                                        tools:targetApi="31" />
-
-                                </FrameLayout>
-
-                            </GridLayout>
-                        </HorizontalScrollView>
-
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="10sp"
-                            android:fontFamily="@font/dm_sans_medium"
-                            android:text="@string/color"
-                            android:textColor="#444243"
-                            android:textSize="11sp" />
-
-                        <HorizontalScrollView
-                            android:layout_width="fill_parent"
-                            android:layout_height="wrap_content"
-                            android:scrollbars="none">
-
-                            <GridLayout
-                                android:id="@+id/gridUpperColors"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:columnCount="4"
-                                android:rowCount="1"
-                                app:layout_constraintStart_toStartOf="parent"
-                                app:layout_constraintTop_toBottomOf="@id/sampleDesignsTitle">
-
-                                <FrameLayout
-                                    android:layout_width="100sp"
-                                    android:layout_height="110sp"
-                                    app:layout_constraintBottom_toBottomOf="parent"
-                                    app:layout_constraintEnd_toEndOf="parent"
-                                    app:layout_constraintHorizontal_bias="0.104"
-                                    app:layout_constraintStart_toStartOf="parent"
-                                    app:layout_constraintTop_toTopOf="parent"
-                                    app:layout_constraintVertical_bias="0.340">
-
-                                    <ImageView
-                                        android:id="@+id/searchUpperColor"
-                                        android:layout_width="match_parent"
-                                        android:layout_height="match_parent"
-                                        android:layout_marginTop="11sp"
-                                        android:background="@drawable/circle_bg"
-                                        android:clickable="true"
-                                        android:clipToOutline="true"
-                                        android:contentDescription="@string/design_1"
-                                        android:focusable="true"
-                                        android:scaleType="centerCrop"
-                                        android:src="@drawable/sample_design_test"
-                                        tools:targetApi="31" />
-
-
-                                </FrameLayout>
-
-                                <FrameLayout
-                                    android:layout_width="100sp"
-                                    android:layout_height="110sp"
-                                    android:layout_marginStart="10sp"
-                                    app:layout_constraintBottom_toBottomOf="parent"
-                                    app:layout_constraintEnd_toEndOf="parent"
-                                    app:layout_constraintHorizontal_bias="0.104"
-                                    app:layout_constraintStart_toStartOf="parent"
-                                    app:layout_constraintTop_toTopOf="parent"
-                                    app:layout_constraintVertical_bias="0.340">
-
-                                    <ImageView
-                                        android:id="@+id/upperColor1"
-                                        android:layout_width="match_parent"
-                                        android:layout_height="match_parent"
-                                        android:layout_marginTop="11sp"
-                                        android:background="@drawable/circle_bg"
-                                        android:clickable="true"
-                                        android:clipToOutline="true"
-                                        android:contentDescription="@string/design_1"
-                                        android:focusable="true"
-                                        android:scaleType="centerCrop"
-                                        android:src="@drawable/sample_design_test"
-                                        tools:targetApi="31" />
-
-                                </FrameLayout>
-
-                                <FrameLayout
-                                    android:layout_width="100sp"
-                                    android:layout_height="110sp"
-                                    android:layout_marginStart="10sp"
-                                    app:layout_constraintBottom_toBottomOf="parent"
-                                    app:layout_constraintEnd_toEndOf="parent"
-                                    app:layout_constraintHorizontal_bias="0.104"
-                                    app:layout_constraintStart_toStartOf="parent"
-                                    app:layout_constraintTop_toTopOf="parent"
-                                    app:layout_constraintVertical_bias="0.340">
-
-                                    <ImageView
-                                        android:id="@+id/upperColor2"
-                                        android:layout_width="match_parent"
-                                        android:layout_height="match_parent"
-                                        android:layout_marginTop="11sp"
-                                        android:background="@drawable/circle_bg"
-                                        android:clickable="true"
-                                        android:clipToOutline="true"
-                                        android:contentDescription="@string/design_1"
-                                        android:focusable="true"
-                                        android:scaleType="centerCrop"
-                                        android:src="@drawable/sample_design_test"
-                                        tools:targetApi="31" />
-
-                                </FrameLayout>
-
-                                <FrameLayout
-                                    android:layout_width="100sp"
-                                    android:layout_height="110sp"
-                                    android:layout_marginStart="10sp"
-                                    app:layout_constraintBottom_toBottomOf="parent"
-                                    app:layout_constraintEnd_toEndOf="parent"
-                                    app:layout_constraintHorizontal_bias="0.104"
-                                    app:layout_constraintStart_toStartOf="parent"
-                                    app:layout_constraintTop_toTopOf="parent"
-                                    app:layout_constraintVertical_bias="0.340">
-
-                                    <ImageView
-                                        android:id="@+id/upperColor3"
-                                        android:layout_width="match_parent"
-                                        android:layout_height="match_parent"
-                                        android:layout_marginTop="11sp"
-                                        android:background="@drawable/circle_bg"
-                                        android:clickable="true"
-                                        android:clipToOutline="true"
-                                        android:contentDescription="@string/design_1"
-                                        android:focusable="true"
-                                        android:scaleType="centerCrop"
-                                        android:src="@drawable/sample_design_test"
-                                        tools:targetApi="31" />
-
-                                </FrameLayout>
-
-                            </GridLayout>
-                        </HorizontalScrollView>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:fontFamily="@font/dm_sans_medium"
+                        android:text="@string/fabric"
+                        android:textColor="#444243"
+                        android:textSize="11sp" />
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/rvUpperFabrics"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                        tools:listitem="@layout/item_fabric_card"
+                        android:requiresFadingEdge="horizontal"
+                        android:fadingEdgeLength="40dp"/>
 
                     <TextView
-                        android:layout_width="135sp"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="15sp"
+                        android:layout_marginTop="10dp"
+                        android:fontFamily="@font/dm_sans_medium"
+                        android:text="@string/color"
+                        android:textColor="#444243"
+                        android:textSize="11sp" />
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/rvUpperColors"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                        tools:listitem="@layout/item_color_circle"
+                        android:requiresFadingEdge="horizontal"
+                        android:fadingEdgeLength="40dp"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="15dp"
                         android:background="@drawable/rounded_bg"
                         android:backgroundTint="#444243"
                         android:fontFamily="@font/league_spartan_bold"
-                        android:paddingStart="8sp"
-                        android:paddingTop="5sp"
-                        android:paddingEnd="20sp"
-                        android:paddingBottom="5sp"
+                        android:paddingStart="8dp"
+                        android:paddingTop="5dp"
+                        android:paddingEnd="20dp"
+                        android:paddingBottom="5dp"
                         android:text="@string/accents"
                         android:textColor="@color/white"
                         android:textSize="11sp" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:gravity="center_vertical"
+                        android:layout_marginTop="10dp">
 
                         <Button
                             android:id="@+id/addUpperAccentsBtn"
@@ -703,298 +217,231 @@
                             app:backgroundTint="@null"
                             tools:ignore="VisualLintButtonSize,DuplicateSpeakableTextCheck" />
 
+                    </LinearLayout>
+
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="12sp"
+                        android:layout_marginTop="10dp"
                         android:fontFamily="@font/dm_sans_medium"
                         android:text="@string/select_accent"
                         android:textColor="#444243"
                         android:textSize="11sp" />
 
-                    <HorizontalScrollView
-                        android:id="@+id/accentScrollView"
-                        android:layout_width="fill_parent"
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/rvUpperAccents"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:scrollbars="none">
-
-                        <GridLayout
-                            android:id="@+id/gridUpperAccents"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:columnCount="4"
-                            android:rowCount="1"
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toBottomOf="@id/sampleDesignsTitle">
-
-                            <FrameLayout
-                                android:layout_width="100sp"
-                                android:layout_height="110sp"
-                                app:layout_constraintBottom_toBottomOf="parent"
-                                app:layout_constraintEnd_toEndOf="parent"
-                                app:layout_constraintHorizontal_bias="0.104"
-                                app:layout_constraintStart_toStartOf="parent"
-                                app:layout_constraintTop_toTopOf="parent"
-                                app:layout_constraintVertical_bias="0.340">
-
-                                <ImageView
-                                    android:id="@+id/upperAccent1"
-                                    android:layout_width="match_parent"
-                                    android:layout_height="match_parent"
-                                    android:layout_marginTop="11sp"
-                                    android:background="@drawable/circle_bg"
-                                    android:clickable="true"
-                                    android:clipToOutline="true"
-                                    android:contentDescription="@string/design_1"
-                                    android:focusable="true"
-                                    android:scaleType="centerCrop"
-                                    android:src="@drawable/sample_design_test"
-                                    tools:targetApi="31" />
-
-
-                            </FrameLayout>
-
-                            <FrameLayout
-                                android:layout_width="100sp"
-                                android:layout_height="110sp"
-                                android:layout_marginStart="10sp"
-                                app:layout_constraintBottom_toBottomOf="parent"
-                                app:layout_constraintEnd_toEndOf="parent"
-                                app:layout_constraintHorizontal_bias="0.104"
-                                app:layout_constraintStart_toStartOf="parent"
-                                app:layout_constraintTop_toTopOf="parent"
-                                app:layout_constraintVertical_bias="0.340">
-
-                                <ImageView
-                                    android:id="@+id/upperAccent2"
-                                    android:layout_width="match_parent"
-                                    android:layout_height="match_parent"
-                                    android:layout_marginTop="11sp"
-                                    android:background="@drawable/circle_bg"
-                                    android:clickable="true"
-                                    android:clipToOutline="true"
-                                    android:contentDescription="@string/design_1"
-                                    android:focusable="true"
-                                    android:scaleType="centerCrop"
-                                    android:src="@drawable/sample_design_test"
-                                    tools:targetApi="31" />
-
-                            </FrameLayout>
-
-                            <FrameLayout
-                                android:layout_width="100sp"
-                                android:layout_height="110sp"
-                                android:layout_marginStart="10sp"
-                                app:layout_constraintBottom_toBottomOf="parent"
-                                app:layout_constraintEnd_toEndOf="parent"
-                                app:layout_constraintHorizontal_bias="0.104"
-                                app:layout_constraintStart_toStartOf="parent"
-                                app:layout_constraintTop_toTopOf="parent"
-                                app:layout_constraintVertical_bias="0.340">
-
-                                <ImageView
-                                    android:id="@+id/upperAccent3"
-                                    android:layout_width="match_parent"
-                                    android:layout_height="match_parent"
-                                    android:layout_marginTop="11sp"
-                                    android:background="@drawable/circle_bg"
-                                    android:clickable="true"
-                                    android:clipToOutline="true"
-                                    android:contentDescription="@string/design_1"
-                                    android:focusable="true"
-                                    android:scaleType="centerCrop"
-                                    android:src="@drawable/sample_design_test"
-                                    tools:targetApi="31" />
-
-                            </FrameLayout>
-
-                            <FrameLayout
-                                android:layout_width="100sp"
-                                android:layout_height="110sp"
-                                android:layout_marginStart="10sp"
-                                app:layout_constraintBottom_toBottomOf="parent"
-                                app:layout_constraintEnd_toEndOf="parent"
-                                app:layout_constraintHorizontal_bias="0.104"
-                                app:layout_constraintStart_toStartOf="parent"
-                                app:layout_constraintTop_toTopOf="parent"
-                                app:layout_constraintVertical_bias="0.340">
-
-                                <ImageView
-                                    android:id="@+id/upperAccent4"
-                                    android:layout_width="match_parent"
-                                    android:layout_height="match_parent"
-                                    android:layout_marginTop="11sp"
-                                    android:background="@drawable/circle_bg"
-                                    android:clickable="true"
-                                    android:clipToOutline="true"
-                                    android:contentDescription="@string/design_1"
-                                    android:focusable="true"
-                                    android:scaleType="centerCrop"
-                                    android:src="@drawable/sample_design_test"
-                                    tools:targetApi="31" />
-
-                            </FrameLayout>
-
-                        </GridLayout>
-                    </HorizontalScrollView>
+                        android:orientation="horizontal"
+                        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                        tools:listitem="@layout/item_garment_card"
+                        android:requiresFadingEdge="horizontal"
+                        android:fadingEdgeLength="40dp"/>
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:fontFamily="@font/dm_sans_medium"
+                        android:text="@string/accent_color"
+                        android:textColor="#444243"
+                        android:textSize="11sp" />
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/rvUpperAccentsColors"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                        tools:listitem="@layout/item_color_circle"
+                        android:requiresFadingEdge="horizontal"
+                        android:fadingEdgeLength="40dp"/>
+                </LinearLayout>
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/lowerWearHeader"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="29dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="30dp"
+            android:layout_marginBottom="7dp"
+            app:cardBackgroundColor="#444243"
+            app:cardCornerRadius="20dp"
+            app:cardElevation="10dp">
+
+            <LinearLayout
+                android:background="@color/white"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:animateLayoutChanges="true">
+
+                <LinearLayout
+                    android:onClick="expandLowerWear"
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="30dp"
+                    android:background="#444243"
+                    android:gravity="center_vertical">
+
+                    <TextView
+                        android:paddingStart="11dp"
+                        android:paddingEnd="11dp"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:fontFamily="@font/dm_sans"
+                        android:text="@string/lower_wear"
+                        android:textColor="@color/white"
+                        android:textSize="12.5sp" />
+
+                    <ImageView
+                        android:id="@+id/lowerWearIcon"
+                        android:layout_width="16.5dp"
+                        android:layout_height="16.5dp"
+                        android:layout_marginEnd="15dp"
+                        android:src="@drawable/icon_plus" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/lowerWearLayout"
+                    android:orientation="vertical"
+                    android:visibility="visible"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingStart="11dp"
+                    android:paddingTop="7dp"
+                    android:paddingEnd="11dp"
+                    android:paddingBottom="7dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="5dp"
+                        android:background="@drawable/rounded_bg"
+                        android:backgroundTint="#444243"
+                        android:fontFamily="@font/league_spartan_bold"
+                        android:paddingStart="8dp"
+                        android:paddingTop="5dp"
+                        android:paddingEnd="20dp"
+                        android:paddingBottom="5dp"
+                        android:text="@string/select_garment_type"
+                        android:textColor="@color/white"
+                        android:textSize="11sp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="12dp"
+                        android:fontFamily="@font/dm_sans_medium"
+                        android:text="@string/casual"
+                        android:textColor="#444243"
+                        android:textSize="11sp" />
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/rvLowerCasual"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                        tools:listitem="@layout/item_design_card"
+                        android:requiresFadingEdge="horizontal"
+                        android:fadingEdgeLength="40dp"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="12dp"
+                        android:fontFamily="@font/dm_sans_medium"
+                        android:text="@string/formal"
+                        android:textColor="#444243"
+                        android:textSize="11sp" />
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/rvLowerFormal"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                        tools:listitem="@layout/item_design_card"
+                        android:requiresFadingEdge="horizontal"
+                        android:fadingEdgeLength="40dp"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="15dp"
+                        android:background="@drawable/rounded_bg"
+                        android:backgroundTint="#444243"
+                        android:fontFamily="@font/league_spartan_bold"
+                        android:paddingStart="8dp"
+                        android:paddingTop="5dp"
+                        android:paddingEnd="20dp"
+                        android:paddingBottom="5dp"
+                        android:text="@string/material"
+                        android:textColor="@color/white"
+                        android:textSize="11sp" />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:fontFamily="@font/dm_sans_medium"
+                        android:text="@string/fabric"
+                        android:textColor="#444243"
+                        android:textSize="11sp" />
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/rvLowerFabrics"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                        tools:listitem="@layout/item_fabric_card"
+                        android:requiresFadingEdge="horizontal"
+                        android:fadingEdgeLength="40dp"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
                         android:fontFamily="@font/dm_sans_medium"
                         android:text="@string/color"
                         android:textColor="#444243"
-                        android:layout_marginTop="10sp"
+                        android:textSize="11sp" />
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/rvLowerColors"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                        tools:listitem="@layout/item_color_circle"
+                        android:requiresFadingEdge="horizontal"
+                        android:fadingEdgeLength="40dp"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="15dp"
+                        android:background="@drawable/rounded_bg"
+                        android:backgroundTint="#444243"
+                        android:fontFamily="@font/league_spartan_bold"
+                        android:paddingStart="8dp"
+                        android:paddingTop="5dp"
+                        android:paddingEnd="20dp"
+                        android:paddingBottom="5dp"
+                        android:text="@string/accents"
+                        android:textColor="@color/white"
                         android:textSize="11sp" />
 
-
-
-                        <HorizontalScrollView
-                            android:id="@+id/upperAccentColorsScrollView"
-                            android:layout_width="fill_parent"
-                            android:layout_height="wrap_content"
-                            android:scrollbars="none"
-                            tools:ignore="UselessParent">
-
-                            <GridLayout
-                                android:id="@+id/gridUpperAccentColors"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:columnCount="4"
-                                android:rowCount="1"
-                                app:layout_constraintStart_toStartOf="parent"
-                                app:layout_constraintTop_toBottomOf="@id/sampleDesignsTitle">
-
-                                <FrameLayout
-                                    android:layout_width="100sp"
-                                    android:layout_height="110sp"
-                                    app:layout_constraintBottom_toBottomOf="parent"
-                                    app:layout_constraintEnd_toEndOf="parent"
-                                    app:layout_constraintHorizontal_bias="0.104"
-                                    app:layout_constraintStart_toStartOf="parent"
-                                    app:layout_constraintTop_toTopOf="parent"
-                                    app:layout_constraintVertical_bias="0.340">
-
-                                    <ImageView
-                                        android:id="@+id/searchUpperAccentColor"
-                                        android:layout_width="match_parent"
-                                        android:layout_height="match_parent"
-                                        android:layout_marginTop="11sp"
-                                        android:background="@drawable/circle_bg"
-                                        android:clickable="true"
-                                        android:clipToOutline="true"
-                                        android:contentDescription="@string/design_1"
-                                        android:focusable="true"
-                                        android:scaleType="centerCrop"
-                                        android:src="@drawable/sample_design_test"
-                                        tools:targetApi="31" />
-
-
-                                </FrameLayout>
-
-                                <FrameLayout
-                                    android:layout_width="100sp"
-                                    android:layout_height="110sp"
-                                    android:layout_marginStart="10sp"
-                                    app:layout_constraintBottom_toBottomOf="parent"
-                                    app:layout_constraintEnd_toEndOf="parent"
-                                    app:layout_constraintHorizontal_bias="0.104"
-                                    app:layout_constraintStart_toStartOf="parent"
-                                    app:layout_constraintTop_toTopOf="parent"
-                                    app:layout_constraintVertical_bias="0.340">
-
-                                    <ImageView
-                                        android:id="@+id/upperAccentColor1"
-                                        android:layout_width="match_parent"
-                                        android:layout_height="match_parent"
-                                        android:layout_marginTop="11sp"
-                                        android:background="@drawable/circle_bg"
-                                        android:clickable="true"
-                                        android:clipToOutline="true"
-                                        android:contentDescription="@string/design_1"
-                                        android:focusable="true"
-                                        android:scaleType="centerCrop"
-                                        android:src="@drawable/sample_design_test"
-                                        tools:targetApi="31" />
-
-                                </FrameLayout>
-
-                                <FrameLayout
-                                    android:layout_width="100sp"
-                                    android:layout_height="110sp"
-                                    android:layout_marginStart="10sp"
-                                    app:layout_constraintBottom_toBottomOf="parent"
-                                    app:layout_constraintEnd_toEndOf="parent"
-                                    app:layout_constraintHorizontal_bias="0.104"
-                                    app:layout_constraintStart_toStartOf="parent"
-                                    app:layout_constraintTop_toTopOf="parent"
-                                    app:layout_constraintVertical_bias="0.340">
-
-                                    <ImageView
-                                        android:id="@+id/upperAccentColor2"
-                                        android:layout_width="match_parent"
-                                        android:layout_height="match_parent"
-                                        android:layout_marginTop="11sp"
-                                        android:background="@drawable/circle_bg"
-                                        android:clickable="true"
-                                        android:clipToOutline="true"
-                                        android:contentDescription="@string/design_1"
-                                        android:focusable="true"
-                                        android:scaleType="centerCrop"
-                                        android:src="@drawable/sample_design_test"
-                                        tools:targetApi="31"
-                                        tools:ignore="TooManyViews" />
-
-                                </FrameLayout>
-
-                                <FrameLayout
-                                    android:layout_width="100sp"
-                                    android:layout_height="110sp"
-                                    android:layout_marginStart="10sp"
-                                    app:layout_constraintBottom_toBottomOf="parent"
-                                    app:layout_constraintEnd_toEndOf="parent"
-                                    app:layout_constraintHorizontal_bias="0.104"
-                                    app:layout_constraintStart_toStartOf="parent"
-                                    app:layout_constraintTop_toTopOf="parent"
-                                    app:layout_constraintVertical_bias="0.340"
-                                    tools:ignore="TooManyViews">
-
-                                    <ImageView
-                                        android:id="@+id/upperAccentColor3"
-                                        android:layout_width="match_parent"
-                                        android:layout_height="match_parent"
-                                        android:layout_marginTop="11sp"
-                                        android:background="@drawable/circle_bg"
-                                        android:clickable="true"
-                                        android:clipToOutline="true"
-                                        android:contentDescription="@string/design_1"
-                                        android:focusable="true"
-                                        android:scaleType="centerCrop"
-                                        android:src="@drawable/sample_design_test"
-                                        tools:targetApi="31" />
-
-                                </FrameLayout>
-
-                            </GridLayout>
-                        </HorizontalScrollView>
-
-                        <TextView
-                            android:layout_width="135sp"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="15sp"
-                            android:background="@drawable/rounded_bg"
-                            android:backgroundTint="#444243"
-                            android:fontFamily="@font/league_spartan_bold"
-                            android:paddingStart="8sp"
-                            android:paddingTop="5sp"
-                            android:paddingEnd="10sp"
-                            android:paddingBottom="5sp"
-                            android:text="@string/additional_notes"
-                            android:textColor="@color/white"
-                            android:textSize="11sp" />
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:gravity="center_vertical"
+                        android:layout_marginTop="10dp">
 
                         <Button
-                            android:id="@+id/makeUpperOrderBtn"
+                            android:id="@+id/addLowerAccentsBtn"
                             android:layout_width="330dp"
                             android:layout_height="60sp"
                             android:layout_marginTop="10sp"
@@ -1003,1219 +450,315 @@
                             android:text="@string/add_sign"
                             android:textSize="20sp"
                             app:backgroundTint="@null"
-                            tools:ignore="VisualLintButtonSize" />
-
+                            tools:ignore="VisualLintButtonSize,DuplicateSpeakableTextCheck" />
                     </LinearLayout>
-                </LinearLayout>
-            </androidx.cardview.widget.CardView>
-
-        <androidx.cardview.widget.CardView
-            android:id="@+id/lowerWearHeader"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="29.1sp"
-            android:layout_marginTop="10sp"
-            android:layout_marginEnd="30sp"
-            android:layout_marginBottom="6.8sp"
-            app:cardBackgroundColor="#444243"
-            app:cardCornerRadius="20sp"
-            app:cardElevation="10sp"
-            tools:ignore="TouchTargetSizeCheck">
-
-            <LinearLayout
-                android:background="@color/white"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical" >
-
-                <FrameLayout
-                    android:onClick="expandLowerWear"
-                    android:orientation="horizontal"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent">
-
-                    <ImageView
-                        android:layout_width="match_parent"
-                        android:layout_height="30sp"
-                        android:background="#444243"/>
-
-                    <TextView
-                        android:paddingStart="11sp"
-                        android:paddingTop="6.8sp"
-                        android:paddingEnd="11sp"
-                        android:paddingBottom="6.8sp"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:fontFamily="@font/dm_sans"
-                        android:text="@string/lower_wear"
-                        android:textColor="@color/white"
-                        android:textSize="12.5sp" />
-
-
-                    <ImageView
-                        android:id="@+id/lowerWearIcon"
-                        android:layout_width="16.5sp"
-                        android:layout_height="16.5sp"
-                        android:layout_marginStart="315sp"
-                        android:layout_marginTop="7.4sp"
-                        android:src="@drawable/icon_plus" />
-
-                </FrameLayout>
-
-                <LinearLayout
-                    android:id="@+id/lowerWearLayout"
-                    android:orientation="vertical"
-                    android:visibility="gone"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:paddingStart="11sp"
-                    android:paddingTop="6.8sp"
-                    android:paddingEnd="11sp"
-                    android:paddingBottom="6.8sp">
-
-                    <TextView
-                        android:layout_width="135sp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="5sp"
-                        android:background="@drawable/rounded_bg"
-                        android:backgroundTint="#444243"
-                        android:fontFamily="@font/league_spartan_bold"
-                        android:paddingStart="8sp"
-                        android:paddingTop="5sp"
-                        android:paddingEnd="20sp"
-                        android:paddingBottom="5sp"
-                        android:text="@string/select_garment_type"
-                        android:textColor="@color/white"
-                        android:textSize="11sp" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="12sp"
                         android:fontFamily="@font/dm_sans_medium"
-                        android:text="@string/casual"
-                        android:textColor="#444243"
-                        android:textSize="11sp" />
-
-                    <HorizontalScrollView
-                        android:id="@+id/lowerCasualScrollView"
-                        android:layout_width="fill_parent"
-                        android:layout_height="wrap_content"
-                        android:scrollbars="none">
-
-                        <GridLayout
-                            android:id="@+id/gridLowerCasualDesigns"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:columnCount="4"
-                            android:rowCount="1"
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toBottomOf="@id/sampleDesignsTitle">
-
-                            <FrameLayout
-                                android:layout_width="85sp"
-                                android:layout_height="130sp"
-                                app:layout_constraintBottom_toBottomOf="parent"
-                                app:layout_constraintEnd_toEndOf="parent"
-                                app:layout_constraintHorizontal_bias="0.104"
-                                app:layout_constraintStart_toStartOf="parent"
-                                app:layout_constraintTop_toTopOf="parent"
-                                app:layout_constraintVertical_bias="0.340">
-
-                                <ImageView
-                                    android:id="@+id/lowerCasual1"
-                                    android:layout_width="match_parent"
-                                    android:layout_height="match_parent"
-                                    android:layout_marginTop="11sp"
-                                    android:background="@drawable/rounded_bg"
-                                    android:clickable="true"
-                                    android:clipToOutline="true"
-                                    android:contentDescription="@string/casual_design_1"
-                                    android:focusable="true"
-                                    android:scaleType="centerCrop"
-                                    android:src="@drawable/sample_design_test"
-                                    tools:targetApi="31" />
-
-
-                            </FrameLayout>
-
-                            <FrameLayout
-                                android:layout_width="85sp"
-                                android:layout_height="130sp"
-                                android:layout_marginStart="10sp"
-                                app:layout_constraintBottom_toBottomOf="parent"
-                                app:layout_constraintEnd_toEndOf="parent"
-                                app:layout_constraintHorizontal_bias="0.104"
-                                app:layout_constraintStart_toStartOf="parent"
-                                app:layout_constraintTop_toTopOf="parent"
-                                app:layout_constraintVertical_bias="0.340">
-
-                                <ImageView
-                                    android:id="@+id/lowerCasual2"
-                                    android:layout_width="match_parent"
-                                    android:layout_height="match_parent"
-                                    android:layout_marginTop="11sp"
-                                    android:background="@drawable/rounded_bg"
-                                    android:clickable="true"
-                                    android:clipToOutline="true"
-                                    android:contentDescription="@string/design_1"
-                                    android:focusable="true"
-                                    android:scaleType="centerCrop"
-                                    android:src="@drawable/sample_design_test"
-                                    tools:targetApi="31" />
-
-                            </FrameLayout>
-
-                            <FrameLayout
-                                android:layout_width="85sp"
-                                android:layout_height="130sp"
-                                android:layout_marginStart="10sp"
-                                app:layout_constraintBottom_toBottomOf="parent"
-                                app:layout_constraintEnd_toEndOf="parent"
-                                app:layout_constraintHorizontal_bias="0.104"
-                                app:layout_constraintStart_toStartOf="parent"
-                                app:layout_constraintTop_toTopOf="parent"
-                                app:layout_constraintVertical_bias="0.340">
-
-                                <ImageView
-                                    android:id="@+id/lowerCasual3"
-                                    android:layout_width="match_parent"
-                                    android:layout_height="match_parent"
-                                    android:layout_marginTop="11sp"
-                                    android:background="@drawable/rounded_bg"
-                                    android:clickable="true"
-                                    android:clipToOutline="true"
-                                    android:contentDescription="@string/design_1"
-                                    android:focusable="true"
-                                    android:scaleType="centerCrop"
-                                    android:src="@drawable/sample_design_test"
-                                    tools:targetApi="31" />
-
-                            </FrameLayout>
-
-                            <FrameLayout
-                                android:layout_width="85sp"
-                                android:layout_height="130sp"
-                                android:layout_marginStart="10sp"
-                                app:layout_constraintBottom_toBottomOf="parent"
-                                app:layout_constraintEnd_toEndOf="parent"
-                                app:layout_constraintHorizontal_bias="0.104"
-                                app:layout_constraintStart_toStartOf="parent"
-                                app:layout_constraintTop_toTopOf="parent"
-                                app:layout_constraintVertical_bias="0.340">
-
-                                <ImageView
-                                    android:id="@+id/lowerCasual4"
-                                    android:layout_width="match_parent"
-                                    android:layout_height="match_parent"
-                                    android:layout_marginTop="11sp"
-                                    android:background="@drawable/rounded_bg"
-                                    android:clickable="true"
-                                    android:clipToOutline="true"
-                                    android:contentDescription="@string/design_1"
-                                    android:focusable="true"
-                                    android:scaleType="centerCrop"
-                                    android:src="@drawable/sample_design_test"
-                                    tools:targetApi="31" />
-
-                            </FrameLayout>
-
-
-                        </GridLayout>
-
-                    </HorizontalScrollView>
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="12sp"
-                        android:fontFamily="@font/dm_sans_medium"
-                        android:text="@string/formal"
-                        android:textColor="#444243"
-                        android:textSize="11sp" />
-
-                    <HorizontalScrollView
-                        android:id="@+id/lowerFormalScrollView"
-                        android:layout_width="fill_parent"
-                        android:layout_height="wrap_content"
-                        android:scrollbars="none">
-
-                        <GridLayout
-                            android:id="@+id/gridLowerFormalDesigns"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:columnCount="4"
-                            android:rowCount="1"
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toBottomOf="@id/sampleDesignsTitle">
-
-                            <FrameLayout
-                                android:layout_width="85sp"
-                                android:layout_height="130sp"
-                                app:layout_constraintBottom_toBottomOf="parent"
-                                app:layout_constraintEnd_toEndOf="parent"
-                                app:layout_constraintHorizontal_bias="0.104"
-                                app:layout_constraintStart_toStartOf="parent"
-                                app:layout_constraintTop_toTopOf="parent"
-                                app:layout_constraintVertical_bias="0.340">
-
-                                <ImageView
-                                    android:id="@+id/lowerFormal1"
-                                    android:layout_width="match_parent"
-                                    android:layout_height="match_parent"
-                                    android:layout_marginTop="11sp"
-                                    android:background="@drawable/rounded_bg"
-                                    android:clickable="true"
-                                    android:clipToOutline="true"
-                                    android:contentDescription="@string/design_1"
-                                    android:focusable="true"
-                                    android:scaleType="centerCrop"
-                                    android:src="@drawable/sample_design_test"
-                                    tools:targetApi="31" />
-
-
-                            </FrameLayout>
-
-                            <FrameLayout
-                                android:layout_width="85sp"
-                                android:layout_height="130sp"
-                                android:layout_marginStart="10sp"
-                                app:layout_constraintBottom_toBottomOf="parent"
-                                app:layout_constraintEnd_toEndOf="parent"
-                                app:layout_constraintHorizontal_bias="0.104"
-                                app:layout_constraintStart_toStartOf="parent"
-                                app:layout_constraintTop_toTopOf="parent"
-                                app:layout_constraintVertical_bias="0.340">
-
-                                <ImageView
-                                    android:id="@+id/lowerFormal2"
-                                    android:layout_width="match_parent"
-                                    android:layout_height="match_parent"
-                                    android:layout_marginTop="11sp"
-                                    android:background="@drawable/rounded_bg"
-                                    android:clickable="true"
-                                    android:clipToOutline="true"
-                                    android:contentDescription="@string/design_1"
-                                    android:focusable="true"
-                                    android:scaleType="centerCrop"
-                                    android:src="@drawable/sample_design_test"
-                                    tools:targetApi="31" />
-
-                            </FrameLayout>
-
-                            <FrameLayout
-                                android:layout_width="85sp"
-                                android:layout_height="130sp"
-                                android:layout_marginStart="10sp"
-                                app:layout_constraintBottom_toBottomOf="parent"
-                                app:layout_constraintEnd_toEndOf="parent"
-                                app:layout_constraintHorizontal_bias="0.104"
-                                app:layout_constraintStart_toStartOf="parent"
-                                app:layout_constraintTop_toTopOf="parent"
-                                app:layout_constraintVertical_bias="0.340">
-
-                                <ImageView
-                                    android:id="@+id/lowerFormal3"
-                                    android:layout_width="match_parent"
-                                    android:layout_height="match_parent"
-                                    android:layout_marginTop="11sp"
-                                    android:background="@drawable/rounded_bg"
-                                    android:clickable="true"
-                                    android:clipToOutline="true"
-                                    android:contentDescription="@string/design_1"
-                                    android:focusable="true"
-                                    android:scaleType="centerCrop"
-                                    android:src="@drawable/sample_design_test"
-                                    tools:targetApi="31" />
-
-                            </FrameLayout>
-
-                            <FrameLayout
-                                android:layout_width="85sp"
-                                android:layout_height="130sp"
-                                android:layout_marginStart="10sp"
-                                app:layout_constraintBottom_toBottomOf="parent"
-                                app:layout_constraintEnd_toEndOf="parent"
-                                app:layout_constraintHorizontal_bias="0.104"
-                                app:layout_constraintStart_toStartOf="parent"
-                                app:layout_constraintTop_toTopOf="parent"
-                                app:layout_constraintVertical_bias="0.340">
-
-                                <ImageView
-                                    android:id="@+id/lowerFormal4"
-                                    android:layout_width="match_parent"
-                                    android:layout_height="match_parent"
-                                    android:layout_marginTop="11sp"
-                                    android:background="@drawable/rounded_bg"
-                                    android:clickable="true"
-                                    android:clipToOutline="true"
-                                    android:contentDescription="@string/design_1"
-                                    android:focusable="true"
-                                    android:scaleType="centerCrop"
-                                    android:src="@drawable/sample_design_test"
-                                    tools:targetApi="31" />
-
-                            </FrameLayout>
-
-                        </GridLayout>
-
-                    </HorizontalScrollView>
-
-                    <TextView
-                        android:layout_width="135sp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="15sp"
-                        android:background="@drawable/rounded_bg"
-                        android:backgroundTint="#444243"
-                        android:fontFamily="@font/league_spartan_bold"
-                        android:paddingStart="8sp"
-                        android:paddingTop="5sp"
-                        android:paddingEnd="20sp"
-                        android:paddingBottom="5sp"
-                        android:text="@string/material"
-                        android:textColor="@color/white"
-                        android:textSize="11sp" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="10sp"
-                        android:fontFamily="@font/dm_sans_medium"
-                        android:text="@string/fabric"
-                        android:textColor="#444243"
-                        android:textSize="11sp" />
-
-
-                    <HorizontalScrollView
-                        android:id="@+id/lowerFabricScrollView"
-                        android:layout_width="fill_parent"
-                        android:layout_height="wrap_content"
-                        android:scrollbars="none">
-
-                        <GridLayout
-                            android:id="@+id/gridLowerFabrics"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:columnCount="4"
-                            android:rowCount="1"
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toBottomOf="@id/sampleDesignsTitle">
-
-                            <FrameLayout
-                                android:layout_width="100sp"
-                                android:layout_height="110sp"
-                                app:layout_constraintBottom_toBottomOf="parent"
-                                app:layout_constraintEnd_toEndOf="parent"
-                                app:layout_constraintHorizontal_bias="0.104"
-                                app:layout_constraintStart_toStartOf="parent"
-                                app:layout_constraintTop_toTopOf="parent"
-                                app:layout_constraintVertical_bias="0.340">
-
-                                <ImageView
-                                    android:id="@+id/searchLowerFabric"
-                                    android:layout_width="match_parent"
-                                    android:layout_height="match_parent"
-                                    android:layout_marginTop="11sp"
-                                    android:background="@drawable/circle_bg"
-                                    android:clickable="true"
-                                    android:clipToOutline="true"
-                                    android:contentDescription="@string/design_1"
-                                    android:focusable="true"
-                                    android:scaleType="centerCrop"
-                                    android:src="@drawable/sample_design_test"
-                                    tools:targetApi="31"
-                                    tools:ignore="TooDeepLayout" />
-
-
-                            </FrameLayout>
-
-                            <FrameLayout
-                                android:layout_width="100sp"
-                                android:layout_height="110sp"
-                                android:layout_marginStart="10sp"
-                                app:layout_constraintBottom_toBottomOf="parent"
-                                app:layout_constraintEnd_toEndOf="parent"
-                                app:layout_constraintHorizontal_bias="0.104"
-                                app:layout_constraintStart_toStartOf="parent"
-                                app:layout_constraintTop_toTopOf="parent"
-                                app:layout_constraintVertical_bias="0.340">
-
-                                <ImageView
-                                    android:id="@+id/lowerFabric1"
-                                    android:layout_width="match_parent"
-                                    android:layout_height="match_parent"
-                                    android:layout_marginTop="11sp"
-                                    android:background="@drawable/circle_bg"
-                                    android:clickable="true"
-                                    android:clipToOutline="true"
-                                    android:contentDescription="@string/design_1"
-                                    android:focusable="true"
-                                    android:scaleType="centerCrop"
-                                    android:src="@drawable/sample_design_test"
-                                    tools:targetApi="31" />
-
-                            </FrameLayout>
-
-                            <FrameLayout
-                                android:layout_width="100sp"
-                                android:layout_height="110sp"
-                                android:layout_marginStart="10sp"
-                                app:layout_constraintBottom_toBottomOf="parent"
-                                app:layout_constraintEnd_toEndOf="parent"
-                                app:layout_constraintHorizontal_bias="0.104"
-                                app:layout_constraintStart_toStartOf="parent"
-                                app:layout_constraintTop_toTopOf="parent"
-                                app:layout_constraintVertical_bias="0.340">
-
-                                <ImageView
-                                    android:id="@+id/lowerFabric2"
-                                    android:layout_width="match_parent"
-                                    android:layout_height="match_parent"
-                                    android:layout_marginTop="11sp"
-                                    android:background="@drawable/circle_bg"
-                                    android:clickable="true"
-                                    android:clipToOutline="true"
-                                    android:contentDescription="@string/design_1"
-                                    android:focusable="true"
-                                    android:scaleType="centerCrop"
-                                    android:src="@drawable/sample_design_test"
-                                    tools:targetApi="31" />
-
-                            </FrameLayout>
-
-                            <FrameLayout
-                                android:layout_width="100sp"
-                                android:layout_height="110sp"
-                                android:layout_marginStart="10sp"
-                                app:layout_constraintBottom_toBottomOf="parent"
-                                app:layout_constraintEnd_toEndOf="parent"
-                                app:layout_constraintHorizontal_bias="0.104"
-                                app:layout_constraintStart_toStartOf="parent"
-                                app:layout_constraintTop_toTopOf="parent"
-                                app:layout_constraintVertical_bias="0.340">
-
-                                <ImageView
-                                    android:id="@+id/lowerFabric3"
-                                    android:layout_width="match_parent"
-                                    android:layout_height="match_parent"
-                                    android:layout_marginTop="11sp"
-                                    android:background="@drawable/circle_bg"
-                                    android:clickable="true"
-                                    android:clipToOutline="true"
-                                    android:contentDescription="@string/design_1"
-                                    android:focusable="true"
-                                    android:scaleType="centerCrop"
-                                    android:src="@drawable/sample_design_test"
-                                    tools:targetApi="31" />
-
-                            </FrameLayout>
-
-                        </GridLayout>
-                    </HorizontalScrollView>
-
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="10sp"
-                        android:fontFamily="@font/dm_sans_medium"
-                        android:text="@string/color"
-                        android:textColor="#444243"
-                        android:textSize="11sp" />
-
-                    <HorizontalScrollView
-                        android:layout_width="fill_parent"
-                        android:layout_height="wrap_content"
-                        android:scrollbars="none">
-
-                        <GridLayout
-                            android:id="@+id/gridLowerColors"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:columnCount="4"
-                            android:rowCount="1"
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toBottomOf="@id/sampleDesignsTitle">
-
-                            <FrameLayout
-                                android:layout_width="100sp"
-                                android:layout_height="110sp"
-                                app:layout_constraintBottom_toBottomOf="parent"
-                                app:layout_constraintEnd_toEndOf="parent"
-                                app:layout_constraintHorizontal_bias="0.104"
-                                app:layout_constraintStart_toStartOf="parent"
-                                app:layout_constraintTop_toTopOf="parent"
-                                app:layout_constraintVertical_bias="0.340">
-
-                                <ImageView
-                                    android:id="@+id/searchLowerColor"
-                                    android:layout_width="match_parent"
-                                    android:layout_height="match_parent"
-                                    android:layout_marginTop="11sp"
-                                    android:background="@drawable/circle_bg"
-                                    android:clickable="true"
-                                    android:clipToOutline="true"
-                                    android:contentDescription="@string/design_1"
-                                    android:focusable="true"
-                                    android:scaleType="centerCrop"
-                                    android:src="@drawable/sample_design_test"
-                                    tools:targetApi="31" />
-
-
-                            </FrameLayout>
-
-                            <FrameLayout
-                                android:layout_width="100sp"
-                                android:layout_height="110sp"
-                                android:layout_marginStart="10sp"
-                                app:layout_constraintBottom_toBottomOf="parent"
-                                app:layout_constraintEnd_toEndOf="parent"
-                                app:layout_constraintHorizontal_bias="0.104"
-                                app:layout_constraintStart_toStartOf="parent"
-                                app:layout_constraintTop_toTopOf="parent"
-                                app:layout_constraintVertical_bias="0.340">
-
-                                <ImageView
-                                    android:id="@+id/lowerColor1"
-                                    android:layout_width="match_parent"
-                                    android:layout_height="match_parent"
-                                    android:layout_marginTop="11sp"
-                                    android:background="@drawable/circle_bg"
-                                    android:clickable="true"
-                                    android:clipToOutline="true"
-                                    android:contentDescription="@string/design_1"
-                                    android:focusable="true"
-                                    android:scaleType="centerCrop"
-                                    android:src="@drawable/sample_design_test"
-                                    tools:targetApi="31" />
-
-                            </FrameLayout>
-
-                            <FrameLayout
-                                android:layout_width="100sp"
-                                android:layout_height="110sp"
-                                android:layout_marginStart="10sp"
-                                app:layout_constraintBottom_toBottomOf="parent"
-                                app:layout_constraintEnd_toEndOf="parent"
-                                app:layout_constraintHorizontal_bias="0.104"
-                                app:layout_constraintStart_toStartOf="parent"
-                                app:layout_constraintTop_toTopOf="parent"
-                                app:layout_constraintVertical_bias="0.340">
-
-                                <ImageView
-                                    android:id="@+id/lowerColor2"
-                                    android:layout_width="match_parent"
-                                    android:layout_height="match_parent"
-                                    android:layout_marginTop="11sp"
-                                    android:background="@drawable/circle_bg"
-                                    android:clickable="true"
-                                    android:clipToOutline="true"
-                                    android:contentDescription="@string/design_1"
-                                    android:focusable="true"
-                                    android:scaleType="centerCrop"
-                                    android:src="@drawable/sample_design_test"
-                                    tools:targetApi="31" />
-
-                            </FrameLayout>
-
-                            <FrameLayout
-                                android:layout_width="100sp"
-                                android:layout_height="110sp"
-                                android:layout_marginStart="10sp"
-                                app:layout_constraintBottom_toBottomOf="parent"
-                                app:layout_constraintEnd_toEndOf="parent"
-                                app:layout_constraintHorizontal_bias="0.104"
-                                app:layout_constraintStart_toStartOf="parent"
-                                app:layout_constraintTop_toTopOf="parent"
-                                app:layout_constraintVertical_bias="0.340">
-
-                                <ImageView
-                                    android:id="@+id/lowerColor3"
-                                    android:layout_width="match_parent"
-                                    android:layout_height="match_parent"
-                                    android:layout_marginTop="11sp"
-                                    android:background="@drawable/circle_bg"
-                                    android:clickable="true"
-                                    android:clipToOutline="true"
-                                    android:contentDescription="@string/design_1"
-                                    android:focusable="true"
-                                    android:scaleType="centerCrop"
-                                    android:src="@drawable/sample_design_test"
-                                    tools:targetApi="31" />
-
-                            </FrameLayout>
-
-                        </GridLayout>
-                    </HorizontalScrollView>
-
-                    <TextView
-                        android:layout_width="135sp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="15sp"
-                        android:background="@drawable/rounded_bg"
-                        android:backgroundTint="#444243"
-                        android:fontFamily="@font/league_spartan_bold"
-                        android:paddingStart="8sp"
-                        android:paddingTop="5sp"
-                        android:paddingEnd="20sp"
-                        android:paddingBottom="5sp"
-                        android:text="@string/accents"
-                        android:textColor="@color/white"
-                        android:textSize="11sp" />
-
-                    <Button
-                        android:id="@+id/addLowerAccentsBtn"
-                        android:layout_width="330dp"
-                        android:layout_height="60sp"
-                        android:layout_marginTop="10sp"
-                        android:background="@drawable/add_notes_bg"
-                        android:fontFamily="@font/dm_sans_bold"
-                        android:text="@string/add_sign"
-                        android:textSize="20sp"
-                        app:backgroundTint="@null"
-                        tools:ignore="VisualLintButtonSize,DuplicateSpeakableTextCheck" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="12sp"
-                        android:fontFamily="@font/dm_sans_medium"
+                        android:layout_marginTop="10dp"
                         android:text="@string/select_accent"
                         android:textColor="#444243"
                         android:textSize="11sp" />
 
-                    <HorizontalScrollView
-                        android:id="@+id/lowerAccentScrollView"
-                        android:layout_width="fill_parent"
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/rvLowerAccents"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:scrollbars="none">
-
-                        <GridLayout
-                            android:id="@+id/gridLowerAccents"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:columnCount="4"
-                            android:rowCount="1"
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toBottomOf="@id/sampleDesignsTitle">
-
-                            <FrameLayout
-                                android:layout_width="100sp"
-                                android:layout_height="110sp"
-                                app:layout_constraintBottom_toBottomOf="parent"
-                                app:layout_constraintEnd_toEndOf="parent"
-                                app:layout_constraintHorizontal_bias="0.104"
-                                app:layout_constraintStart_toStartOf="parent"
-                                app:layout_constraintTop_toTopOf="parent"
-                                app:layout_constraintVertical_bias="0.340">
-
-                                <ImageView
-                                    android:id="@+id/lowerAccent1"
-                                    android:layout_width="match_parent"
-                                    android:layout_height="match_parent"
-                                    android:layout_marginTop="11sp"
-                                    android:background="@drawable/circle_bg"
-                                    android:clickable="true"
-                                    android:clipToOutline="true"
-                                    android:contentDescription="@string/design_1"
-                                    android:focusable="true"
-                                    android:scaleType="centerCrop"
-                                    android:src="@drawable/sample_design_test"
-                                    tools:targetApi="31" />
-
-
-                            </FrameLayout>
-
-                            <FrameLayout
-                                android:layout_width="100sp"
-                                android:layout_height="110sp"
-                                android:layout_marginStart="10sp"
-                                app:layout_constraintBottom_toBottomOf="parent"
-                                app:layout_constraintEnd_toEndOf="parent"
-                                app:layout_constraintHorizontal_bias="0.104"
-                                app:layout_constraintStart_toStartOf="parent"
-                                app:layout_constraintTop_toTopOf="parent"
-                                app:layout_constraintVertical_bias="0.340">
-
-                                <ImageView
-                                    android:id="@+id/lowerAccent2"
-                                    android:layout_width="match_parent"
-                                    android:layout_height="match_parent"
-                                    android:layout_marginTop="11sp"
-                                    android:background="@drawable/circle_bg"
-                                    android:clickable="true"
-                                    android:clipToOutline="true"
-                                    android:contentDescription="@string/design_1"
-                                    android:focusable="true"
-                                    android:scaleType="centerCrop"
-                                    android:src="@drawable/sample_design_test"
-                                    tools:targetApi="31" />
-
-                            </FrameLayout>
-
-                            <FrameLayout
-                                android:layout_width="100sp"
-                                android:layout_height="110sp"
-                                android:layout_marginStart="10sp"
-                                app:layout_constraintBottom_toBottomOf="parent"
-                                app:layout_constraintEnd_toEndOf="parent"
-                                app:layout_constraintHorizontal_bias="0.104"
-                                app:layout_constraintStart_toStartOf="parent"
-                                app:layout_constraintTop_toTopOf="parent"
-                                app:layout_constraintVertical_bias="0.340">
-
-                                <ImageView
-                                    android:id="@+id/lowerAccent3"
-                                    android:layout_width="match_parent"
-                                    android:layout_height="match_parent"
-                                    android:layout_marginTop="11sp"
-                                    android:background="@drawable/circle_bg"
-                                    android:clickable="true"
-                                    android:clipToOutline="true"
-                                    android:contentDescription="@string/design_1"
-                                    android:focusable="true"
-                                    android:scaleType="centerCrop"
-                                    android:src="@drawable/sample_design_test"
-                                    tools:targetApi="31" />
-
-                            </FrameLayout>
-
-                            <FrameLayout
-                                android:layout_width="100sp"
-                                android:layout_height="110sp"
-                                android:layout_marginStart="10sp"
-                                app:layout_constraintBottom_toBottomOf="parent"
-                                app:layout_constraintEnd_toEndOf="parent"
-                                app:layout_constraintHorizontal_bias="0.104"
-                                app:layout_constraintStart_toStartOf="parent"
-                                app:layout_constraintTop_toTopOf="parent"
-                                app:layout_constraintVertical_bias="0.340">
-
-                                <ImageView
-                                    android:id="@+id/lowerAccent4"
-                                    android:layout_width="match_parent"
-                                    android:layout_height="match_parent"
-                                    android:layout_marginTop="11sp"
-                                    android:background="@drawable/circle_bg"
-                                    android:clickable="true"
-                                    android:clipToOutline="true"
-                                    android:contentDescription="@string/design_1"
-                                    android:focusable="true"
-                                    android:scaleType="centerCrop"
-                                    android:src="@drawable/sample_design_test"
-                                    tools:targetApi="31" />
-
-                            </FrameLayout>
-
-                        </GridLayout>
-                    </HorizontalScrollView>
+                        android:orientation="horizontal"
+                        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                        tools:listitem="@layout/item_design_card"
+                        android:requiresFadingEdge="horizontal"
+                        android:fadingEdgeLength="40dp"/>
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/dm_sans_medium"
-                        android:text="@string/color"
+                        android:layout_marginTop="10dp"
+                        android:text="@string/accent_color"
                         android:textColor="#444243"
-                        android:layout_marginTop="10sp"
                         android:textSize="11sp" />
 
-
-
-                    <HorizontalScrollView
-                        android:id="@+id/lowerAccentColorsScrollView"
-                        android:layout_width="fill_parent"
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/rvLowerAccentColors"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:scrollbars="none"
-                        tools:ignore="UselessParent">
+                        android:orientation="horizontal"
+                        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                        tools:listitem="@layout/item_color_circle"
+                        android:requiresFadingEdge="horizontal"
+                        android:fadingEdgeLength="40dp"/>
 
-                        <GridLayout
-                            android:id="@+id/gridLowerAccentColors"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:columnCount="4"
-                            android:rowCount="1"
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toBottomOf="@id/sampleDesignsTitle">
-
-                            <FrameLayout
-                                android:layout_width="100sp"
-                                android:layout_height="110sp"
-                                app:layout_constraintBottom_toBottomOf="parent"
-                                app:layout_constraintEnd_toEndOf="parent"
-                                app:layout_constraintHorizontal_bias="0.104"
-                                app:layout_constraintStart_toStartOf="parent"
-                                app:layout_constraintTop_toTopOf="parent"
-                                app:layout_constraintVertical_bias="0.340">
-
-                                <ImageView
-                                    android:id="@+id/searchLowerAccentColor"
-                                    android:layout_width="match_parent"
-                                    android:layout_height="match_parent"
-                                    android:layout_marginTop="11sp"
-                                    android:background="@drawable/circle_bg"
-                                    android:clickable="true"
-                                    android:clipToOutline="true"
-                                    android:contentDescription="@string/design_1"
-                                    android:focusable="true"
-                                    android:scaleType="centerCrop"
-                                    android:src="@drawable/sample_design_test"
-                                    tools:targetApi="31" />
-
-
-                            </FrameLayout>
-
-                            <FrameLayout
-                                android:layout_width="100sp"
-                                android:layout_height="110sp"
-                                android:layout_marginStart="10sp"
-                                app:layout_constraintBottom_toBottomOf="parent"
-                                app:layout_constraintEnd_toEndOf="parent"
-                                app:layout_constraintHorizontal_bias="0.104"
-                                app:layout_constraintStart_toStartOf="parent"
-                                app:layout_constraintTop_toTopOf="parent"
-                                app:layout_constraintVertical_bias="0.340">
-
-                                <ImageView
-                                    android:id="@+id/lowerAccentColor1"
-                                    android:layout_width="match_parent"
-                                    android:layout_height="match_parent"
-                                    android:layout_marginTop="11sp"
-                                    android:background="@drawable/circle_bg"
-                                    android:clickable="true"
-                                    android:clipToOutline="true"
-                                    android:contentDescription="@string/design_1"
-                                    android:focusable="true"
-                                    android:scaleType="centerCrop"
-                                    android:src="@drawable/sample_design_test"
-                                    tools:targetApi="31" />
-
-                            </FrameLayout>
-
-                            <FrameLayout
-                                android:layout_width="100sp"
-                                android:layout_height="110sp"
-                                android:layout_marginStart="10sp"
-                                app:layout_constraintBottom_toBottomOf="parent"
-                                app:layout_constraintEnd_toEndOf="parent"
-                                app:layout_constraintHorizontal_bias="0.104"
-                                app:layout_constraintStart_toStartOf="parent"
-                                app:layout_constraintTop_toTopOf="parent"
-                                app:layout_constraintVertical_bias="0.340">
-
-                                <ImageView
-                                    android:id="@+id/lowerAccentColor2"
-                                    android:layout_width="match_parent"
-                                    android:layout_height="match_parent"
-                                    android:layout_marginTop="11sp"
-                                    android:background="@drawable/circle_bg"
-                                    android:clickable="true"
-                                    android:clipToOutline="true"
-                                    android:contentDescription="@string/design_1"
-                                    android:focusable="true"
-                                    android:scaleType="centerCrop"
-                                    android:src="@drawable/sample_design_test"
-                                    tools:targetApi="31"
-                                    tools:ignore="TooManyViews" />
-
-                            </FrameLayout>
-
-                            <FrameLayout
-                                android:layout_width="100sp"
-                                android:layout_height="110sp"
-                                android:layout_marginStart="10sp"
-                                app:layout_constraintBottom_toBottomOf="parent"
-                                app:layout_constraintEnd_toEndOf="parent"
-                                app:layout_constraintHorizontal_bias="0.104"
-                                app:layout_constraintStart_toStartOf="parent"
-                                app:layout_constraintTop_toTopOf="parent"
-                                app:layout_constraintVertical_bias="0.340"
-                                tools:ignore="TooManyViews">
-
-                                <ImageView
-                                    android:id="@+id/lowerAccentColor3"
-                                    android:layout_width="match_parent"
-                                    android:layout_height="match_parent"
-                                    android:layout_marginTop="11sp"
-                                    android:background="@drawable/circle_bg"
-                                    android:clickable="true"
-                                    android:clipToOutline="true"
-                                    android:contentDescription="@string/design_1"
-                                    android:focusable="true"
-                                    android:scaleType="centerCrop"
-                                    android:src="@drawable/sample_design_test"
-                                    tools:targetApi="31" />
-
-                            </FrameLayout>
-
-                        </GridLayout>
-                    </HorizontalScrollView>
-
-                    <TextView
-                        android:layout_width="135sp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="15sp"
-                        android:background="@drawable/rounded_bg"
-                        android:backgroundTint="#444243"
-                        android:fontFamily="@font/league_spartan_bold"
-                        android:paddingStart="8sp"
-                        android:paddingTop="5sp"
-                        android:paddingEnd="20sp"
-                        android:paddingBottom="5sp"
-                        android:text="@string/additional_notes"
-                        android:textColor="@color/white"
-                        android:textSize="11sp" />
-
-                    <Button
-                        android:id="@+id/makeLowerOrderBtn"
-                        android:layout_width="330dp"
-                        android:layout_height="60sp"
-                        android:layout_marginTop="10sp"
-                        android:background="@drawable/add_notes_bg"
-                        android:fontFamily="@font/dm_sans_bold"
-                        android:text="@string/add_sign"
-                        android:textSize="20sp"
-                        app:backgroundTint="@null"
-                        tools:ignore="VisualLintButtonSize" />
                 </LinearLayout>
             </LinearLayout>
         </androidx.cardview.widget.CardView>
 
         <androidx.cardview.widget.CardView
+            android:id="@+id/clientDetailsCard"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="29.1sp"
-            android:layout_marginTop="10sp"
-            android:layout_marginEnd="30sp"
-            app:cardBackgroundColor="@color/white"
-            app:cardCornerRadius="20sp"
-            app:cardElevation="10sp">
+            android:layout_marginStart="29dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="30dp"
+            android:layout_marginBottom="30dp"
+            app:cardBackgroundColor="#444243"
+            app:cardCornerRadius="20dp"
+            app:cardElevation="10dp">
 
             <LinearLayout
                 android:background="@color/white"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical" >
-
-            <FrameLayout
-                android:onClick="expandUpperWear"
-                android:orientation="horizontal"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
-
-                <ImageView
-                    android:layout_width="match_parent"
-                    android:layout_height="30sp"
-                    android:background="#444243"/>
-
-                <TextView
-                    android:paddingStart="11sp"
-                    android:paddingTop="6.8sp"
-                    android:paddingEnd="11sp"
-                    android:paddingBottom="6.8sp"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="@font/dm_sans"
-                    android:text="@string/client_and_order_details"
-                    android:textColor="@color/white"
-                    android:textSize="12.5sp" />
-
-
-                <ImageView
-                    android:id="@+id/clientOrderIcon"
-                    android:layout_width="16.5sp"
-                    android:layout_height="16.5sp"
-                    android:layout_marginStart="315sp"
-                    android:layout_marginTop="7.4sp"
-                    android:src="@drawable/icon_plus" />
-
-                </FrameLayout>
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/clientOrderLayout"
                 android:orientation="vertical"
-                android:visibility="visible"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:paddingStart="11sp"
-                android:paddingTop="6.8sp"
-                android:paddingEnd="11sp"
-                android:paddingBottom="6.8sp">
-            <TextView
-                android:layout_width="135sp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="33.5sp"
-                android:background="@drawable/rounded_bg"
-                android:backgroundTint="#444243"
-                android:fontFamily="@font/league_spartan_bold"
-                android:paddingStart="8sp"
-                android:paddingTop="5sp"
-                android:paddingEnd="20sp"
-                android:paddingBottom="5sp"
-                android:text="@string/measurements"
-                android:textColor="@color/white"
-                android:textSize="11sp" />
+                android:animateLayoutChanges="true">
 
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10sp"
-                android:background="@drawable/rounded_bg"
-                android:backgroundTint="#f6f6f6"
-                android:orientation="vertical"
-                android:padding="10sp">
-
-                <GridLayout
-                    android:id="@+id/gridMeasurements"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:columnCount="2"
-                    android:rowCount="3"
-                    tools:ignore="UselessParent">
-
-                <FrameLayout
-                    android:layout_width="150sp"
-                    android:layout_height="30sp"
-                    android:layout_marginTop="5sp"
-                    android:layout_marginBottom="5sp"
-                    android:importantForAutofill="no"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.104"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintVertical_bias="0.340">
-
-                    <EditText
-                        android:id="@+id/chestMeasurement"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:background="@drawable/measurements_bg"
-                        android:hint="@string/chest_bust"
-                        android:importantForAutofill="no"
-                        android:inputType="numberDecimal"
-                        android:paddingStart="10sp"
-                        android:paddingEnd="10sp"
-                        android:textSize="11sp"
-                        tools:ignore="SmallSp,TouchTargetSizeCheck" />
-
-                </FrameLayout>
-
-                <FrameLayout
-                    android:layout_width="150sp"
-                    android:layout_height="30sp"
-                    android:layout_marginStart="10sp"
-                    android:layout_marginTop="5sp"
-                    android:layout_marginBottom="5sp"
-                    android:importantForAutofill="no"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.104"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintVertical_bias="0.340">
-
-                    <EditText
-                        android:id="@+id/armMeasurement"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:background="@drawable/measurements_bg"
-                        android:hint="@string/armhole_bicep"
-                        android:inputType="numberDecimal"
-                        android:paddingStart="10sp"
-                        android:paddingEnd="10sp"
-                        android:textSize="11sp"
-                        tools:ignore="Autofill,SmallSp,TouchTargetSizeCheck" />
-
-                </FrameLayout>
-
-                <FrameLayout
-                    android:layout_width="150sp"
-                    android:layout_height="30sp"
-                    android:layout_marginTop="5sp"
-                    android:layout_marginBottom="5sp"
-                    android:importantForAutofill="no"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.104"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintVertical_bias="0.340">
-
-                    <EditText
-                        android:id="@+id/garmentMeasurement"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:background="@drawable/measurements_bg"
-                        android:hint="@string/garment_length"
-                        android:importantForAutofill="no"
-                        android:inputType="numberDecimal"
-                        android:paddingStart="10sp"
-                        android:paddingEnd="10sp"
-                        android:textSize="11sp"
-                        tools:ignore="SmallSp,TouchTargetSizeCheck" />
-
-                </FrameLayout>
-
-                <FrameLayout
-                    android:layout_width="150sp"
-                    android:layout_height="30sp"
-                    android:layout_marginStart="10sp"
-                    android:layout_marginTop="5sp"
-                    android:layout_marginBottom="5sp"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.104"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintVertical_bias="0.340">
-
-                    <EditText
-                        android:id="@+id/shoulderMeasurement"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:background="@drawable/measurements_bg"
-                        android:hint="@string/shoulder_width"
-                        android:importantForAutofill="no"
-                        android:inputType="numberDecimal"
-                        android:paddingStart="10sp"
-                        android:paddingEnd="10sp"
-                        android:textSize="11sp"
-                        tools:ignore="SmallSp,TouchTargetSizeCheck" />
-
-                </FrameLayout>
-
-                <FrameLayout
-                    android:layout_width="150sp"
-                    android:layout_height="30sp"
-                    android:layout_marginTop="5sp"
-                    android:layout_marginBottom="5sp"
-
-                    android:importantForAutofill="no"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.104"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintVertical_bias="0.340">
-
-                <EditText
-                    android:id="@+id/waistMeasurement"
+                <LinearLayout
+                    android:onClick="expandClientDetails"
+                    android:orientation="horizontal"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:background="@drawable/measurements_bg"
-                    android:hint="@string/waist"
-                    android:inputType="numberDecimal"
-                    android:paddingStart="10sp"
-                    android:paddingEnd="10sp"
-                    android:textSize="11sp"
-                    tools:ignore="Autofill,SmallSp,TouchTargetSizeCheck" />
-                </FrameLayout>
-                </GridLayout>
-            </LinearLayout>
+                    android:layout_height="30dp"
+                    android:background="#444243"
+                    android:gravity="center_vertical">
 
+                    <TextView
+                        android:paddingStart="11dp"
+                        android:paddingEnd="11dp"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:fontFamily="@font/dm_sans"
+                        android:text="@string/client_and_order_details"
+                        android:textColor="@color/white"
+                        android:textSize="12.5sp" />
+
+                    <ImageView
+                        android:id="@+id/clientOrderIcon"
+                        android:layout_width="16.5dp"
+                        android:layout_height="16.5dp"
+                        android:layout_marginEnd="15dp"
+                        android:src="@drawable/icon_plus" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/clientDetailsLayout"
+                    android:orientation="vertical"
+                    android:visibility="visible"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="11dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="5dp"
+                        android:fontFamily="@font/dm_sans_medium"
+                        android:text="Client Name"
+                        android:textColor="#444243"
+                        android:textSize="11sp" />
+
+                    <EditText
+                        android:id="@+id/etClientName"
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp"
+                        android:layout_marginTop="5dp"
+                        android:background="@drawable/rounded_bg"
+                        android:backgroundTint="#F0F0F0"
+                        android:paddingStart="10dp"
+                        android:paddingEnd="10dp"
+                        android:textSize="12sp"
+                        android:hint="@string/enter_name"
+                        android:inputType="textPersonName" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="5dp"
+                        android:fontFamily="@font/dm_sans_medium"
+                        android:text="@string/contact_information"
+                        android:textColor="#444243"
+                        android:textSize="11sp" />
+
+                    <EditText
+                        android:id="@+id/etContactInfo"
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp"
+                        android:layout_marginTop="5dp"
+                        android:background="@drawable/rounded_bg"
+                        android:backgroundTint="#F0F0F0"
+                        android:paddingStart="10dp"
+                        android:paddingEnd="10dp"
+                        android:textSize="12sp"
+                        android:hint="@string/enter_contact_information"
+                        android:inputType="textPersonName" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="15dp"
+                        android:background="@drawable/rounded_bg"
+                        android:backgroundTint="#444243"
+                        android:fontFamily="@font/league_spartan_bold"
+                        android:paddingStart="8dp"
+                        android:paddingTop="5dp"
+                        android:paddingEnd="20dp"
+                        android:paddingBottom="5dp"
+                        android:text="Measurements"
+                        android:textColor="@color/white"
+                        android:textSize="11sp" />
+
+                    <GridLayout
+                        android:id="@+id/gridClientDetails"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:columnCount="2"
+                        android:alignmentMode="alignMargins">
+
+                        <FrameLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginEnd="5dp"
+                            android:layout_marginBottom="10dp"
+                            android:layout_columnWeight="1">
+                            <EditText
+                                android:id="@+id/waistMeasurement"
+                                android:layout_width="match_parent"
+                                android:layout_height="35dp"
+                                android:background="@drawable/measurements_bg"
+                                android:hint="@string/waist"
+                                android:inputType="numberDecimal"
+                                android:paddingStart="10dp"
+                                android:textSize="11sp" />
+                        </FrameLayout>
+
+                        <FrameLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="5dp"
+                            android:layout_marginBottom="10dp"
+                            android:layout_columnWeight="1">
+                            <EditText
+                                android:id="@+id/hipMeasurement"
+                                android:layout_width="match_parent"
+                                android:layout_height="35dp"
+                                android:background="@drawable/measurements_bg"
+                                android:hint="Hips"
+                                android:inputType="numberDecimal"
+                                android:paddingStart="10dp"
+                                android:textSize="11sp" />
+                        </FrameLayout>
+
+                        <FrameLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginEnd="5dp"
+                            android:layout_marginBottom="10dp"
+                            android:layout_columnWeight="1">
+                            <EditText
+                                android:id="@+id/chestMeasurement"
+                                android:layout_width="match_parent"
+                                android:layout_height="35dp"
+                                android:background="@drawable/measurements_bg"
+                                android:hint="Bust/Chest"
+                                android:inputType="numberDecimal"
+                                android:paddingStart="10dp"
+                                android:textSize="11sp" />
+                        </FrameLayout>
+
+                        <FrameLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="5dp"
+                            android:layout_marginBottom="10dp"
+                            android:layout_columnWeight="1">
+                            <EditText
+                                android:id="@+id/lengthMeasurement"
+                                android:layout_width="match_parent"
+                                android:layout_height="35dp"
+                                android:background="@drawable/measurements_bg"
+                                android:hint="Length"
+                                android:inputType="numberDecimal"
+                                android:paddingStart="10dp"
+                                android:textSize="11sp" />
+                        </FrameLayout>
+
+                        <FrameLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginEnd="5dp"
+                            android:layout_marginBottom="10dp"
+                            android:layout_columnWeight="1">
+                            <EditText
+                                android:id="@+id/shoulderMeasurement"
+                                android:layout_width="match_parent"
+                                android:layout_height="35dp"
+                                android:background="@drawable/measurements_bg"
+                                android:hint="Shoulder"
+                                android:inputType="numberDecimal"
+                                android:paddingStart="10dp"
+                                android:textSize="11sp"
+                                tools:ignore="RtlSymmetry" />
+                        </FrameLayout>
+
+                        <FrameLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="5dp"
+                            android:layout_marginBottom="10dp"
+                            android:layout_columnWeight="1">
+                            <EditText
+                                android:id="@+id/sleeveMeasurement"
+                                android:layout_width="match_parent"
+                                android:layout_height="35dp"
+                                android:background="@drawable/measurements_bg"
+                                android:hint="@string/sleeve"
+                                android:importantForAutofill="no" android:inputType="numberDecimal"
+                                android:paddingStart="10dp"
+                                android:textSize="11sp"
+                                tools:ignore="RtlSymmetry" />
+                        </FrameLayout>
+                    </GridLayout>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="15dp"
+                        android:fontFamily="@font/dm_sans_medium"
+                        android:text="@string/notes"
+                        android:textColor="#444243"
+                        android:textSize="11sp" />
+
+                    <EditText
+                        android:id="@+id/notesDetails"
+                        android:layout_width="match_parent"
+                        android:layout_height="80dp"
+                        android:layout_marginTop="5dp"
+                        android:autofillHints=""
+                        android:background="@drawable/rounded_bg"
+                        android:backgroundTint="#F0F0F0"
+                        android:gravity="top|start"
+                        android:importantForAutofill="no"
+                        android:padding="10dp"
+                        android:textSize="12sp"
+                        android:hint="@string/add_additional_details"
+                        android:inputType="textMultiLine" />
+
+                    <Button
+                        android:id="@+id/btnSubmitOrder"
+                        android:layout_width="match_parent"
+                        android:layout_height="50dp"
+                        android:layout_marginTop="20dp"
+                        android:layout_marginBottom="10dp"
+                        android:background="@drawable/add_notes_bg"
+                        android:text="@string/save_order"
+                        android:textColor="#444023"
+                        android:fontFamily="@font/dm_sans_bold"
+                        app:backgroundTint="@null"/>
+
+                </LinearLayout>
             </LinearLayout>
         </androidx.cardview.widget.CardView>
-
     </LinearLayout>
 </ScrollView>

@@ -34,4 +34,25 @@
     <string name="casual_design_1">Casual Design 1</string>
     <string name="accents">Accents</string>
     <string name="select_accent">Select Accent</string>
+    <string name="client_details">Client Details</string>
+    <string name="client_name">Client Name</string>
+    <string name="contact_information">Contact Information</string>
+    <string name="notes">Notes</string>
+    <string name="hip">Hip</string>
+    <string name="thigh">Thigh</string>
+    <string name="inseam">Inseam</string>
+    <string name="order_details">Order Details</string>
+    <string name="final_garment">Garment:</string>
+    <string name="final_additional_notes">Additional Notes:</string>
+    <string name="final_material">Material:</string>
+    <string name="final_accents">Check Accents</string>
+    <string name="final_measurements">Check Measurements</string>
+    <string name="accent_color">Accent Color</string>
+    <string name="save_order">Save Order</string>
+    <string name="sleeve">Sleeve</string>
+    <string name="add_additional_details">Add additional details...</string>
+    <string name="hips">Hips</string>
+    <string name="enter_name">Enter Name</string>
+    <string name="enter_contact_information">Enter Contact Information</string>
+    <string name="accent">Accent</string>
 </resources>
