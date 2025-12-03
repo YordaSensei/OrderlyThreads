@@ -55,4 +55,15 @@
     <string name="enter_name">Enter Name</string>
     <string name="enter_contact_information">Enter Contact Information</string>
     <string name="accent">Accent</string>
+    <string name="edit">Edit</string>
+    <string name="confirm">Confirm</string>
+    <string name="order_summary">Order Summary...</string>
+    <string name="sleeve_length">Sleeve Length</string>
+    <string name="design_name">Design Name</string>
+    <string name="placeholder">Placeholder</string>
+    <string name="cancel">Cancel</string>
+    <string name="set">Set</string>
+    <string name="_1">1</string>
+    <string name="enter_number_of_accents">Enter number of accents</string>
+    <string name="quantity">Quantity</string>
 </resources>

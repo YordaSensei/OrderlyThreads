@@ -10,7 +10,8 @@ import androidx.recyclerview.widget.RecyclerView
 class ImageAdapter(
     private val context: Context,
     private val imageList: List<Int>,
-    private val layoutResId: Int
+    private val layoutResId: Int,
+    private val onItemClickCallback: () -> Unit = {}
 ) : RecyclerView.Adapter<ImageAdapter.ViewHolder>() {
 
     var selectedPosition = RecyclerView.NO_POSITION
@@ -39,27 +40,30 @@ class ImageAdapter(
         holder.itemView.scaleY = 1.0f
 
         holder.itemView.setOnClickListener {
-            val previousPosition = selectedPosition
-            if (selectedPosition != holder.adapterPosition) {
-                selectedPosition = holder.adapterPosition
+            val currentPos = holder.bindingAdapterPosition
+            if (currentPos != RecyclerView.NO_POSITION && selectedPosition != currentPos) {
+                val previousPos = selectedPosition
+                selectedPosition = currentPos
 
-                if (previousPosition != RecyclerView.NO_POSITION) {
-                    notifyItemChanged(previousPosition)
-                }
+                if (previousPos != RecyclerView.NO_POSITION) notifyItemChanged(previousPos)
                 notifyItemChanged(selectedPosition)
+
+                onItemClickCallback()
             }
         }
     }
 
-    override fun getItemCount(): Int {
-        return imageList.size
-    }
+    override fun getItemCount(): Int = imageList.size
 
     fun getSelectionName(): String {
-        return if (selectedPosition != RecyclerView.NO_POSITION) {
-            "Option ${selectedPosition + 1}"
-        } else {
-            "None"
+        return if (selectedPosition != RecyclerView.NO_POSITION) "Option ${selectedPosition + 1}" else "None"
+    }
+
+    fun clearSelection() {
+        if (selectedPosition != RecyclerView.NO_POSITION) {
+            val previousPos = selectedPosition
+            selectedPosition = RecyclerView.NO_POSITION
+            notifyItemChanged(previousPos)
         }
     }
 }

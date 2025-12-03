@@ -6,10 +6,12 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageView
 import android.widget.LinearLayout
+import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.text.HtmlCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.isVisible
@@ -36,6 +38,11 @@ class selectDesignAttributes : AppCompatActivity() {
     private lateinit var etNotes: EditText
 
     private lateinit var btnSaveOrder: Button
+    private lateinit var btnAddUpperAccentQty: Button
+    private lateinit var btnAddLowerAccentQty: Button
+
+    private var upperAccentQty: Int = 0
+    private var lowerAccentQty: Int = 0
 
     private lateinit var adapterUpperCasual: ImageAdapter
     private lateinit var adapterUpperFormal: ImageAdapter
@@ -74,6 +81,8 @@ class selectDesignAttributes : AppCompatActivity() {
         etNotes = findViewById(R.id.notesDetails)
 
         btnSaveOrder = findViewById(R.id.btnSubmitOrder)
+        btnAddUpperAccentQty = findViewById(R.id.addUpperAccentsBtn)
+        btnAddLowerAccentQty = findViewById(R.id.addLowerAccentsBtn)
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
@@ -130,29 +139,57 @@ class selectDesignAttributes : AppCompatActivity() {
             R.drawable.sample_color, R.drawable.sample_color, R.drawable.sample_color
         )
 
-        adapterUpperCasual = setupRecyclerView(R.id.rvUpperCasual, casualUpperImages, R.layout.item_garment_card)
-        adapterUpperFormal = setupRecyclerView(R.id.rvUpperFormal, formalUpperImages, R.layout.item_garment_card)
+        adapterUpperCasual = ImageAdapter(this, casualUpperImages, R.layout.item_garment_card) {
+            if (::adapterUpperFormal.isInitialized) adapterUpperFormal.clearSelection()
+        }
+
+        adapterUpperFormal = ImageAdapter(this, formalUpperImages, R.layout.item_garment_card) {
+            if (::adapterUpperCasual.isInitialized) adapterUpperCasual.clearSelection()
+        }
+
+        attachAdapterToView(R.id.rvUpperCasual, adapterUpperCasual)
+        attachAdapterToView(R.id.rvUpperFormal, adapterUpperFormal)
+
+        adapterLowerCasual = ImageAdapter(this, casualLowerImages, R.layout.item_garment_card) {
+            if (::adapterLowerFormal.isInitialized) adapterLowerFormal.clearSelection()
+        }
+
+        adapterLowerFormal = ImageAdapter(this, formalLowerImages, R.layout.item_garment_card) {
+            if (::adapterLowerCasual.isInitialized) adapterLowerCasual.clearSelection()
+        }
+
+        attachAdapterToView(R.id.rvLowerCasual, adapterLowerCasual)
+        attachAdapterToView(R.id.rvLowerFormal, adapterLowerFormal)
+
         adapterUpperFabric = setupRecyclerView(R.id.rvUpperFabrics, upperFabricImages, R.layout.item_fabric_card)
         adapterUpperColor = setupRecyclerView(R.id.rvUpperColors, upperColorImages, R.layout.item_color_circle)
         adapterUpperAccents = setupRecyclerView(R.id.rvUpperAccents, upperAccentImages, R.layout.item_design_card)
         adapterUpperAccentColors = setupRecyclerView(R.id.rvUpperAccentsColors, upperAccentColorImages, R.layout.item_color_circle)
 
-        adapterLowerCasual = setupRecyclerView(R.id.rvLowerCasual, casualLowerImages, R.layout.item_garment_card)
-        adapterLowerFormal = setupRecyclerView(R.id.rvLowerFormal, formalLowerImages, R.layout.item_garment_card)
         adapterLowerFabric = setupRecyclerView(R.id.rvLowerFabrics, lowerFabricImages, R.layout.item_fabric_card)
         adapterLowerColor = setupRecyclerView(R.id.rvLowerColors, lowerColorImages, R.layout.item_color_circle)
         adapterLowerAccents = setupRecyclerView(R.id.rvLowerAccents, lowerAccentImages, R.layout.item_design_card)
         adapterLowerAccentColors = setupRecyclerView(R.id.rvLowerAccentColors, lowerAccentColorImages, R.layout.item_color_circle)
+
+        btnAddUpperAccentQty.setOnClickListener {
+            showQuantityDialog("Upper Accents") { qty ->
+                upperAccentQty = qty
+            }
+        }
+
+        btnAddLowerAccentQty.setOnClickListener {
+            showQuantityDialog("Lower Accents") { qty ->
+                lowerAccentQty = qty
+            }
+        }
 
         btnSaveOrder.setOnClickListener {
             showConfirmationDialog()
         }
     }
 
-    private fun setupRecyclerView(recyclerViewId: Int, data: List<Int>, itemLayoutId: Int): ImageAdapter {
+    private fun attachAdapterToView(recyclerViewId: Int, adapter: ImageAdapter) {
         val recyclerView = findViewById<RecyclerView>(recyclerViewId)
-        val adapter = ImageAdapter(this, data, itemLayoutId)
-
         if (recyclerView != null) {
             recyclerView.layoutManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
             recyclerView.adapter = adapter
@@ -160,52 +197,123 @@ class selectDesignAttributes : AppCompatActivity() {
                 (recyclerView.itemAnimator as androidx.recyclerview.widget.SimpleItemAnimator).supportsChangeAnimations = false
             }
         }
+    }
+
+    private fun setupRecyclerView(recyclerViewId: Int, data: List<Int>, itemLayoutId: Int): ImageAdapter {
+        val adapter = ImageAdapter(this, data, itemLayoutId)
+        attachAdapterToView(recyclerViewId, adapter)
         return adapter
     }
 
+    private fun showQuantityDialog(title: String, onQuantitySet: (Int) -> Unit) {
+        val dialogView = layoutInflater.inflate(R.layout.dialog_quantity, null)
+        val builder = AlertDialog.Builder(this)
+        builder.setView(dialogView)
+        val dialog = builder.create()
+
+        dialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
+
+        val tvTitle = dialogView.findViewById<TextView>(R.id.dialogTitle)
+        val tvMessage = dialogView.findViewById<TextView>(R.id.dialogMessage)
+        val etQty = dialogView.findViewById<EditText>(R.id.etQuantity)
+        val btnOk = dialogView.findViewById<Button>(R.id.btnConfirm)
+        val btnCancel = dialogView.findViewById<Button>(R.id.btnCancel)
+
+        tvTitle.text = title
+        tvMessage.text = "How many accents would you like to add?"
+
+        btnOk.setOnClickListener {
+            val qtyString = etQty.text.toString()
+            if (qtyString.isNotEmpty()) {
+                val qty = qtyString.toInt()
+                onQuantitySet(qty)
+                Toast.makeText(this, "$title set to $qty", Toast.LENGTH_SHORT).show()
+                dialog.dismiss()
+            } else {
+                Toast.makeText(this, "Please enter a number", Toast.LENGTH_SHORT).show()
+            }
+        }
+
+        btnCancel.setOnClickListener {
+            dialog.dismiss()
+        }
+
+        dialog.show()
+    }
+
     private fun showConfirmationDialog() {
+        val upperDesign = if (adapterUpperCasual.selectedPosition != RecyclerView.NO_POSITION) {
+            adapterUpperCasual.getSelectionName()
+        } else {
+            adapterUpperFormal.getSelectionName()
+        }
+
+        val lowerDesign = if (adapterLowerCasual.selectedPosition != RecyclerView.NO_POSITION) {
+            adapterLowerCasual.getSelectionName()
+        } else {
+            adapterLowerFormal.getSelectionName()
+        }
+
         val clientName = etClientName.text.toString()
 
         val summary = """
-            Client: $clientName
-            Contact: ${etContactInfo.text}
+            <b>Client:</b> $clientName<br/>
+            <b>Contact:</b> ${etContactInfo.text}<br/>
+            <br/>
             
-            -- Measurements --
-            Waist: ${etWaist.text}, Hips: ${etHips.text}
-            Chest: ${etChest.text}, Length: ${etLength.text}
+            <big><b>Measurements</b></big><br/>
+            Waist: ${etWaist.text}, Hips: ${etHips.text}<br/>
+            Chest: ${etChest.text}, Length: ${etLength.text}<br/>
+            Shoulder: ${etShoulder.text}, Sleeve: ${etSleeve.text}<br/>
+            <br/>
             
-            -- Upper Wear Selections --
-            Casual: ${adapterUpperCasual.getSelectionName()}
-            Formal: ${adapterUpperFormal.getSelectionName()}
-            Fabric: ${adapterUpperFabric.getSelectionName()}
-            Color: ${adapterUpperColor.getSelectionName()}
-            Accent: ${adapterUpperAccents.getSelectionName()}
+            <big><b>Upper Wear Selection</b></big><br/>
+            <b>Design:</b> "$upperDesign"<br/>
+            <b>Fabric:</b> ${adapterUpperFabric.getSelectionName()}<br/>
+            <b>Color:</b> ${adapterUpperColor.getSelectionName()}<br/>
+            <b>Accent Design:</b> ${adapterUpperAccents.getSelectionName()}<br/>
+            <b>Accent Color:</b> ${adapterUpperAccentColors.getSelectionName()}<br/>
+            <b>Accent Quantity:</b> $upperAccentQty<br/>
+            <br/>
             
-            -- Lower Wear Selections --
-            Casual: ${adapterLowerCasual.getSelectionName()}
-            Formal: ${adapterLowerFormal.getSelectionName()}
-            Fabric: ${adapterLowerFabric.getSelectionName()}
-            Color: ${adapterLowerColor.getSelectionName()}
+            <big><b>Lower Wear Selection</b></big><br/>
+            <b>Design:</b> "$lowerDesign"<br/>
+            <b>Fabric:</b> ${adapterLowerFabric.getSelectionName()}<br/>
+            <b>Color:</b> ${adapterLowerColor.getSelectionName()}<br/>
+            <b>Accent Design:</b> ${adapterLowerAccents.getSelectionName()}<br/>
+            <b>Accent Color:</b> ${adapterLowerAccentColors.getSelectionName()}<br/>
+            <b>Accent Quantity:</b> $lowerAccentQty<br/>
+            <br/>
             
-            Additional Notes: ${etNotes.text}
-            
-            Proceed with this order?
+            <big><b>Notes</b></big><br/>
+            ${etNotes.text}<br/>
+            <br/>
+            <i>Proceed with this order?</i>
         """.trimIndent()
 
+        val dialogView = layoutInflater.inflate(R.layout.dialog_save_order, null)
         val builder = AlertDialog.Builder(this)
-        builder.setTitle("Confirm Order Details")
-        builder.setMessage(summary)
+        builder.setView(dialogView)
+        val dialog = builder.create()
 
-        builder.setPositiveButton("Confirm") { dialog, _ ->
+        dialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
+
+        val tvSummary = dialogView.findViewById<TextView>(R.id.tvOrderSummary)
+        val btnConfirm = dialogView.findViewById<Button>(R.id.btnConfirm)
+        val btnEdit = dialogView.findViewById<Button>(R.id.btnEdit)
+
+        tvSummary.text = HtmlCompat.fromHtml(summary, HtmlCompat.FROM_HTML_MODE_LEGACY)
+
+        btnConfirm.setOnClickListener {
             Toast.makeText(this, "Order Saved Successfully!", Toast.LENGTH_SHORT).show()
             dialog.dismiss()
         }
 
-        builder.setNegativeButton("Edit") { dialog, _ ->
+        btnEdit.setOnClickListener {
             dialog.dismiss()
         }
 
-        builder.show()
+        dialog.show()
     }
 
     fun expandUpperWear(view: View) { toggleVisibility(upperWearInfo, upperWearSign) }
