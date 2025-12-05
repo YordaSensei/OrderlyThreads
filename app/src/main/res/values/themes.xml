@@ -1,9 +1,5 @@
-<resources xmlns:tools="http://schemas.android.com/tools">
-    <!-- Base application theme. -->
-    <style name="Base.Theme.OrderlyThreads" parent="Theme.AppCompat.Light.NoActionBar">
-        <!-- Customize your light theme here. -->
-        <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
+<resources>
+    <style name="Theme.OrderlyThreads" parent="Theme.Material3.Light.NoActionBar">
+        <!-- Customize colors here -->
     </style>
-
-    <style name="Theme.OrderlyThreads" parent="Base.Theme.OrderlyThreads" />
 </resources>

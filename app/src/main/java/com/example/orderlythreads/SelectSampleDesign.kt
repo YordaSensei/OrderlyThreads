@@ -17,7 +17,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 
-class selectSampleDesign : AppCompatActivity() {
+class SelectSampleDesign : AppCompatActivity() {
 
     data class DesignItem(
         val imageRes: Int,

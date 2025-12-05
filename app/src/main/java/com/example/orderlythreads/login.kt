@@ -12,6 +12,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.example.orderlythreads.Database.AccountsViewModel
 import com.google.android.material.textfield.TextInputLayout
 
+
 class login : AppCompatActivity() {
     private lateinit var viewModel: AccountsViewModel
 
@@ -43,9 +44,12 @@ class login : AppCompatActivity() {
 
                     if (account.position == "Admin") {
                         startActivity(Intent(this, manage_accounts::class.java))
+                    } else if (account.position == "Order Clerk") {
+                        startActivity(Intent(this, SelectSampleDesign::class.java))
                     }
 
-                    finish()
+                    Toast.makeText(this, "Position = ${account.position}", Toast.LENGTH_LONG).show()
+
                 } else {
                     Toast.makeText(this, "Invalid email or password", Toast.LENGTH_SHORT).show()
                 }
