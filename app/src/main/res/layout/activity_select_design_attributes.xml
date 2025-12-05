@@ -1,0 +1,768 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    tools:context=".selectDesignAttributes"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_marginBottom="55dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingBottom="50dp">
+
+        <TextView
+            android:id="@+id/orderEditTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="28dp"
+            android:layout_marginTop="13dp"
+            android:fontFamily="@font/league_spartan_bold"
+            android:text="@string/make_an_order"
+            android:textColor="@color/black"
+            android:textSize="20sp" />
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/upperWearHeader"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="29dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="30dp"
+            android:layout_marginBottom="7dp"
+            app:cardBackgroundColor="#444243"
+            app:cardCornerRadius="20dp"
+            app:cardElevation="10dp">
+
+            <LinearLayout
+                android:background="@color/white"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:animateLayoutChanges="true">
+
+                <LinearLayout
+                    android:onClick="expandUpperWear"
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:background="#444243"
+                    android:gravity="center_vertical">
+
+                    <TextView
+                        android:paddingStart="15dp"
+                        android:paddingEnd="11dp"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:fontFamily="@font/league_spartan_bold"
+                        android:text="@string/upper_wear"
+                        android:textColor="@color/white"
+                        android:textSize="16sp" />
+
+                    <ImageView
+                        android:id="@+id/upperWearIcon"
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:layout_marginEnd="15dp"
+                        android:importantForAccessibility="no"
+                        android:src="@drawable/icon_plus" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/upperWearLayout"
+                    android:orientation="vertical"
+                    android:visibility="visible"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingStart="11dp"
+                    android:paddingTop="7dp"
+                    android:paddingEnd="11dp"
+                    android:paddingBottom="7dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="5dp"
+                        android:background="@drawable/rounded_bg"
+                        android:backgroundTint="#444243"
+                        android:fontFamily="@font/league_spartan_bold"
+                        android:paddingStart="8dp"
+                        android:paddingTop="5dp"
+                        android:paddingEnd="20dp"
+                        android:paddingBottom="5dp"
+                        android:text="@string/select_garment_type"
+                        android:textColor="@color/white"
+                        android:textSize="11sp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="12dp"
+                        android:fontFamily="@font/dm_sans_medium"
+                        android:text="@string/casual"
+                        android:textColor="#444243"
+                        android:textSize="11sp" />
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/rvUpperCasual"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                        tools:listitem="@layout/item_garment_card"
+                        android:requiresFadingEdge="horizontal"
+                        android:fadingEdgeLength="40dp"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="12dp"
+                        android:fontFamily="@font/dm_sans_medium"
+                        android:text="@string/formal"
+                        android:textColor="#444243"
+                        android:textSize="11sp" />
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/rvUpperFormal"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                        tools:listitem="@layout/item_garment_card"
+                        android:requiresFadingEdge="horizontal"
+                        android:fadingEdgeLength="40dp"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="15dp"
+                        android:background="@drawable/rounded_bg"
+                        android:backgroundTint="#444243"
+                        android:fontFamily="@font/league_spartan_bold"
+                        android:paddingStart="8dp"
+                        android:paddingTop="5dp"
+                        android:paddingEnd="20dp"
+                        android:paddingBottom="5dp"
+                        android:text="@string/material"
+                        android:textColor="@color/white"
+                        android:textSize="11sp" />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:fontFamily="@font/dm_sans_medium"
+                        android:text="@string/fabric"
+                        android:textColor="#444243"
+                        android:textSize="11sp" />
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/rvUpperFabrics"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                        tools:listitem="@layout/item_fabric_card"
+                        android:requiresFadingEdge="horizontal"
+                        android:fadingEdgeLength="40dp"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:fontFamily="@font/dm_sans_medium"
+                        android:text="@string/color"
+                        android:textColor="#444243"
+                        android:textSize="11sp" />
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/rvUpperColors"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                        tools:listitem="@layout/item_color_circle"
+                        android:requiresFadingEdge="horizontal"
+                        android:fadingEdgeLength="40dp"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="15dp"
+                        android:background="@drawable/rounded_bg"
+                        android:backgroundTint="#444243"
+                        android:fontFamily="@font/league_spartan_bold"
+                        android:paddingStart="8dp"
+                        android:paddingTop="5dp"
+                        android:paddingEnd="20dp"
+                        android:paddingBottom="5dp"
+                        android:text="@string/accents"
+                        android:textColor="@color/white"
+                        android:textSize="11sp" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:gravity="center_vertical"
+                        android:layout_marginTop="10dp">
+
+                        <Button
+                            android:id="@+id/addUpperAccentsBtn"
+                            android:layout_width="match_parent"
+                            android:layout_height="50dp"
+                            android:layout_marginTop="10dp"
+                            android:layout_marginStart="5dp"
+                            android:layout_marginEnd="5dp"
+                            android:background="@drawable/add_notes_bg"
+                            android:fontFamily="@font/dm_sans_bold"
+                            android:text="@string/add_sign"
+                            android:textSize="20sp"
+                            app:backgroundTint="@null"
+                            tools:ignore="VisualLintButtonSize" />
+
+                    </LinearLayout>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:fontFamily="@font/dm_sans_medium"
+                        android:text="@string/select_accent"
+                        android:textColor="#444243"
+                        android:textSize="11sp" />
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/rvUpperAccents"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                        tools:listitem="@layout/item_garment_card"
+                        android:requiresFadingEdge="horizontal"
+                        android:fadingEdgeLength="40dp"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:fontFamily="@font/dm_sans_medium"
+                        android:text="@string/accent_color"
+                        android:textColor="#444243"
+                        android:textSize="11sp" />
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/rvUpperAccentsColors"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                        tools:listitem="@layout/item_color_circle"
+                        android:requiresFadingEdge="horizontal"
+                        android:fadingEdgeLength="40dp"/>
+                </LinearLayout>
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/lowerWearHeader"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="29dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="30dp"
+            android:layout_marginBottom="7dp"
+            app:cardBackgroundColor="#444243"
+            app:cardCornerRadius="20dp"
+            app:cardElevation="10dp">
+
+            <LinearLayout
+                android:background="@color/white"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:animateLayoutChanges="true">
+
+                <LinearLayout
+                    android:onClick="expandLowerWear"
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:background="#444243"
+                    android:gravity="center_vertical">
+
+                    <TextView
+                        android:paddingStart="15dp"
+                        android:paddingEnd="11dp"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:fontFamily="@font/league_spartan_bold"
+                        android:text="@string/lower_wear"
+                        android:textColor="@color/white"
+                        android:textSize="16sp" />
+
+                    <ImageView
+                        android:id="@+id/lowerWearIcon"
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:layout_marginEnd="15dp"
+                        android:importantForAccessibility="no"
+                        android:src="@drawable/icon_plus" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/lowerWearLayout"
+                    android:orientation="vertical"
+                    android:visibility="visible"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingStart="11dp"
+                    android:paddingTop="7dp"
+                    android:paddingEnd="11dp"
+                    android:paddingBottom="7dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="5dp"
+                        android:background="@drawable/rounded_bg"
+                        android:backgroundTint="#444243"
+                        android:fontFamily="@font/league_spartan_bold"
+                        android:paddingStart="8dp"
+                        android:paddingTop="5dp"
+                        android:paddingEnd="20dp"
+                        android:paddingBottom="5dp"
+                        android:text="@string/select_garment_type"
+                        android:textColor="@color/white"
+                        android:textSize="11sp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="12dp"
+                        android:fontFamily="@font/dm_sans_medium"
+                        android:text="@string/casual"
+                        android:textColor="#444243"
+                        android:textSize="11sp" />
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/rvLowerCasual"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                        tools:listitem="@layout/item_design_card"
+                        android:requiresFadingEdge="horizontal"
+                        android:fadingEdgeLength="40dp"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="12dp"
+                        android:fontFamily="@font/dm_sans_medium"
+                        android:text="@string/formal"
+                        android:textColor="#444243"
+                        android:textSize="11sp" />
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/rvLowerFormal"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                        tools:listitem="@layout/item_design_card"
+                        android:requiresFadingEdge="horizontal"
+                        android:fadingEdgeLength="40dp"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="15dp"
+                        android:background="@drawable/rounded_bg"
+                        android:backgroundTint="#444243"
+                        android:fontFamily="@font/league_spartan_bold"
+                        android:paddingStart="8dp"
+                        android:paddingTop="5dp"
+                        android:paddingEnd="20dp"
+                        android:paddingBottom="5dp"
+                        android:text="@string/material"
+                        android:textColor="@color/white"
+                        android:textSize="11sp" />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:fontFamily="@font/dm_sans_medium"
+                        android:text="@string/fabric"
+                        android:textColor="#444243"
+                        android:textSize="11sp" />
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/rvLowerFabrics"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                        tools:listitem="@layout/item_fabric_card"
+                        android:requiresFadingEdge="horizontal"
+                        android:fadingEdgeLength="40dp"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:fontFamily="@font/dm_sans_medium"
+                        android:text="@string/color"
+                        android:textColor="#444243"
+                        android:textSize="11sp" />
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/rvLowerColors"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                        tools:listitem="@layout/item_color_circle"
+                        android:requiresFadingEdge="horizontal"
+                        android:fadingEdgeLength="40dp"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="15dp"
+                        android:background="@drawable/rounded_bg"
+                        android:backgroundTint="#444243"
+                        android:fontFamily="@font/league_spartan_bold"
+                        android:paddingStart="8dp"
+                        android:paddingTop="5dp"
+                        android:paddingEnd="20dp"
+                        android:paddingBottom="5dp"
+                        android:text="@string/accents"
+                        android:textColor="@color/white"
+                        android:textSize="11sp" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:gravity="center_vertical"
+                        android:layout_marginTop="10dp">
+
+                        <Button
+                            android:id="@+id/addLowerAccentsBtn"
+                            android:layout_width="match_parent"
+                            android:layout_height="50dp"
+                            android:layout_marginTop="10dp"
+                            android:layout_marginStart="5dp"
+                            android:layout_marginEnd="5dp"
+                            android:background="@drawable/add_notes_bg"
+                            android:fontFamily="@font/dm_sans_bold"
+                            android:text="@string/add_sign"
+                            android:textSize="20sp"
+                            app:backgroundTint="@null"
+                            tools:ignore="VisualLintButtonSize" />
+                    </LinearLayout>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/dm_sans_medium"
+                        android:layout_marginTop="10dp"
+                        android:text="@string/select_accent"
+                        android:textColor="#444243"
+                        android:textSize="11sp" />
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/rvLowerAccents"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                        tools:listitem="@layout/item_design_card"
+                        android:requiresFadingEdge="horizontal"
+                        android:fadingEdgeLength="40dp"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/dm_sans_medium"
+                        android:layout_marginTop="10dp"
+                        android:text="@string/accent_color"
+                        android:textColor="#444243"
+                        android:textSize="11sp" />
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/rvLowerAccentColors"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                        tools:listitem="@layout/item_color_circle"
+                        android:requiresFadingEdge="horizontal"
+                        android:fadingEdgeLength="40dp"/>
+
+                </LinearLayout>
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/clientDetailsCard"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="29dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="30dp"
+            android:layout_marginBottom="30dp"
+            app:cardBackgroundColor="#444243"
+            app:cardCornerRadius="20dp"
+            app:cardElevation="10dp">
+
+            <LinearLayout
+                android:background="@color/white"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:animateLayoutChanges="true">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:background="#444243"
+                    android:gravity="center_vertical"
+                    android:onClick="expandClientDetails"
+                    android:orientation="horizontal"
+                    tools:ignore="TouchTargetSizeCheck">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:fontFamily="@font/league_spartan_bold"
+                        android:paddingStart="15dp"
+                        android:paddingEnd="11dp"
+                        android:text="@string/client_and_order_details"
+                        android:textColor="@color/white"
+                        android:textSize="16sp" />
+
+                    <ImageView
+                        android:id="@+id/clientOrderIcon"
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:layout_marginEnd="15dp"
+                        android:importantForAccessibility="no"
+                        android:src="@drawable/icon_plus" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/clientDetailsLayout"
+                    android:orientation="vertical"
+                    android:visibility="visible"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="11dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="5dp"
+                        android:fontFamily="@font/dm_sans_medium"
+                        android:text="@string/client_name"
+                        android:textColor="#444243"
+                        android:textSize="11sp" />
+
+                    <EditText
+                        android:id="@+id/etClientName"
+                        android:layout_width="match_parent"
+                        android:layout_height="48dp"
+                        android:layout_marginTop="5dp"
+                        android:autofillHints="name"
+                        android:background="@drawable/rounded_bg"
+                        android:backgroundTint="#F0F0F0"
+                        android:hint="@string/enter_name"
+                        android:inputType="textPersonName"
+                        android:minHeight="48dp"
+                        android:paddingStart="10dp"
+                        android:paddingEnd="10dp"
+                        android:textSize="12sp"
+                        tools:ignore="VisualLintTextFieldSize" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="5dp"
+                        android:fontFamily="@font/dm_sans_medium"
+                        android:text="@string/contact_information"
+                        android:textColor="#444243"
+                        android:textSize="11sp" />
+
+                    <EditText
+                        android:id="@+id/etContactInfo"
+                        android:layout_width="match_parent"
+                        android:layout_height="48dp"
+                        android:layout_marginTop="5dp"
+                        android:autofillHints="postalAddress"
+                        android:background="@drawable/rounded_bg"
+                        android:backgroundTint="#F0F0F0"
+                        android:hint="@string/enter_contact_information"
+                        android:inputType="textPersonName"
+                        android:minHeight="48dp"
+                        android:paddingStart="10dp"
+                        android:paddingEnd="10dp"
+                        android:textSize="12sp"
+                        tools:ignore="VisualLintTextFieldSize" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="15dp"
+                        android:background="@drawable/rounded_bg"
+                        android:backgroundTint="#444243"
+                        android:fontFamily="@font/league_spartan_bold"
+                        android:paddingStart="8dp"
+                        android:paddingTop="5dp"
+                        android:paddingEnd="20dp"
+                        android:paddingBottom="5dp"
+                        android:text="@string/measurements"
+                        android:textColor="@color/white"
+                        android:textSize="11sp" />
+
+                    <GridLayout
+                        android:id="@+id/gridClientDetails"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:columnCount="2"
+                        android:alignmentMode="alignMargins">
+
+                        <EditText
+                            android:id="@+id/waistMeasurement"
+                            android:layout_width="0dp"
+                            android:layout_height="35dp"
+                            android:layout_columnWeight="1"
+                            android:layout_marginEnd="5dp"
+                            android:layout_marginBottom="10dp"
+                            android:background="@drawable/measurements_bg"
+                            android:hint="@string/waist"
+                            android:importantForAutofill="no"
+                            android:inputType="numberDecimal"
+                            android:paddingStart="10dp"
+                            android:textSize="11sp"
+                            tools:ignore="RtlSymmetry,VisualLintTextFieldSize,TouchTargetSizeCheck" />
+
+                        <EditText
+                            android:id="@+id/hipMeasurement"
+                            android:layout_width="0dp"
+                            android:layout_height="35dp"
+                            android:layout_columnWeight="1"
+                            android:layout_marginStart="5dp"
+                            android:layout_marginBottom="10dp"
+                            android:background="@drawable/measurements_bg"
+                            android:hint="@string/hips"
+                            android:importantForAutofill="no"
+                            android:inputType="numberDecimal"
+                            android:paddingStart="10dp"
+                            android:textSize="11sp"
+                            tools:ignore="RtlSymmetry,TouchTargetSizeCheck,VisualLintTextFieldSize" />
+
+                        <EditText
+                            android:id="@+id/chestMeasurement"
+                            android:layout_width="0dp"
+                            android:layout_height="35dp"
+                            android:layout_columnWeight="1"
+                            android:layout_marginEnd="5dp"
+                            android:layout_marginBottom="10dp"
+                            android:background="@drawable/measurements_bg"
+                            android:hint="@string/chest_bust"
+                            android:importantForAutofill="no"
+                            android:inputType="numberDecimal"
+                            android:paddingStart="10dp"
+                            android:textSize="11sp"
+                            tools:ignore="RtlSymmetry,TouchTargetSizeCheck,VisualLintTextFieldSize" />
+
+                        <EditText
+                            android:id="@+id/lengthMeasurement"
+                            android:layout_width="0dp"
+                            android:layout_height="35dp"
+                            android:layout_columnWeight="1"
+                            android:layout_marginStart="5dp"
+                            android:layout_marginBottom="10dp"
+                            android:background="@drawable/measurements_bg"
+                            android:hint="@string/garment_length"
+                            android:importantForAutofill="no"
+                            android:inputType="numberDecimal"
+                            android:paddingStart="10dp"
+                            android:textSize="11sp"
+                            tools:ignore="RtlSymmetry,TouchTargetSizeCheck,VisualLintTextFieldSize" />
+
+                        <EditText
+                            android:id="@+id/shoulderMeasurement"
+                            android:layout_width="0dp"
+                            android:layout_height="35dp"
+                            android:layout_columnWeight="1"
+                            android:layout_marginEnd="5dp"
+                            android:layout_marginBottom="10dp"
+                            android:background="@drawable/measurements_bg"
+                            android:hint="@string/shoulder_width"
+                            android:importantForAutofill="no"
+                            android:inputType="numberDecimal"
+                            android:paddingStart="10dp"
+                            android:textSize="11sp"
+                            tools:ignore="RtlSymmetry,TouchTargetSizeCheck,VisualLintTextFieldSize" />
+
+                        <EditText
+                            android:id="@+id/sleeveMeasurement"
+                            android:layout_width="0dp"
+                            android:layout_height="35dp"
+                            android:layout_columnWeight="1"
+                            android:layout_marginStart="5dp"
+                            android:layout_marginBottom="10dp"
+                            android:background="@drawable/measurements_bg"
+                            android:hint="@string/sleeve_length"
+                            android:importantForAutofill="no"
+                            android:inputType="numberDecimal"
+                            android:paddingStart="10dp"
+                            android:textSize="11sp"
+                            tools:ignore="RtlSymmetry,TouchTargetSizeCheck,VisualLintTextFieldSize" />
+
+                    </GridLayout>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="15dp"
+                        android:fontFamily="@font/dm_sans_medium"
+                        android:text="@string/notes"
+                        android:textColor="#444243"
+                        android:textSize="11sp" />
+
+                    <EditText
+                        android:id="@+id/notesDetails"
+                        android:layout_width="match_parent"
+                        android:layout_height="80dp"
+                        android:layout_marginTop="5dp"
+                        android:minHeight="48dp"
+                        android:background="@drawable/rounded_bg"
+                        android:backgroundTint="#F0F0F0"
+                        android:gravity="top|start"
+                        android:importantForAutofill="no"
+                        android:padding="10dp"
+                        android:textSize="12sp"
+                        android:hint="@string/add_additional_details"
+                        android:inputType="textMultiLine"
+                        tools:ignore="VisualLintTextFieldSize" />
+
+                    <Button
+                        android:id="@+id/btnSubmitOrder"
+                        android:layout_width="match_parent"
+                        android:layout_height="50dp"
+                        android:layout_marginTop="20dp"
+                        android:layout_marginBottom="10dp"
+                        android:background="@drawable/add_notes_bg"
+                        android:text="@string/save_order"
+                        android:textColor="#444023"
+                        android:fontFamily="@font/dm_sans_bold"
+                        app:backgroundTint="@null"
+                        tools:ignore="VisualLintButtonSize" />
+
+                </LinearLayout>
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
+    </LinearLayout>
+</ScrollView>

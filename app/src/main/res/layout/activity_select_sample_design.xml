@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    tools:context=".selectSampleDesign"
+    android:background="#f6f6f6"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:id="@+id/headerLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:id="@+id/orderClerkTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="34.5sp"
+            android:layout_marginTop="34.5sp"
+            android:fontFamily="@font/league_spartan_bold"
+            android:text="@string/make_an_order"
+            android:textColor="@color/black"
+            android:textSize="11.7pt" />
+
+        <Button
+            android:id="@+id/makeOrderBtn"
+            android:layout_width="match_parent"
+            android:layout_height="45sp"
+            android:layout_marginStart="34.5sp"
+            android:layout_marginTop="17sp"
+            android:layout_marginEnd="40sp"
+            android:background="@drawable/bg_dashboard"
+            android:backgroundTint="@color/white"
+            android:fontFamily="@font/dm_sans_bold"
+            android:text="@string/add_sign"
+            android:textSize="25sp"
+            app:backgroundTint="@null" />
+
+        <TextView
+            android:id="@+id/sampleDesignsTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="34.5sp"
+            android:layout_marginTop="34sp"
+            android:fontFamily="@font/league_spartan_bold"
+            android:text="@string/sample_designs"
+            android:textColor="@color/black"
+            android:textSize="11.7pt" />
+
+    </LinearLayout>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvSampleDesigns"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:paddingStart="20dp"
+        android:paddingEnd="20dp"
+        android:clipToPadding="false"
+        android:layout_marginTop="10dp"
+        app:layout_constraintTop_toBottomOf="@id/headerLayout"
+        app:layout_constraintBottom_toBottomOf="parent"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
