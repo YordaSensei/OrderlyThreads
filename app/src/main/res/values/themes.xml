@@ -1,5 +1,8 @@
 <resources>
     <style name="Theme.OrderlyThreads" parent="Theme.Material3.Light.NoActionBar">
         <!-- Customize colors here -->
+        <item name="android:navigationBarColor">@android:color/transparent</item>
+        <item name="android:statusBarColor">@android:color/transparent</item>
+        <item name="android:windowLightStatusBar">?attr/isLightTheme</item>
     </style>
 </resources>
