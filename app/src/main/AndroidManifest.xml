@@ -24,6 +24,15 @@
             android:name=".SelectSampleDesign"
             android:exported="false" />
         <activity
+            android:name=".Approve_Order_Check"
+            android:exported="false" />
+        <activity
+            android:name=".Order_Stock_Check"
+            android:exported="false" />
+        <activity
+            android:name=".Inventory"
+            android:exported="false" />
+        <activity
             android:name=".login"
             android:exported="true">
         <intent-filter>

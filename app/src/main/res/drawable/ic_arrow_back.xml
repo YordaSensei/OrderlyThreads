@@ -1,0 +1,13 @@
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="32dp"
+    android:height="32dp"
+    android:viewportWidth="30"
+    android:viewportHeight="24"
+    android:tint="#000000">
+
+    <!-- Thick, filled left arrow -->
+    <path
+        android:fillColor="#000000"
+        android:pathData="M17,3L5,12l12,9l3,-3l-9,-6l9,-6z"
+        />
+</vector>
