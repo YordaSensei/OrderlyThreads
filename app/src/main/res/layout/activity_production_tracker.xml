@@ -79,17 +79,17 @@
                 android:id="@+id/schedule"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:fontFamily="@font/dm_sans"
-                android:textColor="#004aad"
-                android:layout_marginTop="2dp"
                 android:layout_marginStart="5dp"
+                android:layout_marginTop="2dp"
+                android:fontFamily="@font/dm_sans"
                 android:text="January 1 - 00:00 AM"
+                android:textColor="#004aad"
                 android:textSize="16sp" />
 
         </LinearLayout>
 
         <TextView
-            android:id="@+id/schedule2"
+            android:id="@+id/label"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="180dp"
@@ -453,10 +453,10 @@
         app:layout_constraintStart_toStartOf="parent"/>
 
     <Button
-        android:id="@+id/completeBtn"
+        android:id="@+id/updateBtn"
         android:layout_width="360dp"
         android:layout_height="wrap_content"
-        android:text="Mark as Complete"
+        android:text="Update Order"
         android:fontFamily="@font/dm_sans_extrabold"
         android:textSize="22dp"
         android:background="@drawable/green_background"

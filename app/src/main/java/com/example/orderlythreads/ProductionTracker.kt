@@ -15,10 +15,26 @@ import android.widget.AdapterView
 import android.widget.TextView
 import android.widget.Button
 import android.widget.Toast
+import android.content.Intent
 
 
 class ProductionTracker : AppCompatActivity() {
     private var selectedStatus: Int = 0 // Stores status as a global variable
+
+    private fun sendResultandFinish (finalStatus: String) {
+        val receiveOrderIndex = intent.getIntExtra("orderIndex",  -1)
+        val originalStatus = intent.getStringExtra("originalStatus")
+
+        //sends data back to be removed
+        val resultIntent = Intent().apply {
+            putExtra("orderIndex", receiveOrderIndex)
+            putExtra("originalStatus", originalStatus)
+            putExtra("finalStatus", finalStatus)
+        }
+
+        setResult(RESULT_OK, resultIntent)
+        finish()
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -28,6 +44,30 @@ class ProductionTracker : AppCompatActivity() {
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
+        }
+
+        val backBtn = findViewById<ImageView>(R.id.imageButton)
+
+        backBtn.setOnClickListener {
+            finish()
+        }
+
+        val clientNameView = findViewById<TextView>(R.id.clientName)
+        val scheduleView = findViewById<TextView>(R.id.schedule)
+        val labelView = findViewById<TextView>(R.id.label)
+        val imageView = findViewById<ImageView>(R.id.garmentContainer)
+
+        val clientName = intent.getStringExtra("clientName")
+        val schedule = intent.getStringExtra("orderDate")
+        val label = intent.getStringExtra("label")
+        val image = intent.getIntExtra("orderImage", 0)
+
+        clientNameView.text = clientName
+        scheduleView.text = schedule
+        labelView.text = label
+
+        if (image != 0) {
+            imageView.setImageResource(image)
         }
 
         //Spinner adapter
@@ -41,8 +81,17 @@ class ProductionTracker : AppCompatActivity() {
         )
 
         adapter.setDropDownViewResource(R.layout.spinner_process_item)
-
         spinner.adapter = adapter
+
+        val originalStatus = intent.getStringExtra("originalStatus")
+        val startingPosition = when (originalStatus) {
+            "Cutting" -> 1
+            "Sewing" -> 2
+            "Finishing" -> 3
+            else -> 0
+        }
+
+        spinner.setSelection(startingPosition)
 
         //Icon and text color handler for production status
         val processIcon = listOf<ImageView>(
@@ -79,31 +128,45 @@ class ProductionTracker : AppCompatActivity() {
             override fun onNothingSelected(parent: AdapterView<*>) {}
         }
 
-
-
             // Pop up alert when order is completed
             val dialog = Dialog(this)
             dialog.setContentView(R.layout.popup_yes_no)
             dialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
 
-            val yesBtn  =  dialog.findViewById<Button>(R.id.yesBtn)
-            val noBtn  =  dialog.findViewById<Button>(R.id.noBtn)
-            val completeBtn =  findViewById<Button>(R.id.completeBtn)
 
-            completeBtn.setOnClickListener { view ->
-                    if (selectedStatus == 3) {
-                    dialog.show()
+            val updateBtn =  findViewById<Button>(R.id.updateBtn)
+
+        updateBtn.setOnClickListener {
+            val newStatus = items[selectedStatus]
+            val originalStatus = intent.getStringExtra("originalStatus")
+
+            if (newStatus == originalStatus)  {
+                Toast.makeText(this, "No changes made.", Toast.LENGTH_SHORT).show()
+                finish()
+            }
+
+            if (selectedStatus == 3) {
+                    val dialog  =  Dialog(this)
+                    dialog.setContentView(R.layout.popup_yes_no)
+                    dialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
+
+                val yesBtn  =  dialog.findViewById<Button>(R.id.yesBtn)
+                val noBtn  =  dialog.findViewById<Button>(R.id.noBtn)
 
                     yesBtn.setOnClickListener {
-                        Toast.makeText(this, "Order Completed!", Toast.LENGTH_SHORT).show()
                         dialog.dismiss()
-                    }
+                        Toast.makeText(this, "Order Completed!", Toast.LENGTH_SHORT).show()
+                        sendResultandFinish("Completed")
+                        }
 
                     noBtn.setOnClickListener {
                         dialog.dismiss()
                     }
+
+                dialog.show()
                 }  else {
-                Toast.makeText(this, "Order still not yet finished!", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, "Order not yet finished!", Toast.LENGTH_SHORT).show()
+                sendResultandFinish(newStatus)
                     }
             }
     }
