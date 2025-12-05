@@ -15,11 +15,11 @@
             android:name=".Approve_Order_Check"
             android:exported="false" />
         <activity
-            android:name=".Inventory"
+            android:name=".Order_Stock_Check"
             android:exported="false"
             android:theme="@style/Theme.OrderlyThreads" />
         <activity
-            android:name=".Order_Stock_Check"
+            android:name=".Inventory"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

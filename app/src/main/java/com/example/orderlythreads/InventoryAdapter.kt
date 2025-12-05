@@ -9,8 +9,8 @@ import androidx.recyclerview.widget.RecyclerView
 
 //MODEL
 data class InventoryItem(
-    val name: String,
-    val quantity: String,
+    var name: String,
+    var quantity: String,
     val imageRes: Int)
 
 class InventoryAdapter(
@@ -49,5 +49,9 @@ class InventoryAdapter(
     fun updateData(newData: MutableList<InventoryItem>) {
         data = newData
         notifyDataSetChanged() // Keep for tab switching
+    }
+    fun addItem(newItem: InventoryItem) {
+        data.add(newItem)
+        notifyItemInserted(data.size - 1)
     }
 }

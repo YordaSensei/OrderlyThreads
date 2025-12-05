@@ -1,7 +1,9 @@
 package com.example.orderlythreads
 
 import android.os.Bundle
+import android.widget.Button
 import android.widget.EditText
+import android.widget.FrameLayout
 import android.widget.TextView
 import android.widget.PopupMenu
 import android.widget.Toast
@@ -14,6 +16,35 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 
 class Inventory : AppCompatActivity() {
+
+    private lateinit var adapter: InventoryAdapter
+    private var selectedTab = 0
+
+    // DATA LISTS
+    private val fabricData = mutableListOf(
+        InventoryItem("Merino", "20", R.drawable.img_merino),
+        InventoryItem("Souffle Yarn", "20", R.drawable.img_scouffle_yarn),
+        InventoryItem("Lambswool", "20", R.drawable.img_lambswool),
+        InventoryItem("Cashmere", "20", R.drawable.img_cashmere),
+        InventoryItem("Milano Ribbed", "20", R.drawable.img_milano_ribbed),
+        InventoryItem("Alpaca", "20", R.drawable.img_alpaca)
+    )
+
+    private val colorData = mutableListOf(
+        InventoryItem("Solid", "10", R.drawable.img_solid_color),
+        InventoryItem("Striped", "10", R.drawable.img_striped_color),
+        InventoryItem("Checkered", "10", R.drawable.img_checkered)
+    )
+
+    private val closuresData = mutableListOf(
+        InventoryItem("Button", "20", R.drawable.img_button),
+        InventoryItem("Zipper", "20", R.drawable.img_zipper)
+    )
+
+    private val accentsData = mutableListOf(
+        InventoryItem("Bows", "20", R.drawable.img_bow),
+        InventoryItem("Rivets", "20", R.drawable.img_pearls)
+    )
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -31,47 +62,23 @@ class Inventory : AppCompatActivity() {
         val tab2 = findViewById<TextView>(R.id.tab2)
         val tab3 = findViewById<TextView>(R.id.tab3)
         val tab4 = findViewById<TextView>(R.id.tab4)
+        val addButton = findViewById<FrameLayout>(R.id.addButton)
+
 
         val tabs = listOf(tab1, tab2, tab3, tab4)
 
-        tabs.forEach { tab ->
+        tabs.forEachIndexed { index, tab ->
             tab.setOnClickListener {
                 tabs.forEach { it.isSelected = false }
                 tab.isSelected = true
+                selectedTab = index
+                updateDataForSelectedTab()
             }
         }
 
-        // DATA LISTS
-        val fabricData = mutableListOf(
-            InventoryItem("Merino", "20", R.drawable.img_merino),
-            InventoryItem("Souffle Yarn", "20", R.drawable.img_scouffle_yarn),
-            InventoryItem("Lambswool", "20", R.drawable.img_lambswool),
-            InventoryItem("Cashmere", "20", R.drawable.img_cashmere),
-            InventoryItem("Milano Ribbed", "20", R.drawable.img_milano_ribbed),
-            InventoryItem("Alpaca", "20", R.drawable.img_alpaca)
-        )
-
-        val colorData = mutableListOf(
-            InventoryItem("Solid", "10", R.drawable.img_solid_color),
-            InventoryItem("Striped", "10", R.drawable.img_striped_color),
-            InventoryItem("Checkered", "10", R.drawable.img_checkered)
-        )
-
-        val closuresData = mutableListOf(
-            InventoryItem("Button", "20", R.drawable.img_button),
-            InventoryItem("Zipper", "20", R.drawable.img_zipper)
-        )
-
-        val accentsData = mutableListOf(
-            InventoryItem("Bows", "20", R.drawable.img_bow),
-            InventoryItem("Rivets", "20", R.drawable.img_pearls)
-        )
-
         // RECYCLER + ADAPTER
-        lateinit var adapter: InventoryAdapter
         val recycler = findViewById<RecyclerView>(R.id.inventoryRecycler)
-
-        adapter = InventoryAdapter(fabricData) { item, position, anchorView ->
+        adapter = InventoryAdapter(mutableListOf()) { item, position, anchorView ->
             // Create and show the popup menu
             val popup = PopupMenu(this, anchorView)
             popup.menuInflater.inflate(R.menu.inventory_card_menu, popup.menu)
@@ -82,7 +89,8 @@ class Inventory : AppCompatActivity() {
                     R.id.edit -> {
                         // Open dialog to edit item
                         showEditDialog(item.name, item.quantity) { newName, newQty ->
-                            adapter.items[position] = item.copy(name = newName, quantity = newQty)
+                            item.name = newName
+                            item.quantity = newQty
                             adapter.notifyItemChanged(position)
                             Toast.makeText(this, "Item updated", Toast.LENGTH_SHORT).show()
                         }
@@ -93,7 +101,7 @@ class Inventory : AppCompatActivity() {
                         // Increment quantity
                         val currentQty = item.quantity.toIntOrNull() ?: 0
                         val newQty = currentQty + 1
-                        adapter.items[position] = item.copy(quantity = newQty.toString())
+                        item.quantity = newQty.toString()
                         adapter.notifyItemChanged(position)
                         Toast.makeText(this, "${item.name} quantity: $newQty", Toast.LENGTH_SHORT).show()
                         true
@@ -120,36 +128,61 @@ class Inventory : AppCompatActivity() {
 
             popup.show()
         }
-
         recycler.adapter = adapter
+        recycler.layoutManager = GridLayoutManager(this, 2)
 
-        // TAB CONTENT SWITCHING
-        tab1.setOnClickListener {
-            tabs.forEach { it.isSelected = false }
-            tab1.isSelected = true
-            adapter.updateData(fabricData)
+        // ADD BUTTON
+        addButton.setOnClickListener {
+            showAddItemDialog()
         }
 
-        tab2.setOnClickListener {
-            tabs.forEach { it.isSelected = false }
-            tab2.isSelected = true
-            adapter.updateData(colorData)
-        }
-
-        tab3.setOnClickListener {
-            tabs.forEach { it.isSelected = false }
-            tab3.isSelected = true
-            adapter.updateData(closuresData)
-        }
-
-        tab4.setOnClickListener {
-            tabs.forEach { it.isSelected = false }
-            tab4.isSelected = true
-            adapter.updateData(accentsData)
-        }
 
         // DEFAULT LOAD
-        adapter.updateData(fabricData)
+        tabs[0].isSelected = true
+        updateDataForSelectedTab()
+    }
+    private fun updateDataForSelectedTab() {
+        when (selectedTab) {
+            0 -> adapter.updateData(fabricData)
+            1 -> adapter.updateData(colorData)
+            2 -> adapter.updateData(closuresData)
+            3 -> adapter.updateData(accentsData)
+        }
+    }
+
+
+    private fun showAddItemDialog() {
+        val dialogView = layoutInflater.inflate(R.layout.dialog_add_item, null)
+        val itemName = dialogView.findViewById<EditText>(R.id.editItemName)
+        val itemQuantity = dialogView.findViewById<EditText>(R.id.editItemQuantity)
+        val selectImageButton = dialogView.findViewById<Button>(R.id.selectImageButton)
+
+        selectImageButton.setOnClickListener {
+            Toast.makeText(this, "Image selection is not implemented yet", Toast.LENGTH_SHORT).show()
+        }
+
+        AlertDialog.Builder(this)
+            .setTitle("Add New Item")
+            .setView(dialogView)
+            .setPositiveButton("Add") { _, _ ->
+                val name = itemName.text.toString()
+                val quantity = itemQuantity.text.toString()
+
+                if (name.isNotEmpty() && quantity.isNotEmpty()) {
+                    val newItem = InventoryItem(name, quantity, R.drawable.img_placeholder)
+                    when (selectedTab) {
+                        0 -> fabricData.add(newItem)
+                        1 -> colorData.add(newItem)
+                        2 -> closuresData.add(newItem)
+                        3 -> accentsData.add(newItem)
+                    }
+                    updateDataForSelectedTab()
+                } else {
+                    Toast.makeText(this, "Please fill all fields", Toast.LENGTH_SHORT).show()
+                }
+            }
+            .setNegativeButton("Cancel", null)
+            .show()
     }
 
     private fun showEditDialog(
