@@ -4,9 +4,13 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
+import android.widget.ArrayAdapter
 import android.widget.Button
 import android.widget.TextView
 import android.widget.ImageView
+import android.widget.Spinner
+import android.widget.AdapterView
+import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
@@ -64,18 +68,51 @@ class Approve_Order_Check : AppCompatActivity() {
 
         val dialog = dialogBuilder.create()
 
-        val lowStockMaterial = dialogView.findViewById<TextView>(R.id.lowStockMaterial)
+        val spinnerRejectReason = dialogView.findViewById<Spinner>(R.id.spinnerRejectReason)
+        val spinnerRejectMaterial = dialogView.findViewById<Spinner>(R.id.spinnerRejectMaterial)
         val cancelButton = dialogView.findViewById<Button>(R.id.cancelButton)
         val rejectConfirmButton = dialogView.findViewById<Button>(R.id.rejectConfirmButton)
 
-        // TODO: Replace with actual low stock material
-        lowStockMaterial.text = "The following material is low in stock: White Thread"
+        val rejectionReasons = listOf("Out of Stock", "Damaged Item", "Wrong Order", "Customer Cancelled", "Other")
+        val reasonAdapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, rejectionReasons)
+        reasonAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        spinnerRejectReason.adapter = reasonAdapter
+
+        var selectedRejectReason: String? = null
+        spinnerRejectReason.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+                selectedRejectReason = parent?.getItemAtPosition(position).toString()
+            }
+
+            override fun onNothingSelected(parent: AdapterView<*>?) {
+                selectedRejectReason = null
+            }
+        }
+
+        //PLACEHOLDER VALUES
+        val lowStockMaterials = listOf("White Thread", "Blue Fabric", "Small Buttons", "Zipper Type A")
+        val materialAdapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, lowStockMaterials)
+        materialAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        spinnerRejectMaterial.adapter = materialAdapter
+
+        var selectedRejectMaterial: String? = null
+        spinnerRejectMaterial.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+                selectedRejectMaterial = parent?.getItemAtPosition(position).toString()
+            }
+
+            override fun onNothingSelected(parent: AdapterView<*>?) {
+                selectedRejectMaterial = null
+            }
+        }
 
         cancelButton.setOnClickListener {
             dialog.dismiss()
         }
 
         rejectConfirmButton.setOnClickListener {
+            Toast.makeText(this, "Rejected because: $selectedRejectReason, Low-stock item: $selectedRejectMaterial", Toast.LENGTH_LONG).show()
+
             dialog.dismiss()
             finish()
         }

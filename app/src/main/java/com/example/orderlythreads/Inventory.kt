@@ -3,9 +3,11 @@ package com.example.orderlythreads
 import android.app.Dialog
 import android.os.Bundle
 import android.view.View
+import android.widget.ArrayAdapter
 import android.widget.Button
 import android.widget.EditText
 import android.widget.FrameLayout
+import android.widget.Spinner
 import android.widget.TextView
 import android.widget.PopupMenu
 import android.widget.Toast
@@ -14,40 +16,23 @@ import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.orderlythreads.Database.Inventory
+import com.example.orderlythreads.Database.InventoryDao
+import com.example.orderlythreads.Database.OrderlyThreadsDatabase
+import com.example.orderlythreads.Database.InventoryRepository
+import android.widget.AdapterView
 
 class Inventory : AppCompatActivity() {
 
     private lateinit var adapter: InventoryAdapter
-    private var selectedTab = 0
+    private lateinit var inventoryViewModel: InventoryViewModel
+    private lateinit var inventoryDao: InventoryDao
 
-    // region Data Lists
-    private val fabricData = mutableListOf(
-        InventoryItem("Merino", "20", R.drawable.img_merino),
-        InventoryItem("Souffle Yarn", "20", R.drawable.img_scouffle_yarn),
-        InventoryItem("Lambswool", "20", R.drawable.img_lambswool),
-        InventoryItem("Cashmere", "20", R.drawable.img_cashmere),
-        InventoryItem("Milano Ribbed", "20", R.drawable.img_milano_ribbed),
-        InventoryItem("Alpaca", "20", R.drawable.img_alpaca)
-    )
-
-    private val colorData = mutableListOf(
-        InventoryItem("Solid", "10", R.drawable.img_solid_color),
-        InventoryItem("Striped", "10", R.drawable.img_striped_color),
-        InventoryItem("Checkered", "10", R.drawable.img_checkered)
-    )
-
-    private val closuresData = mutableListOf(
-        InventoryItem("Button", "20", R.drawable.img_button),
-        InventoryItem("Zipper", "20", R.drawable.img_zipper)
-    )
-
-    private val accentsData = mutableListOf(
-        InventoryItem("Bows", "20", R.drawable.img_bow),
-        InventoryItem("Rivets", "20", R.drawable.img_pearls)
-    )
-    // endregion
+    // Category names matching the tabs
+    private val categoryNames = listOf("Fabric", "Color/Pattern", "Basic Materials", "Accents")
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -55,12 +40,24 @@ class Inventory : AppCompatActivity() {
         setContentView(R.layout.inventory)
         
         setupWindowInsets()
+
+        // Initialize Room Database components
+        inventoryDao = OrderlyThreadsDatabase.getDatabase(applicationContext).inventoryDao()
+        val repository = InventoryRepository(inventoryDao)
+        val viewModelFactory = InventoryViewModelFactory(repository)
+        inventoryViewModel = ViewModelProvider(this, viewModelFactory).get(InventoryViewModel::class.java)
+
         setupTabs()
         setupRecyclerView()
+
+        // Observe inventory items from ViewModel
+        inventoryViewModel.inventoryItems.observe(this) { inventoryList ->
+            inventoryList?.let { adapter.updateData(it.toMutableList()) }
+        }
         
-        // Set initial state
+        // Set initial state for the first tab and trigger data load
         findViewById<TextView>(R.id.tab1).isSelected = true
-        updateDataForSelectedTab()
+        inventoryViewModel.setCategory(categoryNames[0])
     }
 
     private fun setupWindowInsets() {
@@ -84,8 +81,8 @@ class Inventory : AppCompatActivity() {
             tab.setOnClickListener {
                 tabs.forEach { it.isSelected = false }
                 tab.isSelected = true
-                selectedTab = index
-                updateDataForSelectedTab()
+                // Update selected category in ViewModel
+                inventoryViewModel.setCategory(categoryNames[index])
             }
         }
         
@@ -103,40 +100,28 @@ class Inventory : AppCompatActivity() {
         recycler.layoutManager = GridLayoutManager(this, 2)
     }
 
-    private fun updateDataForSelectedTab() {
-        when (selectedTab) {
-            0 -> adapter.updateData(fabricData)
-            1 -> adapter.updateData(colorData)
-            2 -> adapter.updateData(closuresData)
-            3 -> adapter.updateData(accentsData)
-        }
-    }
-
-    private fun showItemMenu(item: InventoryItem, position: Int, anchorView: View) {
+    private fun showItemMenu(item: Inventory, position: Int, anchorView: View) {
         val popup = PopupMenu(this, anchorView)
         popup.menuInflater.inflate(R.menu.inventory_card_menu, popup.menu)
 
         popup.setOnMenuItemClickListener { menuItem ->
             when (menuItem.itemId) {
                 R.id.edit -> {
-                    showEditDialog(item.name, item.quantity) { newName, newQty ->
-                        item.name = newName
-                        item.quantity = newQty
-                        adapter.notifyItemChanged(position)
+                    showEditDialog(item) { updatedItem ->
+                        inventoryViewModel.updateItem(updatedItem)
                         Toast.makeText(this, "Item updated", Toast.LENGTH_SHORT).show()
                     }
                     true
                 }
                 R.id.add -> {
-                    val currentQty = item.quantity.toIntOrNull() ?: 0
-                    val newQty = currentQty + 1
-                    item.quantity = newQty.toString()
-                    adapter.notifyItemChanged(position)
-                    Toast.makeText(this, "${item.name} quantity: $newQty", Toast.LENGTH_SHORT).show()
+                    val newQuantity = item.quantity + 1
+                    val updatedItem = item.copy(quantity = newQuantity)
+                    inventoryViewModel.updateItem(updatedItem)
+                    Toast.makeText(this, "${item.material} quantity: $newQuantity", Toast.LENGTH_SHORT).show()
                     true
                 }
                 R.id.delete -> {
-                    showDeleteConfirmationDialog(item, position)
+                    showDeleteConfirmationDialog(item)
                     true
                 }
                 else -> false
@@ -145,17 +130,19 @@ class Inventory : AppCompatActivity() {
         popup.show()
     }
 
+    // region Dialogs
     private fun showAddItemDialog() {
         val dialogView = layoutInflater.inflate(R.layout.dialog_add_item, null)
-        val itemName = dialogView.findViewById<EditText>(R.id.editItemName)
-        val itemQuantity = dialogView.findViewById<EditText>(R.id.editItemQuantity)
+        val dialogTitle = dialogView.findViewById<TextView>(R.id.title) // Corrected ID
+        val itemNameEditText = dialogView.findViewById<EditText>(R.id.editItemName)
+        val itemQuantityEditText = dialogView.findViewById<EditText>(R.id.editItemQuantity)
         val selectImageButton = dialogView.findViewById<Button>(R.id.selectImageButton)
         val btnAddItem = dialogView.findViewById<Button>(R.id.btn_add_item)
         val btnCancelAddItem = dialogView.findViewById<Button>(R.id.btn_cancel_add_item)
 
         val dialog = Dialog(this)
         dialog.setContentView(dialogView)
-        dialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
+        dialog.window?.setBackgroundDrawableResource(android.R.color.transparent) // Make dialog background transparent
         dialog.setCancelable(true)
 
         selectImageButton.setOnClickListener {
@@ -163,18 +150,14 @@ class Inventory : AppCompatActivity() {
         }
 
         btnAddItem.setOnClickListener { _ ->
-            val name = itemName.text.toString()
-            val quantity = itemQuantity.text.toString()
+            val material = itemNameEditText.text.toString()
+            val quantityStr = itemQuantityEditText.text.toString()
 
-            if (name.isNotEmpty() && quantity.isNotEmpty()) {
-                val newItem = InventoryItem(name, quantity, R.drawable.img_placeholder)
-                when (selectedTab) {
-                    0 -> fabricData.add(newItem)
-                    1 -> colorData.add(newItem)
-                    2 -> closuresData.add(newItem)
-                    3 -> accentsData.add(newItem)
-                }
-                updateDataForSelectedTab()
+            if (material.isNotEmpty() && quantityStr.isNotEmpty()) {
+                val quantity = quantityStr.toIntOrNull() ?: 0
+                val currentCategory = inventoryViewModel.selectedCategory.value ?: "Unknown"
+                val newItem = Inventory(category = currentCategory, material = material, quantity = quantity, imageRes = R.drawable.img_placeholder)
+                inventoryViewModel.addItem(newItem)
                 dialog.dismiss()
             } else {
                 Toast.makeText(this, "Please fill all fields", Toast.LENGTH_SHORT).show()
@@ -189,25 +172,26 @@ class Inventory : AppCompatActivity() {
     }
 
     private fun showEditDialog(
-        currentName: String,
-        currentQuantity: String,
-        onSave: (String, String) -> Unit
+        item: Inventory,
+        onSave: (Inventory) -> Unit
     ) {
         val dialogView = layoutInflater.inflate(R.layout.dialog_edit_item, null)
         val nameInput = dialogView.findViewById<EditText>(R.id.editName)
         val quantityInput = dialogView.findViewById<EditText>(R.id.editQuantity)
 
-        nameInput.setText(currentName)
-        quantityInput.setText(currentQuantity)
+        nameInput.setText(item.material)
+        quantityInput.setText(item.quantity.toString())
 
         AlertDialog.Builder(this)
             .setTitle("Edit Item")
             .setView(dialogView)
             .setPositiveButton("Save") { _, _ ->
                 val newName = nameInput.text.toString().trim()
-                val newQuantity = quantityInput.text.toString().trim()
-                if (newName.isNotEmpty() && newQuantity.isNotEmpty()) {
-                    onSave(newName, newQuantity)
+                val newQuantityStr = quantityInput.text.toString().trim()
+                if (newName.isNotEmpty() && newQuantityStr.isNotEmpty()) {
+                    val newQuantity = newQuantityStr.toIntOrNull() ?: 0
+                    val updatedItem = item.copy(material = newName, quantity = newQuantity)
+                    onSave(updatedItem)
                 } else {
                     Toast.makeText(this, "Please fill all fields", Toast.LENGTH_SHORT).show()
                 }
@@ -216,14 +200,13 @@ class Inventory : AppCompatActivity() {
             .show()
     }
 
-    private fun showDeleteConfirmationDialog(item: InventoryItem, position: Int) {
+    private fun showDeleteConfirmationDialog(item: Inventory) {
         AlertDialog.Builder(this)
             .setTitle("Delete Item")
-            .setMessage("Are you sure you want to delete \"${item.name}\"?")
+            .setMessage("Are you sure you want to delete \"${item.material}\"?")
             .setPositiveButton("Delete") { _, _ ->
-                adapter.items.removeAt(position)
-                adapter.notifyItemRemoved(position)
-                Toast.makeText(this, "${item.name} deleted", Toast.LENGTH_SHORT).show()
+                inventoryViewModel.deleteItem(item)
+                Toast.makeText(this, "${item.material} deleted", Toast.LENGTH_SHORT).show()
             }
             .setNegativeButton("Cancel", null)
             .show()

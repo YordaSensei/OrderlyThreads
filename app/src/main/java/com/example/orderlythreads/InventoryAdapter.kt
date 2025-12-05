@@ -6,19 +6,14 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-
-//MODEL
-data class InventoryItem(
-    var name: String,
-    var quantity: String,
-    val imageRes: Int)
+import com.example.orderlythreads.Database.Inventory
 
 class InventoryAdapter(
-    private var data: MutableList<InventoryItem>,
-    private val onMenuClick: (item: InventoryItem, position: Int, anchorView: View) -> Unit
+    private var data: MutableList<Inventory>,
+    private val onMenuClick: (item: Inventory, position: Int, anchorView: View) -> Unit
 ) : RecyclerView.Adapter<InventoryAdapter.ViewHolder>() {
 
-    val items: MutableList<InventoryItem>
+    val items: MutableList<Inventory>
         get() = data
 
     inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
@@ -38,7 +33,7 @@ class InventoryAdapter(
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val item = data[position]
-        holder.name.text = item.name
+        holder.name.text = item.material
         holder.quantity.text = "Item Quantity: ${item.quantity}"
         holder.image.setImageResource(item.imageRes)
         holder.menu.setOnClickListener {
@@ -46,11 +41,12 @@ class InventoryAdapter(
         }
     }
 
-    fun updateData(newData: MutableList<InventoryItem>) {
-        data = newData
-        notifyDataSetChanged() // Keep for tab switching
+    fun updateData(newData: List<Inventory>) {
+        data.clear()
+        data.addAll(newData)
+        notifyDataSetChanged()
     }
-    fun addItem(newItem: InventoryItem) {
+    fun addItem(newItem: Inventory) {
         data.add(newItem)
         notifyItemInserted(data.size - 1)
     }
