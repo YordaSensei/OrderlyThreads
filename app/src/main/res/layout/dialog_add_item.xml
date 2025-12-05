@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:background="@drawable/bg_rounded">
+
+    <!-- Background Card -->
+    <View
+        android:id="@+id/view3"
+        android:layout_width="310dp"
+        android:layout_height="220dp"
+        android:background="@drawable/bg_rounded"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent" />
+
+    <!-- Green Header Background -->
+    <View
+        android:id="@+id/view"
+        android:layout_width="310dp"
+        android:layout_height="80dp"
+        android:background="@drawable/green_background"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <!-- Green Header Bottom Part -->
+    <View
+        android:id="@+id/view2"
+        android:layout_width="310dp"
+        android:layout_height="50dp"
+        android:background="@drawable/square_green"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/view"
+        app:layout_constraintBottom_toBottomOf="@id/view" />
+
+    <!-- Title -->
+    <TextView
+        android:id="@+id/title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Add Item"
+        android:fontFamily="@font/league_spartan_extrabold"
+        android:textSize="33sp"
+        android:textColor="@color/white"
+        app:layout_constraintStart_toStartOf="@id/view"
+        app:layout_constraintEnd_toEndOf="@id/view"
+        app:layout_constraintTop_toTopOf="@id/view"
+        app:layout_constraintBottom_toBottomOf="@id/view" />
+
+    <!-- Item Name Input -->
+    <EditText
+        android:id="@+id/editItemName"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:hint="Item Name"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
+        android:layout_marginTop="16dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/view" />
+
+    <!-- Quantity Input -->
+    <EditText
+        android:id="@+id/editItemQuantity"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:hint="Quantity"
+        android:inputType="number"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/editItemName" />
+
+    <!-- Select Image Button -->
+    <Button
+        android:id="@+id/selectImageButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Select Image"
+        android:backgroundTint="@color/dialog_green_light"
+        android:layout_marginTop="12dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/editItemQuantity" />
+
+    <!-- Yes Button -->
+    <Button
+        android:id="@+id/btn_add_item"
+        android:layout_width="125dp"
+        android:layout_height="40dp"
+        android:text="Yes"
+        android:textColor="#81b673"
+        android:fontFamily="@font/dm_sans_bold"
+        android:textSize="17sp"
+        android:background="@drawable/green_outline"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="20dp"
+        app:backgroundTint="@null"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/btn_cancel_add_item"
+        app:layout_constraintTop_toBottomOf="@id/selectImageButton"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintHorizontal_chainStyle="packed" />
+
+    <!-- No Button -->
+    <Button
+        android:id="@+id/btn_cancel_add_item"
+        android:layout_width="125dp"
+        android:layout_height="40dp"
+        android:text="No"
+        android:textColor="@color/black"
+        android:fontFamily="@font/dm_sans_bold"
+        android:textSize="17sp"
+        android:background="@drawable/black_outline"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="20dp"
+        app:backgroundTint="@null"
+        app:layout_constraintStart_toEndOf="@id/btn_add_item"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/selectImageButton"
+        app:layout_constraintBottom_toBottomOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
