@@ -29,6 +29,17 @@
         app:layout_constraintStart_toStartOf="@+id/itemRectangle"
         app:layout_constraintTop_toTopOf="@id/itemRectangle"/>
 
+    <ImageView
+        android:id="@+id/garmentContainer"
+        android:layout_width="115dp"
+        android:layout_height="110dp"
+        android:layout_marginStart="13dp"
+        android:layout_marginBottom="45dp"
+        app:srcCompat="@drawable/gray_background"
+        app:layout_constraintBottom_toBottomOf="@+id/itemRectangle"
+        app:layout_constraintStart_toStartOf="@+id/itemRectangle"
+        app:layout_constraintTop_toTopOf="@id/itemRectangle"/>
+
     <Button
         android:id="@+id/trackOrderBtn"
         android:layout_width="360dp"

@@ -45,7 +45,7 @@
         >
 
         <ImageView
-            android:id="@+id/garmentContrainer"
+            android:id="@+id/garmentContainer"
             android:layout_width="130dp"
             android:layout_height="120dp"
             app:srcCompat="@drawable/white_background"
