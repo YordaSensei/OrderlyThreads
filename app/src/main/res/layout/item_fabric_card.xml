@@ -1,11 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ImageView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/imgFabric"
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/itemCardView"
     android:layout_width="120dp"
-    android:layout_height="130dp"
-    android:layout_marginEnd="10dp"
+    android:layout_height="120dp"
     android:layout_marginTop="11dp"
-    android:background="@drawable/circle_bg"
-    android:clipToOutline="true"
-    android:scaleType="centerCrop"
-    android:src="@drawable/sample_design_test" />
+    android:layout_marginEnd="10dp"
+    app:cardCornerRadius="60dp">
+
+    <ImageView
+        android:id="@+id/imgFabric"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:clipToOutline="true"
+        android:scaleType="centerCrop"
+        android:src="@drawable/sample_design_test" />
+
+</androidx.cardview.widget.CardView>

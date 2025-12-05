@@ -31,7 +31,7 @@ class SelectSampleDesign : AppCompatActivity() {
 
         val btnMakeOrder = findViewById<Button>(R.id.makeOrderBtn)
         btnMakeOrder.setOnClickListener {
-            val intent = Intent(this, selectDesignAttributes::class.java)
+            val intent = Intent(this, SelectDesignAttributes::class.java)
             startActivity(intent)
         }
 
