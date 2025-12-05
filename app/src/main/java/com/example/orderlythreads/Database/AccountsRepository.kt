@@ -4,6 +4,9 @@ import androidx.lifecycle.LiveData
 
 class AccountsRepository(private val accountsDao: AccountsDao) {
 
+    suspend fun login(email: String, password: String): Accounts? {
+        return accountsDao.login(email, password)
+    }
     val readAllData: LiveData<List<Accounts>> = accountsDao.readAllData()
 
     suspend fun addAccount(accounts: Accounts){

@@ -9,7 +9,6 @@ import androidx.room.Update
 
 @Dao
 interface AccountsDao {
-
     @Insert(onConflict = OnConflictStrategy.IGNORE)     //If registered user already exists = IGNORE
     suspend fun addAccount(accounts : Accounts)
 
@@ -21,4 +20,7 @@ interface AccountsDao {
 
     @Update
     suspend fun updateAccount(accounts : Accounts)
+
+    @Query("SELECT * FROM accounts WHERE email = :email AND password = :password LIMIT 1")
+    suspend fun login(email: String, password: String): Accounts?
 }

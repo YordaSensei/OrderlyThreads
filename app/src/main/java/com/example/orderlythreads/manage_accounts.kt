@@ -21,16 +21,17 @@ import com.example.orderlythreads.Database.AccountsViewModel
 import com.example.orderlythreads.Database.Positions
 import com.google.android.material.textfield.TextInputLayout
 
-private lateinit var viewModel: AccountsViewModel
-private var selectedAccountId: Int? = null
-private var selectedAccount: Accounts? = null
+
 
 class manage_accounts : AppCompatActivity() {
+    private lateinit var viewModel: AccountsViewModel
+    private var selectedAccountId: Int? = null
+    private var selectedAccount: Accounts? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
 
         viewModel = ViewModelProvider(this)[AccountsViewModel::class.java]
-
-        super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContentView(R.layout.activity_manage_accounts)
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
@@ -164,7 +165,6 @@ class manage_accounts : AppCompatActivity() {
             viewModel.updateAccount(updatedAccount)
             updateDialog.dismiss()
         }
-
 
 
         val deleteBtn = infoDialog.findViewById<Button>(R.id.deleteAccBtn)

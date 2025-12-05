@@ -12,13 +12,16 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.OrderlyThreads">
         <activity
+            android:name=".manage_accounts"
+            android:exported="false" />
+        <activity
             android:name=".account_item"
             android:exported="false" />
         <activity
             android:name=".MainActivity"
             android:exported="false" />
         <activity
-            android:name=".manage_accounts"
+            android:name=".login"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
