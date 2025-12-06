@@ -50,8 +50,13 @@ class OrdersAdapter(
         // Set background color based on status
         if (item.status == "Approved") {
             holder.status.background.setTint(holder.status.context.getColor(android.R.color.holo_green_light))
+            holder.verifyButton.visibility = View.GONE
+        } else if (item.status == "Rejected") {
+            holder.status.background.setTint(holder.status.context.getColor(android.R.color.holo_red_light))
+            holder.verifyButton.visibility = View.GONE
         } else {
             holder.status.background.setTint(holder.status.context.getColor(android.R.color.holo_orange_light))
+            holder.verifyButton.visibility = View.VISIBLE
         }
 
         // Click listener for Verify Stock button

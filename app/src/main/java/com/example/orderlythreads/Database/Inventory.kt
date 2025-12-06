@@ -10,5 +10,5 @@ data class Inventory(
     val category: String,
     val material: String,
     var quantity: Int,
-    val imageRes: Int
+    val imageUri: String?
 )
