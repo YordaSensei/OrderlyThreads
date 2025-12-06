@@ -10,6 +10,7 @@ import androidx.core.view.WindowInsetsCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.activity.result.contract.ActivityResultContracts
+import android.widget.ImageButton
 
 class ProductionStaff : AppCompatActivity() {
 
@@ -153,39 +154,53 @@ class ProductionStaff : AppCompatActivity() {
 
         finishingAdapter = ProductionAdapter(finishingList) {  _, _ ->}
 
-        pendingList.addAll(
-            listOf(
-                ProductionItems(R.drawable.gray_background, "Amira Gimeno", "December 23 - 4PM", "Custom Order", "Pending"),
-                ProductionItems(R.drawable.gray_background, "Nathan Alilam", "December 26 - 4PM", "Custom Order", "Pending")
-            )
-        )
+        //pendingList.addAll(
+            //listOf(
+                //ProductionItems(R.drawable.gray_background, "Amira Gimeno", "December 23 - 4PM", "Custom Order", "Pending"),
+                //ProductionItems(R.drawable.gray_background, "Nathan Alilam", "December 26 - 4PM", "Custom Order", "Pending")
+            //)
+        //)
 
-        cuttingList.addAll(
-            listOf(
-                ProductionItems(R.drawable.yellow_background, "Lorraine Sevilla", "December 23 - 4PM", "Custom Order", "Cutting"),
-                ProductionItems(R.drawable.yellow_background, "Josh Malto", "December 26 - 4PM", "Custom Order", "Cutting")
-            )
-        )
+        //cuttingList.addAll(
+            //listOf(
+                //ProductionItems(R.drawable.yellow_background, "Lorraine Sevilla", "December 23 - 4PM", "Custom Order", "Cutting"),
+                //ProductionItems(R.drawable.yellow_background, "Josh Malto", "December 26 - 4PM", "Custom Order", "Cutting")
+            //)
+        //)
 
-        sewingList.addAll(
-            listOf(
-                ProductionItems(R.drawable.orange_background, "Client D", "December 22 - 1PM", "Prototype", "Sewing")
-            )
-        )
+        //sewingList.addAll(
+            //listOf(
+                //ProductionItems(R.drawable.orange_background, "Client D", "December 22 - 1PM", "Prototype", "Sewing")
+            //)
+        //)
 
-        finishingList.addAll(
-            listOf(
-                ProductionItems(R.drawable.green_background, "Client F", "December 20 - 9AM", "Final Uniforms", "Completed")
-            )
-        )
+        //finishingList.addAll(
+            //listOf(
+                //ProductionItems(R.drawable.green_background, "Client F", "December 20 - 9AM", "Final Uniforms", "Completed")
+            //)
+        //)
 
-        pendingAdapter.notifyDataSetChanged()
-        cuttingAdapter.notifyDataSetChanged()
-        sewingAdapter.notifyDataSetChanged()
-        finishingAdapter.notifyDataSetChanged()
+       //endingAdapter.notifyDataSetChanged()
+        //cuttingAdapter.notifyDataSetChanged()
+        //sewingAdapter.notifyDataSetChanged()
+        //finishingAdapter.notifyDataSetChanged()
 
         recyclerview.adapter = pendingAdapter
         tab1.isSelected = true
+
+        val logoutBtn = findViewById<ImageButton>(R.id.logOutBtn)
+
+        logoutBtn.setOnClickListener {
+            //val intent = Intent(this, login::class.java)
+
+            // Clear history so the user can't go back
+            intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+
+            startActivity(intent)
+
+            // Close the current screen.
+            finish()
+        }
 
     }
 }

@@ -46,7 +46,7 @@ class ProductionTracker : AppCompatActivity() {
             insets
         }
 
-        val backBtn = findViewById<ImageView>(R.id.imageButton)
+        val backBtn = findViewById<ImageView>(R.id.backBtn)
 
         backBtn.setOnClickListener {
             finish()
@@ -150,8 +150,8 @@ class ProductionTracker : AppCompatActivity() {
                     dialog.setContentView(R.layout.popup_yes_no)
                     dialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
 
-                val yesBtn  =  dialog.findViewById<Button>(R.id.yesBtn)
-                val noBtn  =  dialog.findViewById<Button>(R.id.noBtn)
+                    val yesBtn  =  dialog.findViewById<Button>(R.id.yesBtn)
+                    val noBtn  =  dialog.findViewById<Button>(R.id.noBtn)
 
                     yesBtn.setOnClickListener {
                         dialog.dismiss()

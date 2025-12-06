@@ -111,4 +111,15 @@
         app:layout_constraintTop_toBottomOf="@+id/tabsContainer"
         tools:listitem="@layout/production_item" />
 
+    <ImageButton
+        android:id="@+id/logOutBtn"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:background="@android:color/transparent"
+        app:srcCompat="@drawable/ic_logout"
+        app:layout_constraintTop_toTopOf="@+id/navBarBg"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginStart="180dp"
+        android:layout_marginTop="35dp"/>
+
 </androidx.constraintlayout.widget.ConstraintLayout>
