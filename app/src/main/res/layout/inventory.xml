@@ -172,26 +172,32 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent">
 
-        <ImageView
+        <ImageButton
+            android:id="@+id/stockCheckBtn"
             android:layout_width="0dp"
-            android:layout_height="24dp"
+            android:layout_height="30dp"
             android:layout_weight="1"
-            android:src="@drawable/ic_search"
-            android:contentDescription="Footer Icon 1" />
+            android:background="@android:color/transparent"
+            android:src="@drawable/ic_list"
+            android:scaleType="centerInside" />
 
-        <ImageView
+        <ImageButton
+            android:id="@+id/inventoryBtn"
             android:layout_width="0dp"
-            android:layout_height="24dp"
+            android:layout_height="30dp"
             android:layout_weight="1"
+            android:background="@android:color/transparent"
             android:src="@drawable/ic_search"
-            android:contentDescription="Footer Icon 2" />
+            android:scaleType="centerInside" />
 
-        <ImageView
+        <ImageButton
+            android:id="@+id/logOutBtn"
             android:layout_width="0dp"
-            android:layout_height="24dp"
+            android:layout_height="30dp"
             android:layout_weight="1"
-            android:src="@drawable/ic_search"
-            android:contentDescription="Footer Icon 3" />
+            android:background="@android:color/transparent"
+            app:srcCompat="@drawable/ic_logout"
+            android:scaleType="centerInside" />
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

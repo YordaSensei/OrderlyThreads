@@ -34,6 +34,8 @@ class Order_Stock_Check : AppCompatActivity() {
             insets
         }
 
+        setupFooter()
+
         val tab1 = findViewById<TextView>(R.id.tab1)
         val tab2 = findViewById<TextView>(R.id.tab2)
         val tabs = listOf(tab1, tab2)
@@ -85,13 +87,31 @@ class Order_Stock_Check : AppCompatActivity() {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == REQUEST_APPROVE_ORDER && resultCode == RESULT_OK && data != null) {
             val index = data.getIntExtra("orderIndex", -1)
+            val status = data.getStringExtra("orderStatus") ?: "Approved"
+            
             if (index != -1 && index < pendingList.size) {
                 val approvedItem = pendingList.removeAt(index)
-                val updatedItem = approvedItem.copy(status = "Approved")
+                val updatedItem = approvedItem.copy(status = status)
                 approvedList.add(0, updatedItem)
                 pendingAdapter.notifyItemRemoved(index)
                 approvedAdapter.notifyItemInserted(0)
             }
+        }
+    }
+
+    private fun setupFooter() {
+        val inventoryBtn = findViewById<android.view.View>(R.id.inventoryBtn)
+        inventoryBtn.setOnClickListener {
+            val intent = Intent(this, Inventory::class.java)
+            startActivity(intent)
+        }
+        
+        val logOutBtn = findViewById<android.view.View>(R.id.logOutBtn)
+        logOutBtn.setOnClickListener {
+            val intent = Intent(this, login::class.java)
+            intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+            startActivity(intent)
+            finish()
         }
     }
 }

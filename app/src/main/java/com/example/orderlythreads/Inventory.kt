@@ -2,6 +2,7 @@ package com.example.orderlythreads
 
 import android.app.Activity
 import android.app.Dialog
+import android.widget.ImageButton
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
@@ -98,6 +99,8 @@ class Inventory : AppCompatActivity() {
         setContentView(R.layout.inventory)
 
         setupWindowInsets()
+        setupLogoutButton() // Initialize logout button
+        setupFooterNavigation()
 
         inventoryDao = OrderlyThreadsDatabase.getDatabase(applicationContext).inventoryDao()
         val repository = InventoryRepository(inventoryDao)
@@ -121,6 +124,24 @@ class Inventory : AppCompatActivity() {
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
+        }
+    }
+    
+    private fun setupLogoutButton() {
+        val logoutBtn = findViewById<View>(R.id.logOutBtn)
+        logoutBtn?.setOnClickListener {
+            val intent = Intent(this, login::class.java)
+            intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+            startActivity(intent)
+            finish()
+        }
+    }
+
+    private fun setupFooterNavigation() {
+        val stockCheckBtn = findViewById<View>(R.id.stockCheckBtn)
+        stockCheckBtn?.setOnClickListener {
+            val intent = Intent(this, Order_Stock_Check::class.java)
+            startActivity(intent)
         }
     }
 
@@ -237,6 +258,7 @@ class Inventory : AppCompatActivity() {
 
         dialog.show()
     }
+
 
     private fun saveImageToInternalStorage(uri: Uri): File? {
         return try {
