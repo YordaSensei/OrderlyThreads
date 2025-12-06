@@ -105,7 +105,7 @@
                 <LinearLayout
                     android:id="@+id/upperWearLayout"
                     android:orientation="vertical"
-                    android:visibility="gone"
+                    android:visibility="visible"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:paddingStart="11dp"
@@ -378,7 +378,7 @@
                 <LinearLayout
                     android:id="@+id/lowerWearLayout"
                     android:orientation="vertical"
-                    android:visibility="gone"
+                    android:visibility="visible"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:paddingStart="11dp"
@@ -649,10 +649,11 @@
                 <LinearLayout
                     android:id="@+id/clientDetailsLayout"
                     android:orientation="vertical"
-                    android:visibility="gone"
+                    android:visibility="visible"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:padding="11dp">
+                    android:padding="11dp"
+                    tools:visibility="visible">
 
 
                     <TextView
@@ -705,6 +706,8 @@
                         android:hint="@string/enter_contact_information"
                         android:autofillHints="postalAddress"
                         android:inputType="textPersonName" />
+
+
 
 
                     <TextView
@@ -830,6 +833,33 @@
 
                     </GridLayout>
 
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="5dp"
+                        android:fontFamily="@font/dm_sans_medium"
+                        android:text="Order Date"
+                        android:textColor="#444243"
+                        android:textSize="11sp" />
+
+                    <!-- This EditText is non-focusable so the keyboard doesn't pop up.
+                         Instead, we will set an OnClickListener in the code. -->
+                    <EditText
+                        android:id="@+id/etOrderDate"
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp"
+                        android:layout_marginTop="5dp"
+                        android:minHeight="48dp"
+                        android:background="@drawable/rounded_bg"
+                        android:backgroundTint="#F0F0F0"
+                        android:paddingStart="10dp"
+                        android:paddingEnd="10dp"
+                        android:textSize="12sp"
+                        android:hint="Select Date"
+                        android:clickable="true"
+                        android:focusable="false"
+                        android:drawableEnd="@android:drawable/ic_menu_my_calendar"
+                        android:inputType="none" />
 
                     <TextView
                         android:layout_width="wrap_content"

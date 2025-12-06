@@ -54,14 +54,14 @@ class Order_Stock_Check : AppCompatActivity() {
         // Sample pending orders
         pendingList.addAll(
             listOf(
-                OrderItem("Jeff Marquez", "November 22 - 9 AM", "Custom Order", "Pending Approval", R.drawable.img_merino),
-                OrderItem("Amira Gimeno", "November 23 - 2 PM", "Custom Order", "Pending Approval", R.drawable.img_merino)
+                OrderItem("Jeff Marquez", "November 22 - 9 AM", "Custom Order", "Pending Approval", R.drawable.img_fabric_merino),
+                OrderItem("Amira Gimeno", "November 23 - 2 PM", "Custom Order", "Pending Approval", R.drawable.img_fabric_merino)
             )
         )
 
         // Sample approved orders
         approvedList.add(
-            OrderItem("Sophia Abuyo", "November 24 - 1 PM", "Custom Order", "Approved", R.drawable.img_merino)
+            OrderItem("Sophia Abuyo", "November 24 - 1 PM", "Custom Order", "Approved", R.drawable.img_fabric_merino)
         )
 
         // Adapters

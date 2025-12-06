@@ -13,7 +13,7 @@ import com.example.orderlythreads.Database.AccountsViewModel
 import com.google.android.material.textfield.TextInputLayout
 
 
-class login : AppCompatActivity() {
+class RFlogin : AppCompatActivity() {
     private lateinit var viewModel: AccountsViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -56,6 +56,7 @@ class login : AppCompatActivity() {
                     Toast.makeText(this, "Invalid email or password", Toast.LENGTH_SHORT).show()
                 }
             }
+
         }
     }
 }

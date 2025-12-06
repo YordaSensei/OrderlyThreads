@@ -69,7 +69,7 @@
             android:scaleType="centerCrop"
             android:clipToOutline="true"
             android:background="@drawable/bg_rounded"
-            android:src="@drawable/img_cashmere"/>
+            android:src="@drawable/img_fabric_cashmere"/>
 
         <!-- DETAILS CONTAINER -->
         <LinearLayout

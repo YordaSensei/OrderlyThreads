@@ -38,14 +38,14 @@ class SelectSampleDesign : AppCompatActivity() {
         val recyclerView = findViewById<RecyclerView>(R.id.rvSampleDesigns)
 
         val designs = listOf(
-            DesignItem(R.drawable.sample_design_test, "Gown 1", "Elegant red evening gown."),
-            DesignItem(R.drawable.sample_design_test, "Gown 2", "Modern silk dress."),
-            DesignItem(R.drawable.sample_design_test, "Gown 3", "Classic vintage style."),
-            DesignItem(R.drawable.sample_design_test, "Gown 4", "Summer floral pattern."),
-            DesignItem(R.drawable.sample_design_test, "Gown 5", "Professional wear."),
-            DesignItem(R.drawable.sample_design_test, "Gown 6", "Casual chic outfit."),
-            DesignItem(R.drawable.sample_design_test, "Gown 7", "Bohemian style."),
-            DesignItem(R.drawable.sample_design_test, "Gown 8", "Avant-garde design.")
+            DesignItem(R.drawable.img_placeholder, "Gown 1", "An Elegant red evening gown."),
+            DesignItem(R.drawable.img_placeholder, "Gown 2", "A Modern silk dress."),
+            DesignItem(R.drawable.img_placeholder, "Gown 3", "A Classic vintage style."),
+            DesignItem(R.drawable.img_placeholder, "Gown 4", "A Summer floral pattern."),
+            DesignItem(R.drawable.img_placeholder, "Gown 5", "A Professional wear."),
+            DesignItem(R.drawable.img_placeholder, "Gown 6", "A Casual chic outfit."),
+            DesignItem(R.drawable.img_placeholder, "Gown 7", "A Bohemian style."),
+            DesignItem(R.drawable.img_placeholder, "Gown 8", "A Avant-garde design.")
         )
 
         val adapter = SampleDesignAdapter(designs) { selectedDesign ->
@@ -107,4 +107,17 @@ class SelectSampleDesign : AppCompatActivity() {
 
         override fun getItemCount() = items.size
     }
+    //    val logoutBtn = findViewById<ImageButton>(R.id.logOutBtn)
+//
+//    logoutBtn.setOnClickListener {
+//        val intent = Intent(this, login::class.java)
+//
+//        // Clear history so the user can't go back
+//        intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+//
+//        startActivity(intent)
+//
+//        // Close the current screen.
+//        finish()
+//    }
 }

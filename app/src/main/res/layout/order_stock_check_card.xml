@@ -25,6 +25,7 @@
             android:src="@drawable/img_merino"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
+            android:src="@drawable/img_fabric_merino" />
 
         <!-- Status -->
         <TextView

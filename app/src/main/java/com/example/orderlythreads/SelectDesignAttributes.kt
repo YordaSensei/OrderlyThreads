@@ -98,61 +98,72 @@ class SelectDesignAttributes : AppCompatActivity() {
         btnAddLowerAccentQty = findViewById(R.id.addLowerAccentsBtn)
     }
 
-    private fun setupAllAdapters() {
-        val casualUpperImages = listOf(R.drawable.sample_design_test, R.drawable.sample_design_test, R.drawable.sample_design_test, R.drawable.sample_design_test)
-        val formalUpperImages = listOf(R.drawable.sample_design_test, R.drawable.sample_design_test, R.drawable.sample_design_test, R.drawable.sample_design_test)
-        val upperFabricImages = mutableListOf(R.drawable.ic_search).apply { addAll(List(12) { R.drawable.sample_design_test }) }
-        val upperColorImages = mutableListOf(R.drawable.ic_search).apply { addAll(List(12) { R.drawable.sample_color }) }
-        val upperAccentImages = List(12) { R.drawable.sample_design_test }
-        val upperAccentColorImages = mutableListOf(R.drawable.ic_search).apply { addAll(List(12) { R.drawable.sample_color }) }
-        val casualLowerImages = List(6) { R.drawable.sample_design_test }
-        val formalLowerImages = List(6) { R.drawable.sample_design_test }
-        val lowerFabricImages = mutableListOf(R.drawable.ic_search).apply { addAll(List(12) { R.drawable.sample_design_test }) }
-        val lowerColorImages = mutableListOf(R.drawable.ic_search).apply { addAll(List(12) { R.drawable.sample_color }) }
-        val lowerAccentImages = List(12) { R.drawable.sample_design_test }
-        val lowerAccentColorImages = mutableListOf(R.drawable.ic_search).apply { addAll(List(12) { R.drawable.sample_color }) }
+    // In SelectDesignAttributes.kt
 
-        adapterUpperCasual = ImageAdapter(this, casualUpperImages, R.layout.item_garment_card) { position ->
+    private fun setupAllAdapters() {
+        // --- Image Data Lists and Name Data Lists (no changes here) ---
+        val casualUpperImages = listOf(R.drawable.casual_upper_t_shirt, R.drawable.casual_upper_polo_shirt, R.drawable.casual_upper_hoodie, R.drawable.casual_upper_sweatshirt, R.drawable.casual_upper_sleeveless_shirt, R.drawable.casual_upper_dress)
+        val formalUpperImages = listOf(R.drawable.formal_upper_dress_shirt, R.drawable.formal_upper_suit, R.drawable.formal_upper_dress, R.drawable.formal_upper_gown, R.drawable.formal_upper_barong, R.drawable.formal_upper_filipiniana)
+        val casualLowerImages = listOf(R.drawable.casual_lower_jeans, R.drawable.casual_lower_shorts, R.drawable.casual_lower_cargo_pants, R.drawable.casual_lower_sweatpants, R.drawable.casual_lower_leggings, R.drawable.casual_lower_skirt)
+        val formalLowerImages = listOf(R.drawable.formal_lower_dress_pants, R.drawable.formal_lower_wide_chinos, R.drawable.formal_lower_pencil_skirt, R.drawable.formal_lower_full_length_skirt, R.drawable.formal_lower_pleated_trousers, R.drawable.formal_lower_wide_trousers)
+        val casualUpperNames = listOf("T-Shirt", "Polo Shirt", "Hoodie", "Sweatshirt", "Sleeveless Shirt", "Dress")
+        val formalUpperNames = listOf("Dress Shirt", "Suit", "Formal Dress", "Gown", "Barong", "Filipiniana")
+        val casualLowerNames = listOf("Jeans", "Shorts", "Cargo Pants", "Sweatpants", "Leggings", "Skirt")
+        val formalLowerNames = listOf("Dress Pants", "Wide Chinos", "Pencil Skirt", "Full-Length Skirt", "Pleated Trousers", "Wide Trousers")
+        val upperFabricImages = mutableListOf(R.drawable.ic_search).apply { addAll(List(12) { R.drawable.img_placeholder }) }
+        val upperFabricNames = listOf("Search Fabric") + (1..12).map { "Fabric #$it" }
+        val upperColorImages = mutableListOf(R.drawable.ic_search).apply { addAll(List(12) { R.drawable.sample_color }) }
+        val upperColorNames = listOf("Search Color") + (1..12).map { "Color #$it" }
+        val upperAccentImages = List(12) { R.drawable.img_placeholder }
+        val upperAccentNames = (1..12).map { "Accent #$it" }
+        val upperAccentColorImages = mutableListOf(R.drawable.ic_search).apply { addAll(List(12) { R.drawable.sample_color }) }
+        val upperAccentColorNames = listOf("Search Accent Color") + (1..12).map { "Accent Color #$it" }
+        val lowerFabricImages = mutableListOf(R.drawable.ic_search).apply { addAll(List(12) { R.drawable.img_placeholder }) }
+        val lowerFabricNames = listOf("Search Fabric") + (1..12).map { "Fabric #$it" }
+        val lowerColorImages = mutableListOf(R.drawable.ic_search).apply { addAll(List(12) { R.drawable.sample_color }) }
+        val lowerColorNames = listOf("Search Color") + (1..12).map { "Color #$it" }
+        val lowerAccentImages = List(12) { R.drawable.img_placeholder }
+        val lowerAccentNames = (1..12).map { "Accent #$it" }
+        val lowerAccentColorImages = mutableListOf(R.drawable.ic_search).apply { addAll(List(12) { R.drawable.sample_color }) }
+        val lowerAccentColorNames = listOf("Search Accent Color") + (1..12).map { "Accent Color #$it" }
+
+
+        // Upper Wear Adapters
+        adapterUpperCasual = ImageAdapter(this, casualUpperImages, R.layout.item_garment_card, nameList = casualUpperNames) { position ->
             adapterUpperCasual.setSelection(position)
             if (::adapterUpperFormal.isInitialized) adapterUpperFormal.clearSelection()
         }
-        adapterUpperFormal = ImageAdapter(this, formalUpperImages, R.layout.item_garment_card) { position ->
+        adapterUpperFormal = ImageAdapter(this, formalUpperImages, R.layout.item_garment_card, nameList = formalUpperNames) { position ->
             adapterUpperFormal.setSelection(position)
             if (::adapterUpperCasual.isInitialized) adapterUpperCasual.clearSelection()
         }
         attachAdapterToView(R.id.rvUpperCasual, adapterUpperCasual)
         attachAdapterToView(R.id.rvUpperFormal, adapterUpperFormal)
 
-        adapterLowerCasual = ImageAdapter(this, casualLowerImages, R.layout.item_garment_card) { position ->
+        // Lower Wear Adapters
+        adapterLowerCasual = ImageAdapter(this, casualLowerImages, R.layout.item_garment_card, nameList = casualLowerNames) { position ->
             adapterLowerCasual.setSelection(position)
             if (::adapterLowerFormal.isInitialized) adapterLowerFormal.clearSelection()
         }
-        adapterLowerFormal = ImageAdapter(this, formalLowerImages, R.layout.item_garment_card) { position ->
+        adapterLowerFormal = ImageAdapter(this, formalLowerImages, R.layout.item_garment_card, nameList = formalLowerNames) { position ->
             adapterLowerFormal.setSelection(position)
             if (::adapterLowerCasual.isInitialized) adapterLowerCasual.clearSelection()
         }
         attachAdapterToView(R.id.rvLowerCasual, adapterLowerCasual)
         attachAdapterToView(R.id.rvLowerFormal, adapterLowerFormal)
 
-        adapterUpperFabric = setupRecyclerView(R.id.rvUpperFabrics, upperFabricImages, R.layout.item_fabric_card)
-        adapterUpperColor = setupRecyclerView(R.id.rvUpperColors, upperColorImages, R.layout.item_color_circle)
-        adapterUpperAccents = setupRecyclerView(R.id.rvUpperAccents, upperAccentImages, R.layout.item_garment_card)
-        adapterUpperAccentColors = setupRecyclerView(R.id.rvUpperAccentsColors, upperAccentColorImages, R.layout.item_color_circle)
-        adapterLowerFabric = setupRecyclerView(R.id.rvLowerFabrics, lowerFabricImages, R.layout.item_fabric_card)
-        adapterLowerColor = setupRecyclerView(R.id.rvLowerColors, lowerColorImages, R.layout.item_color_circle)
-        adapterLowerAccents = setupRecyclerView(R.id.rvLowerAccents, lowerAccentImages, R.layout.item_garment_card)
-        adapterLowerAccentColors = setupRecyclerView(R.id.rvLowerAccentColors, lowerAccentColorImages, R.layout.item_color_circle)
-    }
+        // Browsable and Accent Adapters
+        adapterUpperFabric = setupRecyclerView(R.id.rvUpperFabrics, upperFabricImages, upperFabricNames, R.layout.item_fabric_card)
+        adapterUpperColor = setupRecyclerView(R.id.rvUpperColors, upperColorImages, upperColorNames, R.layout.item_color_circle)
+        adapterUpperAccents = setupRecyclerView(R.id.rvUpperAccents, upperAccentImages, upperAccentNames, R.layout.item_garment_card)
+        adapterUpperAccentColors = setupRecyclerView(R.id.rvUpperAccentsColors, upperAccentColorImages, upperAccentColorNames, R.layout.item_color_circle)
 
-    private fun attachAdapterToView(recyclerViewId: Int, adapter: ImageAdapter) {
-        findViewById<RecyclerView>(recyclerViewId)?.apply {
-            layoutManager = LinearLayoutManager(this@SelectDesignAttributes, LinearLayoutManager.HORIZONTAL, false)
-            this.adapter = adapter
-            (itemAnimator as? androidx.recyclerview.widget.SimpleItemAnimator)?.supportsChangeAnimations = false
-        }
+        adapterLowerFabric = setupRecyclerView(R.id.rvLowerFabrics, lowerFabricImages, lowerFabricNames, R.layout.item_fabric_card)
+        adapterLowerColor = setupRecyclerView(R.id.rvLowerColors, lowerColorImages, lowerColorNames, R.layout.item_color_circle)
+        adapterLowerAccents = setupRecyclerView(R.id.rvLowerAccents, lowerAccentImages, lowerAccentNames, R.layout.item_garment_card)
+        adapterLowerAccentColors = setupRecyclerView(R.id.rvLowerAccentColors, lowerAccentColorImages, lowerAccentColorNames, R.layout.item_color_circle)
     }
-
-    private fun setupRecyclerView(recyclerViewId: Int, data: List<Int>, itemLayoutId: Int): ImageAdapter {
+    private fun setupRecyclerView(recyclerViewId: Int, data: List<Int>, names: List<String>, itemLayoutId: Int): ImageAdapter {
         lateinit var adapter: ImageAdapter
         val clickCallback = { position: Int ->
             val isBrowsable = data.firstOrNull() == R.drawable.ic_search
@@ -162,11 +173,20 @@ class SelectDesignAttributes : AppCompatActivity() {
                 adapter.setSelection(position)
             }
         }
-        adapter = ImageAdapter(this, data, itemLayoutId, onItemClickCallback = clickCallback)
+        // Pass the names list to the adapter
+        adapter = ImageAdapter(this, data, itemLayoutId, names, onItemClickCallback = clickCallback)
         attachAdapterToView(recyclerViewId, adapter)
         return adapter
     }
 
+
+    private fun attachAdapterToView(recyclerViewId: Int, adapter: ImageAdapter) {
+        findViewById<RecyclerView>(recyclerViewId)?.apply {
+            layoutManager = LinearLayoutManager(this@SelectDesignAttributes, LinearLayoutManager.HORIZONTAL, false)
+            this.adapter = adapter
+            (itemAnimator as? androidx.recyclerview.widget.SimpleItemAnimator)?.supportsChangeAnimations = false
+        }
+    }
     private fun showBrowseDialog(title: String, data: List<Int>, layoutId: Int, mainAdapterToUpdate: ImageAdapter) {
         val dialogView = layoutInflater.inflate(R.layout.dialog_grid_selection, null)
         val dialog = AlertDialog.Builder(this).setView(dialogView).create()
@@ -273,4 +293,21 @@ class SelectDesignAttributes : AppCompatActivity() {
         layout.visibility = if (isVisible) View.GONE else View.VISIBLE
         icon.animate().rotationBy(if (isVisible) -135f else 135f).setDuration(200).start()
     }
+
+//    val logoutBtn = findViewById<ImageButton>(R.id.logOutBtn)
+//
+//    logoutBtn.setOnClickListener {
+//        val intent = Intent(this, login::class.java)
+//
+//        // Clear history so the user can't go back
+//        intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+//
+//        startActivity(intent)
+//
+//        // Close the current screen.
+//        finish()
+//    }
+
+
+
 }
