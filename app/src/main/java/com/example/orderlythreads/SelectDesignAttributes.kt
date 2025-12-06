@@ -9,14 +9,20 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
+import androidx.activity.result.launch
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.text.HtmlCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.isVisible
+import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.orderlythreads.Database.Orders
+import com.example.orderlythreads.Database.OrdersViewModel
+import kotlin.text.format
 
 class SelectDesignAttributes : AppCompatActivity() {
 
@@ -36,7 +42,7 @@ class SelectDesignAttributes : AppCompatActivity() {
     private lateinit var etShoulder: EditText
     private lateinit var etSleeve: EditText
     private lateinit var etNotes: EditText
-
+    private lateinit var etOrderDate: EditText
     private lateinit var btnSaveOrder: Button
     private lateinit var btnAddUpperAccentQty: Button
     private lateinit var btnAddLowerAccentQty: Button
@@ -56,6 +62,7 @@ class SelectDesignAttributes : AppCompatActivity() {
     private lateinit var adapterLowerColor: ImageAdapter
     private lateinit var adapterLowerAccents: ImageAdapter
     private lateinit var adapterLowerAccentColors: ImageAdapter
+    private lateinit var ordersViewModel: OrdersViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -72,9 +79,31 @@ class SelectDesignAttributes : AppCompatActivity() {
 
         setupAllAdapters()
 
+        etOrderDate.setOnClickListener {
+            val calendar = java.util.Calendar.getInstance()
+            val year = calendar.get(java.util.Calendar.YEAR)
+            val month = calendar.get(java.util.Calendar.MONTH)
+            val day = calendar.get(java.util.Calendar.DAY_OF_MONTH)
+
+            android.app.DatePickerDialog(
+                this,
+                { _, selectedYear, selectedMonth, selectedDay ->
+                    // Month is 0-indexed, so we add 1
+                    val formattedDate = "$selectedDay/${selectedMonth + 1}/$selectedYear"
+                    etOrderDate.setText(formattedDate)
+                },
+                year,
+                month,
+                day
+            ).show()
+        }
+
         btnAddUpperAccentQty.setOnClickListener { showQuantityDialog("Upper Accents") { qty -> upperAccentQty = qty } }
         btnAddLowerAccentQty.setOnClickListener { showQuantityDialog("Lower Accents") { qty -> lowerAccentQty = qty } }
         btnSaveOrder.setOnClickListener { showConfirmationDialog() }
+
+        val etOrderDate = findViewById<EditText>(R.id.etOrderDate)
+        ordersViewModel = ViewModelProvider(this).get(OrdersViewModel::class.java)
     }
 
     private fun initializeViews() {
@@ -92,6 +121,7 @@ class SelectDesignAttributes : AppCompatActivity() {
         etLength = findViewById(R.id.lengthMeasurement)
         etShoulder = findViewById(R.id.shoulderMeasurement)
         etSleeve = findViewById(R.id.sleeveMeasurement)
+        etOrderDate = findViewById(R.id.etOrderDate)
         etNotes = findViewById(R.id.notesDetails)
         btnSaveOrder = findViewById(R.id.btnSubmitOrder)
         btnAddUpperAccentQty = findViewById(R.id.addUpperAccentsBtn)
@@ -142,6 +172,71 @@ class SelectDesignAttributes : AppCompatActivity() {
         adapterLowerColor = setupRecyclerView(R.id.rvLowerColors, lowerColorImages, R.layout.item_color_circle)
         adapterLowerAccents = setupRecyclerView(R.id.rvLowerAccents, lowerAccentImages, R.layout.item_garment_card)
         adapterLowerAccentColors = setupRecyclerView(R.id.rvLowerAccentColors, lowerAccentColorImages, R.layout.item_color_circle)
+
+        // --- 1. GARMENTS ---
+        // Using R.drawable.your_image_name
+        val garmentList = listOf(
+            com.example.orderlythreads.Models.DesignOption("Shirt", R.drawable.ic_shirt), // Replace 'ic_shirt' with your actual file name
+            com.example.orderlythreads.Models.DesignOption("Pants", R.drawable.ic_pants),
+            com.example.orderlythreads.Models.DesignOption("Dress", R.drawable.ic_dress),
+            com.example.orderlythreads.Models.DesignOption("Skirt", R.drawable.ic_skirt)
+        )
+
+        rvGarments.layoutManager = androidx.recyclerview.widget.LinearLayoutManager(
+            this, androidx.recyclerview.widget.LinearLayoutManager.HORIZONTAL, false
+        )
+        rvGarments.adapter = com.example.orderlythreads.Adapters.DesignOptionAdapter(garmentList) { name ->
+            selectedGarment = name
+        }
+
+        // --- 2. FABRICS ---
+        // Even if you load these later, here is how you hardcode them for now so images show up
+        val fabricList = listOf(
+            com.example.orderlythreads.Models.DesignOption("Cotton", R.drawable.fabric_cotton),
+            com.example.orderlythreads.Models.DesignOption("Silk", R.drawable.fabric_silk),
+            com.example.orderlythreads.Models.DesignOption("Linen", R.drawable.fabric_linen),
+            com.example.orderlythreads.Models.DesignOption("Wool", R.drawable.fabric_wool)
+        )
+
+        rvFabrics.layoutManager = androidx.recyclerview.widget.LinearLayoutManager(
+            this, androidx.recyclerview.widget.LinearLayoutManager.HORIZONTAL, false
+        )
+        rvFabrics.adapter = com.example.orderlythreads.Adapters.DesignOptionAdapter(fabricList) { name ->
+            selectedFabric = name
+        }
+
+        // --- 3. COLORS / ACCENTS ---
+        // You need small square/circle images for colors (e.g., color_red.png)
+        val colorList = listOf(
+            com.example.orderlythreads.Models.DesignOption("Red", R.drawable.color_red),
+            com.example.orderlythreads.Models.DesignOption("Blue", R.drawable.color_blue),
+            com.example.orderlythreads.Models.DesignOption("Green", R.drawable.color_green),
+            com.example.orderlythreads.Models.DesignOption("Black", R.drawable.color_black)
+        )
+
+        // Setup Main Colors
+        rvColors.layoutManager = androidx.recyclerview.widget.LinearLayoutManager(
+            this, androidx.recyclerview.widget.LinearLayoutManager.HORIZONTAL, false
+        )
+        rvColors.adapter = com.example.orderlythreads.Adapters.DesignOptionAdapter(colorList) { name ->
+            selectedColor = name
+        }
+
+        // Setup Upper Accents (Reusing the color list)
+        rvUpperAccent.layoutManager = androidx.recyclerview.widget.LinearLayoutManager(
+            this, androidx.recyclerview.widget.LinearLayoutManager.HORIZONTAL, false
+        )
+        rvUpperAccent.adapter = com.example.orderlythreads.Adapters.DesignOptionAdapter(colorList) { name ->
+            selectedUpperAccent = name
+        }
+
+        // Setup Lower Accents (Reusing the color list)
+        rvLowerAccent.layoutManager = androidx.recyclerview.widget.LinearLayoutManager(
+            this, androidx.recyclerview.widget.LinearLayoutManager.HORIZONTAL, false
+        )
+        rvLowerAccent.adapter = com.example.orderlythreads.Adapters.DesignOptionAdapter(colorList) { name ->
+            selectedLowerAccent = name
+        }
     }
 
     private fun attachAdapterToView(recyclerViewId: Int, adapter: ImageAdapter) {
@@ -257,7 +352,7 @@ class SelectDesignAttributes : AppCompatActivity() {
         tvSummary.text = HtmlCompat.fromHtml(summary, HtmlCompat.FROM_HTML_MODE_LEGACY)
 
         btnConfirm.setOnClickListener {
-            Toast.makeText(this, "Order Saved Successfully!", Toast.LENGTH_SHORT).show()
+            saveOrderToDatabase()
             dialog.dismiss()
         }
         btnEdit.setOnClickListener { dialog.dismiss() }
@@ -272,5 +367,51 @@ class SelectDesignAttributes : AppCompatActivity() {
         val isVisible = layout.isVisible
         layout.visibility = if (isVisible) View.GONE else View.VISIBLE
         icon.animate().rotationBy(if (isVisible) -135f else 135f).setDuration(200).start()
+    }
+
+    private fun saveOrderToDatabase() {
+        // --- Gather all data ---
+        val name = etClientName.text.toString()
+        val contact = etContactInfo.text.toString()
+        val selectedDueDate = etOrderDate.text.toString()
+        val notes = etNotes.text.toString()
+        val totalQuantity = if ((upperAccentQty + lowerAccentQty) > 0) (upperAccentQty + lowerAccentQty) else 1
+
+        // Helper to get text safely
+        fun getVal(id: Int): String = findViewById<EditText>(id).text.toString()
+
+        // --- Validation ---
+        if (name.isEmpty() || selectedDueDate.isEmpty()) {
+            Toast.makeText(this, "Please enter Client Name and Due Date", Toast.LENGTH_SHORT).show()
+            return
+        }
+
+        // --- Date Formatting ---
+        val sdf = java.text.SimpleDateFormat("dd/MM/yyyy", java.util.Locale.getDefault())
+        val currentDate = sdf.format(java.util.Date())
+
+        // --- Create the Order object ---
+        val newOrder = Orders(
+            clientName = name,
+            contact = contact,
+            orderDate = currentDate,
+            dueDate = selectedDueDate,
+            quantity = totalQuantity,
+            waist = getVal(R.id.waistMeasurement),
+            chest = getVal(R.id.chestMeasurement),
+            shoulderWidth = getVal(R.id.shoulderMeasurement),
+            sleeveLength = getVal(R.id.sleeveMeasurement),
+            armhole = "0", // Placeholder
+            neckline = "0", // Placeholder
+            garmentLength = getVal(R.id.lengthMeasurement),
+            additionalNotes = notes
+        )
+
+        // --- Save to database ---
+        ordersViewModel.addOrder(newOrder)
+
+        // --- Final confirmation and screen close ---
+        Toast.makeText(this, "Order Saved Successfully!", Toast.LENGTH_SHORT).show()
+        finish()
     }
 }
