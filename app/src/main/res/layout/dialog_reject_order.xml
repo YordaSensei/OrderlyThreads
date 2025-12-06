@@ -30,12 +30,12 @@
         app:layout_constraintTop_toTopOf="@id/headerBg"
         app:layout_constraintBottom_toBottomOf="@id/headerBg" />
 
-    <!-- Reason Label -->
+    <!-- Category Label -->
     <TextView
         android:id="@+id/labelRejectReason"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="Reason for Rejecting"
+        android:text="Category"
         android:fontFamily="@font/dm_sans_bold"
         android:textColor="@color/black"
         android:textSize="14sp"
@@ -46,7 +46,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@id/headerBg" />
     
-    <!-- Reason Spinner -->
+    <!-- Category Spinner -->
     <Spinner
         android:id="@+id/spinnerRejectReason"
         android:layout_width="0dp"

@@ -37,16 +37,15 @@ class InventoryAdapter(
         val item = data[position]
         holder.name.text = item.material
         holder.quantity.text = "Item Quantity: ${item.quantity}"
-        
-        // Use Glide to load image from URI, with a placeholder
+
         if (!item.imageUri.isNullOrEmpty()) {
             Glide.with(holder.itemView.context)
                 .load(Uri.parse(item.imageUri))
-                .placeholder(R.drawable.img_placeholder) // Use your placeholder image
-                .error(R.drawable.img_placeholder) // Image to show if loading fails
+                .placeholder(R.drawable.img_placeholder)
+                .error(R.drawable.img_placeholder)
                 .into(holder.image)
         } else {
-            holder.image.setImageResource(R.drawable.img_placeholder) // Fallback to placeholder
+            holder.image.setImageResource(R.drawable.img_placeholder)
         }
 
         holder.menu.setOnClickListener {

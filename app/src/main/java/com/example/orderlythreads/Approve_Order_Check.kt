@@ -24,12 +24,12 @@ data class MaterialItem(val category: String, val name: String, val stock: Int)
 class Approve_Order_Check : AppCompatActivity() {
 
     // Placeholder data representing database items
-    private val placeholderMaterials = listOf(
-        MaterialItem("Fabric", "Cotton", 20),
-        MaterialItem("Thread", "White Thread", 5), // Low stock
-        MaterialItem("Buttons", "Small Buttons", 100),
-        MaterialItem("Zipper", "Zipper Type A", 12) // Low stock
-    )
+//    private val placeholderMaterials = listOf(
+//        MaterialItem("Fabric", "Cotton", 20),
+//        MaterialItem("Basic Materials", "White Thread", 5),
+//        MaterialItem("Accents", "Small Buttons", 100),
+//        MaterialItem("Accents", "Zipper Type A", 12)
+//    )
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -59,8 +59,8 @@ class Approve_Order_Check : AppCompatActivity() {
         orderLabel.text = intent.getStringExtra("orderLabel")
         orderShirtImage.setImageResource(intent.getIntExtra("orderImage", 0))
 
-        // Dynamically populate materials and check stock
-        materialsListContainer.removeAllViews() // Clear XML placeholders
+        // Populate materials and check stock
+        materialsListContainer.removeAllViews()
         val lowStockItems = mutableListOf<String>()
 
         for (material in placeholderMaterials) {
@@ -115,15 +115,29 @@ class Approve_Order_Check : AppCompatActivity() {
         val cancelButton = dialogView.findViewById<Button>(R.id.cancelButton)
         val rejectConfirmButton = dialogView.findViewById<Button>(R.id.rejectConfirmButton)
 
-        val rejectionReasons = listOf("Out of Stock", "Damaged Item", "Wrong Order", "Customer Cancelled", "Other")
+        val rejectionReasons = listOf("Fabric", "Color/Pattern", "Basic Materials", "Accents")
         val reasonAdapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, rejectionReasons)
         reasonAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         spinnerRejectReason.adapter = reasonAdapter
 
         var selectedRejectReason: String? = null
+        var selectedRejectMaterial: String? = null
+
+        // Listener for the Category Spinner
         spinnerRejectReason.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
                 selectedRejectReason = parent?.getItemAtPosition(position).toString()
+
+                // Filter items based on the selected category and if they are low stock
+                val filteredItems = placeholderMaterials.filter { 
+                    it.category == selectedRejectReason && it.stock <= 15
+                }.map { it.name }
+
+                val materialSource = if (filteredItems.isNotEmpty()) filteredItems else listOf("None")
+                
+                val materialAdapter = ArrayAdapter(this@Approve_Order_Check, android.R.layout.simple_spinner_item, materialSource)
+                materialAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+                spinnerRejectMaterial.adapter = materialAdapter
             }
 
             override fun onNothingSelected(parent: AdapterView<*>?) {
@@ -131,13 +145,7 @@ class Approve_Order_Check : AppCompatActivity() {
             }
         }
 
-        // Populate spinner with actual low stock items
-        val materialSource = if (lowStockMaterials.isNotEmpty()) lowStockMaterials else listOf("None")
-        val materialAdapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, materialSource)
-        materialAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-        spinnerRejectMaterial.adapter = materialAdapter
-
-        var selectedRejectMaterial: String? = null
+        // Listener for the Material Spinner
         spinnerRejectMaterial.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
                 selectedRejectMaterial = parent?.getItemAtPosition(position).toString()
@@ -157,7 +165,7 @@ class Approve_Order_Check : AppCompatActivity() {
             val resultIntent = Intent()
             resultIntent.putExtra("orderIndex", index)
             resultIntent.putExtra("orderStatus", "Rejected")
-            // We still use RESULT_OK to indicate a successful interaction (rejection is a valid completion)
+
             setResult(RESULT_OK, resultIntent) 
             
             Toast.makeText(this@Approve_Order_Check, "Order Rejected", Toast.LENGTH_SHORT).show()
