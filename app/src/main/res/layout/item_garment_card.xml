@@ -15,6 +15,7 @@
         android:layout_height="match_parent"
         android:scaleType="centerCrop"
         android:clipToOutline="true"
-        android:background="@color/white"/>
+        android:background="@color/white"
+        android:src="@drawable/img_placeholder"/>
 
 </androidx.cardview.widget.CardView>

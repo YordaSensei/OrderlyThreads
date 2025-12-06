@@ -18,7 +18,7 @@
             android:layout_width="match_parent"
             android:layout_height="120dp"
             android:scaleType="centerCrop"
-            android:src="@drawable/img_merino"
+            android:src="@drawable/img_fabric_merino"
             android:background="@drawable/bg_rounded"
             android:clipToOutline="true" />
 

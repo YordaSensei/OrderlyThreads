@@ -110,24 +110,23 @@ class SelectDesignAttributes : AppCompatActivity() {
         val formalUpperNames = listOf("Dress Shirt", "Suit", "Formal Dress", "Gown", "Barong", "Filipiniana")
         val casualLowerNames = listOf("Jeans", "Shorts", "Cargo Pants", "Sweatpants", "Leggings", "Skirt")
         val formalLowerNames = listOf("Dress Pants", "Wide Chinos", "Pencil Skirt", "Full-Length Skirt", "Pleated Trousers", "Wide Trousers")
-        val upperFabricImages = mutableListOf(R.drawable.ic_search).apply { addAll(List(12) { R.drawable.sample_design_test }) }
+        val upperFabricImages = mutableListOf(R.drawable.ic_search).apply { addAll(List(12) { R.drawable.img_placeholder }) }
         val upperFabricNames = listOf("Search Fabric") + (1..12).map { "Fabric #$it" }
         val upperColorImages = mutableListOf(R.drawable.ic_search).apply { addAll(List(12) { R.drawable.sample_color }) }
         val upperColorNames = listOf("Search Color") + (1..12).map { "Color #$it" }
-        val upperAccentImages = List(12) { R.drawable.sample_design_test }
+        val upperAccentImages = List(12) { R.drawable.img_placeholder }
         val upperAccentNames = (1..12).map { "Accent #$it" }
         val upperAccentColorImages = mutableListOf(R.drawable.ic_search).apply { addAll(List(12) { R.drawable.sample_color }) }
         val upperAccentColorNames = listOf("Search Accent Color") + (1..12).map { "Accent Color #$it" }
-        val lowerFabricImages = mutableListOf(R.drawable.ic_search).apply { addAll(List(12) { R.drawable.sample_design_test }) }
+        val lowerFabricImages = mutableListOf(R.drawable.ic_search).apply { addAll(List(12) { R.drawable.img_placeholder }) }
         val lowerFabricNames = listOf("Search Fabric") + (1..12).map { "Fabric #$it" }
         val lowerColorImages = mutableListOf(R.drawable.ic_search).apply { addAll(List(12) { R.drawable.sample_color }) }
         val lowerColorNames = listOf("Search Color") + (1..12).map { "Color #$it" }
-        val lowerAccentImages = List(12) { R.drawable.sample_design_test }
+        val lowerAccentImages = List(12) { R.drawable.img_placeholder }
         val lowerAccentNames = (1..12).map { "Accent #$it" }
         val lowerAccentColorImages = mutableListOf(R.drawable.ic_search).apply { addAll(List(12) { R.drawable.sample_color }) }
         val lowerAccentColorNames = listOf("Search Accent Color") + (1..12).map { "Accent Color #$it" }
 
-        // --- Adapter Initialization (WITH NAMED ARGUMENTS) ---
 
         // Upper Wear Adapters
         adapterUpperCasual = ImageAdapter(this, casualUpperImages, R.layout.item_garment_card, nameList = casualUpperNames) { position ->
@@ -164,8 +163,6 @@ class SelectDesignAttributes : AppCompatActivity() {
         adapterLowerAccents = setupRecyclerView(R.id.rvLowerAccents, lowerAccentImages, lowerAccentNames, R.layout.item_garment_card)
         adapterLowerAccentColors = setupRecyclerView(R.id.rvLowerAccentColors, lowerAccentColorImages, lowerAccentColorNames, R.layout.item_color_circle)
     }
-
-    // UPDATE this function to accept and pass the name list
     private fun setupRecyclerView(recyclerViewId: Int, data: List<Int>, names: List<String>, itemLayoutId: Int): ImageAdapter {
         lateinit var adapter: ImageAdapter
         val clickCallback = { position: Int ->
@@ -190,8 +187,6 @@ class SelectDesignAttributes : AppCompatActivity() {
             (itemAnimator as? androidx.recyclerview.widget.SimpleItemAnimator)?.supportsChangeAnimations = false
         }
     }
-
-
     private fun showBrowseDialog(title: String, data: List<Int>, layoutId: Int, mainAdapterToUpdate: ImageAdapter) {
         val dialogView = layoutInflater.inflate(R.layout.dialog_grid_selection, null)
         val dialog = AlertDialog.Builder(this).setView(dialogView).create()
@@ -298,4 +293,21 @@ class SelectDesignAttributes : AppCompatActivity() {
         layout.visibility = if (isVisible) View.GONE else View.VISIBLE
         icon.animate().rotationBy(if (isVisible) -135f else 135f).setDuration(200).start()
     }
+
+//    val logoutBtn = findViewById<ImageButton>(R.id.logOutBtn)
+//
+//    logoutBtn.setOnClickListener {
+//        val intent = Intent(this, login::class.java)
+//
+//        // Clear history so the user can't go back
+//        intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+//
+//        startActivity(intent)
+//
+//        // Close the current screen.
+//        finish()
+//    }
+
+
+
 }

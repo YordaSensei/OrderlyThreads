@@ -105,7 +105,7 @@
                 <LinearLayout
                     android:id="@+id/upperWearLayout"
                     android:orientation="vertical"
-                    android:visibility="gone"
+                    android:visibility="visible"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:paddingStart="11dp"
@@ -378,7 +378,7 @@
                 <LinearLayout
                     android:id="@+id/lowerWearLayout"
                     android:orientation="vertical"
-                    android:visibility="gone"
+                    android:visibility="visible"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:paddingStart="11dp"
@@ -649,7 +649,7 @@
                 <LinearLayout
                     android:id="@+id/clientDetailsLayout"
                     android:orientation="vertical"
-                    android:visibility="gone"
+                    android:visibility="visible"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:padding="11dp"

@@ -10,10 +10,12 @@
 
     <ImageView
         android:id="@+id/imgFabric"
+        android:tag="image_for_adapter"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:clipToOutline="true"
         android:scaleType="centerCrop"
-        android:src="@drawable/sample_design_test" />
+        android:clipToOutline="true"
+        android:background="@color/white"
+        android:src="@drawable/img_placeholder"/>
 
 </androidx.cardview.widget.CardView>
