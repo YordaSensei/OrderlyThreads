@@ -1,65 +1,56 @@
 package com.example.orderlythreads.Adapters
 
-import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
-import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.orderlythreads.Models.DesignOption
 import com.example.orderlythreads.R
 
 class DesignOptionAdapter(
-    private val items: List<DesignOption>,
+    private val options: List<DesignOption>,
     private val onItemSelected: (String) -> Unit
 ) : RecyclerView.Adapter<DesignOptionAdapter.ViewHolder>() {
 
-    private var selectedPosition = -1
+    private var selectedPosition = RecyclerView.NO_POSITION
 
+    // The ViewHolder holds the views for a single item
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        // This is where the "Unresolved reference 'itemImage'" error comes from.
+        // We need an ImageView with the ID 'itemImage' in our layout file.
         val imageView: ImageView = itemView.findViewById(R.id.itemImage)
-        val textView: TextView = itemView.findViewById(R.id.itemText)
-        val borderView: View = itemView.findViewById(R.id.selectionBorder)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
+        // Inflate the layout for a single item
         val view = LayoutInflater.from(parent.context)
             .inflate(R.layout.item_design_option, parent, false)
         return ViewHolder(view)
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val item = items[position]
+        val option = options[position]
 
-        holder.textView.text = item.name
+        // Set the image for the current item
+        holder.imageView.setImageResource(option.imageResId)
 
-        // If imageResId is valid, use it. Otherwise, use a gray background (for testing)
-        if (item.imageResId != 0) {
-            holder.imageView.setImageResource(item.imageResId)
-            holder.imageView.scaleType = ImageView.ScaleType.CENTER_INSIDE // Or CENTER_CROP depending on look
-        } else {
-            holder.imageView.setBackgroundColor(Color.LTGRAY)
-        }
+        // Handle item selection visual state
+        holder.itemView.alpha = if (position == selectedPosition) 0.5f else 1.0f
 
-        // Handle Selection Visuals
-        if (selectedPosition == position) {
-            holder.borderView.visibility = View.VISIBLE
-            holder.itemView.alpha = 1.0f
-        } else {
-            holder.borderView.visibility = View.GONE
-            holder.itemView.alpha = 0.5f
-        }
-
-        // Handle Clicks
+        // Handle clicks
         holder.itemView.setOnClickListener {
-            val previousItem = selectedPosition
+            val previousPosition = selectedPosition
             selectedPosition = holder.adapterPosition
-            notifyItemChanged(previousItem)
+            notifyItemChanged(previousPosition)
             notifyItemChanged(selectedPosition)
-            onItemSelected(item.name)
+
+            // Callback to inform the activity of the selection
+            onItemSelected(option.name)
         }
     }
 
-    override fun getItemCount() = items.size
+    override fun getItemCount(): Int {
+        return options.size
+    }
 }
