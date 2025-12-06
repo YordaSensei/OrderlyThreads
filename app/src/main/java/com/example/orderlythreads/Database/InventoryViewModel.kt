@@ -1,4 +1,4 @@
-package com.example.orderlythreads
+package com.example.orderlythreads.Database
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -16,8 +16,17 @@ class InventoryViewModel(private val repository: InventoryRepository) : ViewMode
     private val _selectedCategory = MutableLiveData<String>()
     val selectedCategory: LiveData<String> = _selectedCategory
 
-    val inventoryItems: LiveData<List<Inventory>> = _selectedCategory.switchMap {
-        repository.getInventoryByCategory(it)
+    private val _searchQuery = MutableLiveData<String>("")
+    val searchQuery: LiveData<String> = _searchQuery
+
+    val inventoryItems: LiveData<List<Inventory>> = _selectedCategory.switchMap { category ->
+        _searchQuery.switchMap { query ->
+            if (query.isEmpty()) {
+                repository.getInventoryByCategory(category)
+            } else {
+                repository.searchInventoryByCategory(category, "%$query%")
+            }
+        }
     }
 
     init {
@@ -27,6 +36,10 @@ class InventoryViewModel(private val repository: InventoryRepository) : ViewMode
 
     fun setCategory(category: String) {
         _selectedCategory.value = category
+    }
+
+    fun setSearchQuery(query: String) {
+        _searchQuery.value = query
     }
 
     fun addItem(inventory: Inventory) = viewModelScope.launch(Dispatchers.IO) {
