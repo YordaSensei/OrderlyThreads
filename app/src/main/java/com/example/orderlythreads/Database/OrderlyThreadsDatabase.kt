@@ -10,11 +10,12 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-@Database(entities = [Accounts::class, Orders::class], version = 1, exportSchema = false)
+@Database(entities = [Accounts::class, Orders::class, Inventory::class], version = 1, exportSchema = false)
 abstract class OrderlyThreadsDatabase : RoomDatabase() {
 
     abstract fun accountsDao(): AccountsDao
     abstract fun ordersDao(): OrdersDao
+    abstract fun inventoryDao(): InventoryDao
 
     companion object {
         @Volatile
