@@ -10,7 +10,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-@Database(entities = [Accounts::class, Orders::class, Inventory::class], version = 1, exportSchema = false)
+@Database(entities = [Accounts::class, Orders::class, Inventory::class], version = 4, exportSchema = false)
 abstract class OrderlyThreadsDatabase : RoomDatabase() {
 
     abstract fun accountsDao(): AccountsDao
@@ -34,16 +34,8 @@ abstract class OrderlyThreadsDatabase : RoomDatabase() {
                             super.onCreate(db)
 
                             // Insert admin safely
-                            CoroutineScope(Dispatchers.IO).launch {
-                                INSTANCE?.accountsDao()?.addAccount(
-                                    Accounts(
-                                        username = "admin",
-                                        email = "admin@gmail.com",
-                                        password = "admin123",
-                                        position = "Admin"
-                                    )
-                                )
-                            }
+                            db.execSQL("INSERT INTO Accounts (username, email, password, position) " +
+                                    "VALUES ('admin', 'admin@gmail.com', 'admin123', 'Admin')")
                         }
                     })
                     .fallbackToDestructiveMigration()

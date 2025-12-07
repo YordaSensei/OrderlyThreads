@@ -13,7 +13,7 @@ import com.example.orderlythreads.Database.AccountsViewModel
 import com.google.android.material.textfield.TextInputLayout
 
 
-class RFlogin : AppCompatActivity() {
+class login : AppCompatActivity() {
     private lateinit var viewModel: AccountsViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
