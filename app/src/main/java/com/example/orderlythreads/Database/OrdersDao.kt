@@ -20,4 +20,7 @@ interface OrdersDao {
 
     @Query("SELECT * FROM orders ORDER BY orderDate DESC")
     fun getAllOrders(): LiveData<List<Orders>>
+
+    @Query("SELECT * FROM orders WHERE orderId = :orderId LIMIT 1")
+    suspend fun getOrderById(orderId: Int): Orders?
 }

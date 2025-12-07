@@ -25,6 +25,8 @@ import com.example.orderlythreads.Database.InventoryViewModel
 import com.example.orderlythreads.Database.InventoryViewModelFactory
 import com.example.orderlythreads.Database.OrdersRepository
 import com.example.orderlythreads.Database.OrdersViewModel
+import com.example.orderlythreads.Database.Orders
+import com.example.orderlythreads.Database.Inventory // Import Inventory Entity
 
 data class MaterialItem(val category: String, val name: String, val stock: Int)
 
@@ -33,7 +35,17 @@ class Approve_Order_Check : AppCompatActivity() {
     private lateinit var inventoryViewModel: InventoryViewModel
     private lateinit var ordersViewModel: OrdersViewModel
     private var orderMaterials: List<MaterialItem> = emptyList()
+    private var matchedInventoryItems: List<Inventory> = emptyList() // Track actual Inventory objects
+    private var allInventoryItems: List<Inventory> = emptyList()
     private var currentOrderId: Int = -1
+    private var currentOrder: Orders? = null
+
+    // UI Variables
+    private lateinit var tvOrderId: TextView
+    private lateinit var tvGarment: TextView
+    private lateinit var tvFabric: TextView
+    private lateinit var tvColorPattern: TextView
+    private lateinit var tvNotes: TextView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -57,8 +69,16 @@ class Approve_Order_Check : AppCompatActivity() {
         val rejectButton = findViewById<TextView>(R.id.rejectButton)
         val materialsListContainer = findViewById<LinearLayout>(R.id.materialsList)
 
+        // Initialize Detail Views
+        tvOrderId = findViewById(R.id.orderIdVar)
+        tvGarment = findViewById(R.id.garmentVar)
+        tvFabric = findViewById(R.id.fabricVar)
+        tvColorPattern = findViewById(R.id.cpVar)
+        tvNotes = findViewById(R.id.notesVar)
+
         // Get data from Intent
         currentOrderId = intent.getIntExtra("orderId", -1)
+        // We still populate these from intent for immediate display, but could fetch from DB
         orderName.text = intent.getStringExtra("orderName")
         orderDateTime.text = intent.getStringExtra("orderDate")
         orderLabel.text = intent.getStringExtra("orderLabel")
@@ -85,14 +105,36 @@ class Approve_Order_Check : AppCompatActivity() {
         }
         ordersViewModel = ViewModelProvider(this, ordersFactory).get(OrdersViewModel::class.java)
 
-        // Observe inventory items from the database
+        // 1. Fetch the specific order
+        if (currentOrderId != -1) {
+            ordersViewModel.fetchOrder(currentOrderId)
+        }
+
+        // 2. Observe the fetched order
+        ordersViewModel.currentOrder.observe(this) { order ->
+            currentOrder = order
+            if (order != null) {
+                populateOrderDetails(order) // Populate variables
+                if (allInventoryItems.isNotEmpty()) {
+                    filterMaterialsForOrder(order, allInventoryItems, materialsListContainer)
+                }
+            }
+        }
+
+        // 3. Observe inventory items
         inventoryViewModel.inventoryItems.observe(this) { inventoryList ->
-            // Filter out 'Basic Materials' and map to MaterialItem
-            orderMaterials = inventoryList
-                .filter { it.category != "Basic Materials" }
-                .map { MaterialItem(it.category, it.material, it.quantity) }
-            
-            displayOrderMaterials(materialsListContainer)
+            allInventoryItems = inventoryList
+            if (currentOrder != null) {
+                filterMaterialsForOrder(currentOrder!!, inventoryList, materialsListContainer)
+                // Re-populate details to ensure fabric name is resolved if needed
+                populateOrderDetails(currentOrder!!) 
+            } else if (currentOrderId == -1) {
+                // Fallback if no order ID provided
+                orderMaterials = inventoryList
+                    .filter { it.category != "Basic Materials" }
+                    .map { MaterialItem(it.category, it.material, it.quantity) }
+                displayOrderMaterials(materialsListContainer)
+            }
         }
 
         // Approve order
@@ -103,8 +145,18 @@ class Approve_Order_Check : AppCompatActivity() {
             }
             
             if (currentOrderId != -1) {
+                // 1. Update Order Status
                 ordersViewModel.updateOrderStatus(currentOrderId, "Approved")
-                Toast.makeText(this, "Order Approved", Toast.LENGTH_SHORT).show()
+
+                // 2. Deduct Materials
+                matchedInventoryItems.forEach { inventoryItem ->
+                    // Deduct 2 from quantity, ensure it doesn't go below 0
+                    val newQuantity = if (inventoryItem.quantity >= 2) inventoryItem.quantity - 2 else 0
+                    val updatedItem = inventoryItem.copy(quantity = newQuantity)
+                    inventoryViewModel.updateItem(updatedItem)
+                }
+
+                Toast.makeText(this, "Order Approved & Stock Deducted", Toast.LENGTH_SHORT).show()
             } else {
                 Toast.makeText(this, "Error: Order ID not found", Toast.LENGTH_SHORT).show()
             }
@@ -118,8 +170,77 @@ class Approve_Order_Check : AppCompatActivity() {
         }
     }
 
+    private fun populateOrderDetails(order: Orders) {
+        // Order ID
+        tvOrderId.text = "OD${order.orderId}"
+
+        // Garment Type (Derive from Resource ID name)
+        val garmentResId = order.upperDesignId
+        var garmentName = "(Not specified)"
+        if (garmentResId != 0) {
+            try {
+                val resEntryName = resources.getResourceEntryName(garmentResId)
+                // Clean up name: "casual_upper_t_shirt" -> "T Shirt"
+                garmentName = resEntryName
+                    .replace("casual_upper_", "")
+                    .replace("formal_upper_", "")
+                    .replace("_", " ")
+                    .split(" ").joinToString(" ") { it.capitalize() }
+            } catch (e: Exception) {
+                garmentName = "Custom Garment"
+            }
+        }
+        tvGarment.text = garmentName
+
+        // Fabric Type (Resolve from Inventory ID)
+        var fabricName = "(Not specified)"
+        if (order.upperFabricId != 0) {
+            val matchedFabric = allInventoryItems.find { it.id == order.upperFabricId }
+            if (matchedFabric != null) {
+                fabricName = matchedFabric.material
+            }
+        }
+        tvFabric.text = fabricName
+
+        // Color/Pattern
+        var colorName = order.upperColorHex
+        if (colorName.isNullOrEmpty() || colorName == "0") {
+             colorName = "(Not specified)"
+        } else {
+             if (colorName.startsWith("-")) colorName = "Custom Color"
+        }
+        tvColorPattern.text = colorName
+
+        // Notes
+        tvNotes.text = if (order.additionalNotes.isNotBlank()) order.additionalNotes else "(Not specified)"
+    }
+
+    private fun filterMaterialsForOrder(order: Orders, inventoryList: List<Inventory>, container: LinearLayout) {
+        val requiredIds = mutableSetOf<Int>()
+        if (order.upperFabricId != 0) requiredIds.add(order.upperFabricId)
+        if (order.lowerFabricId != 0) requiredIds.add(order.lowerFabricId)
+        if (order.upperAccentDesignId != 0) requiredIds.add(order.upperAccentDesignId)
+        if (order.lowerAccentDesignId != 0) requiredIds.add(order.lowerAccentDesignId)
+
+        // Store the full Inventory objects so we can update them later
+        matchedInventoryItems = inventoryList.filter { inventoryItem ->
+            requiredIds.contains(inventoryItem.id)
+        }
+
+        orderMaterials = matchedInventoryItems.map { MaterialItem(it.category, it.material, it.quantity) }
+        displayOrderMaterials(container)
+    }
+
     private fun displayOrderMaterials(materialsListContainer: LinearLayout) {
-        materialsListContainer.removeAllViews() // Clear any existing views
+        materialsListContainer.removeAllViews()
+
+        if (orderMaterials.isEmpty()) {
+            val emptyView = TextView(this)
+            emptyView.text = "No specific materials identified for this order."
+            emptyView.setPadding(16, 16, 16, 16)
+            materialsListContainer.addView(emptyView)
+            return
+        }
 
         for (material in orderMaterials) {
             val itemView = LayoutInflater.from(this).inflate(R.layout.item_material_row, materialsListContainer, false)
@@ -154,10 +275,8 @@ class Approve_Order_Check : AppCompatActivity() {
         val cancelButton = dialogView.findViewById<Button>(R.id.cancelButton)
         val rejectConfirmButton = dialogView.findViewById<Button>(R.id.rejectConfirmButton)
 
-        // Categories from all available inventory items, filtering out "Basic Materials"
         val categories = orderMaterials
             .map { it.category }
-            .filter { it != "Basic Materials" }
             .distinct()
             
         val rejectionReasons = if (categories.isNotEmpty()) categories else listOf("None")
@@ -168,14 +287,12 @@ class Approve_Order_Check : AppCompatActivity() {
         var selectedRejectReason: String? = null
         var selectedRejectMaterial: String? = null
 
-        // Listener for the Category Spinner
         spinnerRejectReason.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
                 selectedRejectReason = parent?.getItemAtPosition(position).toString()
 
-                // Filter items based on the selected category and if they are low stock
                 val filteredItems = orderMaterials.filter { 
-                    it.category == selectedRejectReason && it.stock <= 15
+                    it.category == selectedRejectReason
                 }.map { it.name }
 
                 val materialSource = if (filteredItems.isNotEmpty()) filteredItems else listOf("None")
@@ -190,7 +307,6 @@ class Approve_Order_Check : AppCompatActivity() {
             }
         }
 
-        // Listener for the Material Spinner
         spinnerRejectMaterial.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
                 selectedRejectMaterial = parent?.getItemAtPosition(position).toString()

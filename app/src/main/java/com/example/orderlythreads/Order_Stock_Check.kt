@@ -40,14 +40,6 @@ class Order_Stock_Check : AppCompatActivity() {
         val database = OrderlyThreadsDatabase.getDatabase(this)
         val repository = OrdersRepository(database.ordersDao())
         
-        // We need a Factory for OrdersViewModel if it takes a Repository
-        // Assuming you have a factory or can create one inline.
-        // If OrdersViewModelFactory doesn't exist, I'll create it inline or use a generic factory pattern.
-        // For now, I'll check if OrdersViewModelFactory exists or I can create it here.
-        // Actually I'll just create a factory class inline or assume one exists.
-        // The previous read of OrdersViewModel did not show a factory in the file.
-        // So I will create one here or use a simple object.
-        
         val viewModelFactory = object : ViewModelProvider.Factory {
             override fun <T : androidx.lifecycle.ViewModel> create(modelClass: Class<T>): T {
                 if (modelClass.isAssignableFrom(OrdersViewModel::class.java)) {
