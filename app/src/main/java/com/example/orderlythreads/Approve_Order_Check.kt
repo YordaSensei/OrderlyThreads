@@ -28,14 +28,6 @@ data class MaterialItem(val category: String, val name: String, val stock: Int)
 
 class Approve_Order_Check : AppCompatActivity() {
 
-    // placeholder data
-//    private val placeholderMaterials = listOf(
-//        MaterialItem("Fabric", "Cotton", 20),
-//        MaterialItem("Basic Materials", "White Thread", 5), // Low stock
-//        MaterialItem("Accents", "Small Buttons", 100),
-//        MaterialItem("Accents", "Zipper Type A", 12) // Low stock
-//    )
-
     private lateinit var inventoryViewModel: InventoryViewModel
     private var orderMaterials: List<MaterialItem> = emptyList()
 
@@ -75,10 +67,11 @@ class Approve_Order_Check : AppCompatActivity() {
 
         // Observe inventory items from the database
         inventoryViewModel.inventoryItems.observe(this) { inventoryList ->
-            // For now, treat all inventory items as 'order materials'
-            orderMaterials = inventoryList.map { 
-                MaterialItem(it.category, it.material, it.quantity)
-            }
+            // Filter out 'Basic Materials' and map to MaterialItem
+            orderMaterials = inventoryList
+                .filter { it.category != "Basic Materials" }
+                .map { MaterialItem(it.category, it.material, it.quantity) }
+            
             displayOrderMaterials(materialsListContainer)
         }
 
@@ -139,8 +132,12 @@ class Approve_Order_Check : AppCompatActivity() {
         val cancelButton = dialogView.findViewById<Button>(R.id.cancelButton)
         val rejectConfirmButton = dialogView.findViewById<Button>(R.id.rejectConfirmButton)
 
-        // Categories from all available inventory items
-        val categories = orderMaterials.map { it.category }.distinct()
+        // Categories from all available inventory items, filtering out "Basic Materials"
+        val categories = orderMaterials
+            .map { it.category }
+            .filter { it != "Basic Materials" }
+            .distinct()
+            
         val rejectionReasons = if (categories.isNotEmpty()) categories else listOf("None")
         val reasonAdapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, rejectionReasons)
         reasonAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
