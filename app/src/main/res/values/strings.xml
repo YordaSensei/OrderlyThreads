@@ -112,4 +112,11 @@
     <string name="select_option">Select Option</string>
     <string name="back">Back</string>
     <string name="add_accent">Add Accent</string>
+
+    <string-array name="process_items">
+        <item>Pending</item>
+        <item>Cutting</item>
+        <item>Sewing</item>
+        <item>Finishing</item>
+    </string-array>
 </resources>

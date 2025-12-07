@@ -36,6 +36,12 @@
             android:name=".Inventory"
             android:exported="false" />
         <activity
+            android:name=".ProductionTracker"
+            android:exported="false" />
+        <activity
+            android:name=".ProductionStaff"
+            android:exported="false" />
+        <activity
             android:name=".login"
             android:exported="true">
         <intent-filter>
