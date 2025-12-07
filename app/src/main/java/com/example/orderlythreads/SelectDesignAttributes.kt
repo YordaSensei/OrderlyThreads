@@ -5,7 +5,6 @@ import android.os.Bundle
 import android.view.View
 import android.widget.Button
 import android.widget.EditText
-import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
@@ -80,67 +79,39 @@ class SelectDesignAttributes : AppCompatActivity() {
 
 
 
-// In SelectDesignAttributes.kt
-
-// In SelectDesignAttributes.kt
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContentView(R.layout.activity_select_design_attributes)
 
-        // --- ViewModel Setup ---
         val database = OrderlyThreadsDatabase.getDatabase(this)
         val repository = OrdersRepository(database.ordersDao())
         val factory = OrdersViewModelFactory(repository)
-        ordersViewModel = ViewModelProvider(this, factory).get(OrdersViewModel::class.java)
+        ordersViewModel =
+            ViewModelProvider(this, factory).get(OrdersViewModel::class.java)
 
-        val inventoryRepo = InventoryRepository(database.inventoryDao())
+        val inventoryRepo = InventoryRepository(database.inventoryDao()) // Ensure you have this
         val inventoryFactory = InventoryViewModelFactory(inventoryRepo)
         inventoryViewModel = ViewModelProvider(this, inventoryFactory).get(InventoryViewModel::class.java)
 
-<<<<<<< HEAD
-        // --- Initialize Views ---
-=======
->>>>>>> parent of 7674129 (Fixed bugs)
         initializeViews()
 
-        // --- Click Listeners ---
-        findViewById<ImageView>(R.id.btnBack).setOnClickListener {
+        val backButton = findViewById<ImageView>(R.id.btnBack)
+        backButton.setOnClickListener {
             finish()
         }
-        btnAddUpperAccentQty.setOnClickListener { showQuantityDialog("Upper Accents") { qty -> upperAccentQty = qty } }
-        btnAddLowerAccentQty.setOnClickListener { showQuantityDialog("Lower Accents") { qty -> lowerAccentQty = qty } }
-        btnSaveOrder.setOnClickListener { showConfirmationDialog() }
-
-        // --- Logout Button Logic ---
-        val logoutBtn = findViewById<ImageButton>(R.id.logOutBtn)
-        logoutBtn.setOnClickListener {
-            val intent = Intent(this, login::class.java)
-            intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-            startActivity(intent)
-            finish()
-        }
-
-        // --- Window Insets Listener ---
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
 
-        // --- Setup Adapters and Observe Data ---
         setupAllAdapters()
-<<<<<<< HEAD
-        observeRealData() // This call is crucial to load data from the database
-=======
 
         btnAddUpperAccentQty.setOnClickListener { showQuantityDialog("Upper Accents") { qty -> upperAccentQty = qty } }
         btnAddLowerAccentQty.setOnClickListener { showQuantityDialog("Lower Accents") { qty -> lowerAccentQty = qty } }
         btnSaveOrder.setOnClickListener { showConfirmationDialog() }
->>>>>>> parent of 7674129 (Fixed bugs)
     }
-
 
     private fun initializeViews() {
         upperWearInfo = findViewById(R.id.upperWearLayout)
@@ -165,9 +136,8 @@ class SelectDesignAttributes : AppCompatActivity() {
 
     // In SelectDesignAttributes.kt
 
-    // In SelectDesignAttributes.kt
     private fun setupAllAdapters() {
-        // --- Data Lists ---
+        // --- Image Data Lists and Name Data Lists (no changes here) ---
         val casualUpperImages = listOf(R.drawable.casual_upper_t_shirt, R.drawable.casual_upper_polo_shirt, R.drawable.casual_upper_hoodie, R.drawable.casual_upper_sweatshirt, R.drawable.casual_upper_sleeveless_shirt, R.drawable.casual_upper_dress)
         val formalUpperImages = listOf(R.drawable.formal_upper_dress_shirt, R.drawable.formal_upper_suit, R.drawable.formal_upper_dress, R.drawable.formal_upper_gown, R.drawable.formal_upper_barong, R.drawable.formal_upper_filipiniana)
         val casualLowerImages = listOf(R.drawable.casual_lower_jeans, R.drawable.casual_lower_shorts, R.drawable.casual_lower_cargo_pants, R.drawable.casual_lower_sweatpants, R.drawable.casual_lower_leggings, R.drawable.casual_lower_skirt)
@@ -176,6 +146,22 @@ class SelectDesignAttributes : AppCompatActivity() {
         val formalUpperNames = listOf("Dress Shirt", "Suit", "Formal Dress", "Gown", "Barong", "Filipiniana")
         val casualLowerNames = listOf("Jeans", "Shorts", "Cargo Pants", "Sweatpants", "Leggings", "Skirt")
         val formalLowerNames = listOf("Dress Pants", "Wide Chinos", "Pencil Skirt", "Full-Length Skirt", "Pleated Trousers", "Wide Trousers")
+        val upperFabricImages = mutableListOf(R.drawable.ic_search).apply { addAll(List(12) { R.drawable.img_placeholder }) }
+        val upperFabricNames = listOf("Search Fabric") + (1..12).map { "Fabric #$it" }
+        val upperColorImages = mutableListOf(R.drawable.ic_search).apply { addAll(List(12) { R.drawable.sample_color }) }
+        val upperColorNames = listOf("Search Color") + (1..12).map { "Color #$it" }
+        val upperAccentImages = List(12) { R.drawable.img_placeholder }
+        val upperAccentNames = (1..12).map { "Accent #$it" }
+        val upperAccentColorImages = mutableListOf(R.drawable.ic_search).apply { addAll(List(12) { R.drawable.sample_color }) }
+        val upperAccentColorNames = listOf("Search Accent Color") + (1..12).map { "Accent Color #$it" }
+        val lowerFabricImages = mutableListOf(R.drawable.ic_search).apply { addAll(List(12) { R.drawable.img_placeholder }) }
+        val lowerFabricNames = listOf("Search Fabric") + (1..12).map { "Fabric #$it" }
+        val lowerColorImages = mutableListOf(R.drawable.ic_search).apply { addAll(List(12) { R.drawable.sample_color }) }
+        val lowerColorNames = listOf("Search Color") + (1..12).map { "Color #$it" }
+        val lowerAccentImages = List(12) { R.drawable.img_placeholder }
+        val lowerAccentNames = (1..12).map { "Accent #$it" }
+        val lowerAccentColorImages = mutableListOf(R.drawable.ic_search).apply { addAll(List(12) { R.drawable.sample_color }) }
+        val lowerAccentColorNames = listOf("Search Accent Color") + (1..12).map { "Accent Color #$it" }
 
         val colorList = listOf(
             android.graphics.Color.BLACK,
@@ -187,75 +173,131 @@ class SelectDesignAttributes : AppCompatActivity() {
             "#000080".toColorInt(), // Navy
         )
 
-        // --- Garment Adapters (Placeholder Data) ---
-        adapterUpperCasual = ImageAdapter(this, casualUpperImages, R.layout.item_garment_card, nameList = casualUpperNames) { position ->
+        // Upper Wear Adapters
+        adapterUpperCasual = ImageAdapter(
+            this,
+            casualUpperImages,
+            R.layout.item_garment_card,
+            nameList = casualUpperNames  // <--- Pass the names here!
+        ) { position ->
             adapterUpperCasual.setSelection(position)
             if (::adapterUpperFormal.isInitialized) adapterUpperFormal.clearSelection()
         }
-        adapterUpperFormal = ImageAdapter(this, formalUpperImages, R.layout.item_garment_card, nameList = formalUpperNames) { position ->
+        adapterUpperFormal = ImageAdapter(
+            this,
+            formalUpperImages,
+            R.layout.item_garment_card,
+            nameList = formalUpperNames // <--- Pass it here
+        ) { position ->
             adapterUpperFormal.setSelection(position)
             if (::adapterUpperCasual.isInitialized) adapterUpperCasual.clearSelection()
         }
         attachAdapterToView(R.id.rvUpperCasual, adapterUpperCasual)
         attachAdapterToView(R.id.rvUpperFormal, adapterUpperFormal)
 
-        adapterLowerCasual = ImageAdapter(this, casualLowerImages, R.layout.item_garment_card, nameList = casualLowerNames) { position ->
+        // Lower Wear Adapters
+        adapterLowerCasual = ImageAdapter(
+            this,
+            casualLowerImages,
+            R.layout.item_garment_card,
+            nameList = casualLowerNames // <--- Pass the names here!
+            ) { position ->
             adapterLowerCasual.setSelection(position)
+            // Clear the other category if selected
             if (::adapterLowerFormal.isInitialized) adapterLowerFormal.clearSelection()
         }
-        adapterLowerFormal = ImageAdapter(this, formalLowerImages, R.layout.item_garment_card, nameList = formalLowerNames) { position ->
+        adapterLowerFormal = ImageAdapter(
+            this,
+            formalLowerImages,
+            R.layout.item_garment_card,
+            nameList = formalLowerNames // <--- Pass the names here!
+            ) { position ->
             adapterLowerFormal.setSelection(position)
+            // Clear the other category if selected
             if (::adapterLowerCasual.isInitialized) adapterLowerCasual.clearSelection()
         }
         attachAdapterToView(R.id.rvLowerCasual, adapterLowerCasual)
         attachAdapterToView(R.id.rvLowerFormal, adapterLowerFormal)
 
-        // --- REAL Fabric Adapters (Connected to Database) ---
-        realUpperFabricAdapter = FabricSelectionAdapter { /* Handle click */ }
+        // Browsable and Accent Adapters
+        adapterUpperFabric = setupRecyclerView(R.id.rvUpperFabrics, upperFabricImages, upperFabricNames, R.layout.item_fabric_card)
+        adapterUpperColor = ColorAdapter(this, colorList) { selectedColor ->
+            // Logic when a color is clicked (Optional: Save to a variable)
+            // Example: selectedUpperColor = selectedColor
+        }
+        findViewById<RecyclerView>(R.id.rvUpperColors).apply {
+            layoutManager = LinearLayoutManager(this@SelectDesignAttributes, LinearLayoutManager.HORIZONTAL, false)
+            adapter = adapterUpperColor
+        }
+        adapterUpperAccents = setupRecyclerView(R.id.rvUpperAccents, upperAccentImages, upperAccentNames, R.layout.item_garment_card)
+        adapterUpperAccentColors = ColorAdapter(this, colorList) { selectedColor ->
+            // Logic for accent color
+        }
+        findViewById<RecyclerView>(R.id.rvUpperAccentsColors).apply {
+            layoutManager = LinearLayoutManager(this@SelectDesignAttributes, LinearLayoutManager.HORIZONTAL, false)
+            adapter = adapterUpperAccentColors
+        }
+
+        adapterLowerFabric = setupRecyclerView(R.id.rvLowerFabrics, lowerFabricImages, lowerFabricNames, R.layout.item_fabric_card)
+        adapterLowerColor = ColorAdapter(this, colorList) { selectedColor ->
+            // Logic when lower color is clicked
+        }
+        findViewById<RecyclerView>(R.id.rvLowerColors).apply {
+            layoutManager = LinearLayoutManager(this@SelectDesignAttributes, LinearLayoutManager.HORIZONTAL, false)
+            adapter = adapterLowerColor
+        }
+        adapterLowerAccents = setupRecyclerView(R.id.rvLowerAccents, lowerAccentImages, lowerAccentNames, R.layout.item_garment_card)
+        adapterLowerAccentColors = ColorAdapter(this, colorList) { selectedColor ->
+            // Logic for accent color
+        }
+        findViewById<RecyclerView>(R.id.rvLowerAccentColors).apply {
+            layoutManager = LinearLayoutManager(this@SelectDesignAttributes, LinearLayoutManager.HORIZONTAL, false)
+            adapter = adapterLowerAccentColors
+        }
+
+        realUpperFabricAdapter = FabricSelectionAdapter { selectedItem ->
+            // Optional: Toast to confirm selection
+            // Toast.makeText(this, "Selected: ${selectedItem.material}", Toast.LENGTH_SHORT).show()
+        }
         findViewById<RecyclerView>(R.id.rvUpperFabrics).apply {
             layoutManager = LinearLayoutManager(this@SelectDesignAttributes, LinearLayoutManager.HORIZONTAL, false)
             adapter = realUpperFabricAdapter
         }
 
-        realLowerFabricAdapter = FabricSelectionAdapter { /* Handle click */ }
+        realLowerFabricAdapter = FabricSelectionAdapter { _ -> }
         findViewById<RecyclerView>(R.id.rvLowerFabrics).apply {
             layoutManager = LinearLayoutManager(this@SelectDesignAttributes, LinearLayoutManager.HORIZONTAL, false)
             adapter = realLowerFabricAdapter
         }
 
-        // --- REAL Accent Adapters (Connected to Database) ---
-        realUpperAccentAdapter = AccentSelectionAdapter { /* Handle click */ }
+        inventoryViewModel.getFabrics().observe(this) { fabricList ->
+            if (fabricList != null) {
+                realUpperFabricAdapter.setData(fabricList)
+                realLowerFabricAdapter.setData(fabricList)
+            }
+        }
+
+        realUpperAccentAdapter = AccentSelectionAdapter { selectedItem ->
+            // Optional: Logic when an accent is selected
+        }
         findViewById<RecyclerView>(R.id.rvUpperAccents).apply {
             layoutManager = LinearLayoutManager(this@SelectDesignAttributes, LinearLayoutManager.HORIZONTAL, false)
             adapter = realUpperAccentAdapter
         }
 
-        realLowerAccentAdapter = AccentSelectionAdapter { /* Handle click */ }
+        // --- REAL LOWER ACCENTS ---
+        realLowerAccentAdapter = AccentSelectionAdapter { _ -> }
         findViewById<RecyclerView>(R.id.rvLowerAccents).apply {
             layoutManager = LinearLayoutManager(this@SelectDesignAttributes, LinearLayoutManager.HORIZONTAL, false)
             adapter = realLowerAccentAdapter
         }
 
-        // --- Color Adapters (Placeholder Data) ---
-        adapterUpperColor = ColorAdapter(this, colorList) { /* Handle click */ }
-        findViewById<RecyclerView>(R.id.rvUpperColors).apply {
-            layoutManager = LinearLayoutManager(this@SelectDesignAttributes, LinearLayoutManager.HORIZONTAL, false)
-            adapter = adapterUpperColor
-        }
-        adapterUpperAccentColors = ColorAdapter(this, colorList) { /* Handle click */ }
-        findViewById<RecyclerView>(R.id.rvUpperAccentsColors).apply {
-            layoutManager = LinearLayoutManager(this@SelectDesignAttributes, LinearLayoutManager.HORIZONTAL, false)
-            adapter = adapterUpperAccentColors
-        }
-        adapterLowerColor = ColorAdapter(this, colorList) { /* Handle click */ }
-        findViewById<RecyclerView>(R.id.rvLowerColors).apply {
-            layoutManager = LinearLayoutManager(this@SelectDesignAttributes, LinearLayoutManager.HORIZONTAL, false)
-            adapter = adapterLowerColor
-        }
-        adapterLowerAccentColors = ColorAdapter(this, colorList) { /* Handle click */ }
-        findViewById<RecyclerView>(R.id.rvLowerAccentColors).apply {
-            layoutManager = LinearLayoutManager(this@SelectDesignAttributes, LinearLayoutManager.HORIZONTAL, false)
-            adapter = adapterLowerAccentColors
+        // --- OBSERVE DATABASE FOR ACCENTS ---
+        inventoryViewModel.getAccents().observe(this) { accentList ->
+            if (accentList != null) {
+                realUpperAccentAdapter.setData(accentList)
+                realLowerAccentAdapter.setData(accentList)
+            }
         }
     }
     private fun setupRecyclerView(recyclerViewId: Int, data: List<Int>, names: List<String>, itemLayoutId: Int): ImageAdapter {
@@ -467,25 +509,20 @@ class SelectDesignAttributes : AppCompatActivity() {
         finish() // Close the screen
     }
 
-    // Add this new function to SelectDesignAttributes.kt
-    private fun observeRealData() {
-        inventoryViewModel.getFabrics().observe(this) { fabricList ->
-            fabricList?.let {
-                realUpperFabricAdapter.setData(it)
-                realUpperFabricAdapter.setData(it)
-                realLowerFabricAdapter.setData(it)
-            }
-        }
 
-        inventoryViewModel.getAccents().observe(this) { accentList ->
-            accentList?.let {
-                realUpperAccentAdapter.setData(it)
-                realLowerAccentAdapter.setData(it)
-            }
-        }
-    }
-
-
+//    val logoutBtn = findViewById<ImageButton>(R.id.logOutBtn)
+//
+//    logoutBtn.setOnClickListener {
+//        val intent = Intent(this, login::class.java)
+//
+//        // Clear history so the user can't go back
+//        intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+//
+//        startActivity(intent)
+//
+//        // Close the current screen.
+//        finish()
+//    }
 
 
 
