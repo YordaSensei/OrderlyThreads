@@ -23,13 +23,17 @@ import com.example.orderlythreads.Database.OrderlyThreadsDatabase
 import com.example.orderlythreads.Database.InventoryRepository
 import com.example.orderlythreads.Database.InventoryViewModel
 import com.example.orderlythreads.Database.InventoryViewModelFactory
+import com.example.orderlythreads.Database.OrdersRepository
+import com.example.orderlythreads.Database.OrdersViewModel
 
 data class MaterialItem(val category: String, val name: String, val stock: Int)
 
 class Approve_Order_Check : AppCompatActivity() {
 
     private lateinit var inventoryViewModel: InventoryViewModel
+    private lateinit var ordersViewModel: OrdersViewModel
     private var orderMaterials: List<MaterialItem> = emptyList()
+    private var currentOrderId: Int = -1
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -53,17 +57,33 @@ class Approve_Order_Check : AppCompatActivity() {
         val rejectButton = findViewById<TextView>(R.id.rejectButton)
         val materialsListContainer = findViewById<LinearLayout>(R.id.materialsList)
 
-        val index = intent.getIntExtra("orderIndex", -1)
+        // Get data from Intent
+        currentOrderId = intent.getIntExtra("orderId", -1)
         orderName.text = intent.getStringExtra("orderName")
         orderDateTime.text = intent.getStringExtra("orderDate")
         orderLabel.text = intent.getStringExtra("orderLabel")
         orderShirtImage.setImageResource(intent.getIntExtra("orderImage", 0))
 
-        // Setup ViewModel for Inventory
-        val inventoryDao = OrderlyThreadsDatabase.getDatabase(applicationContext).inventoryDao()
-        val repository = InventoryRepository(inventoryDao)
-        val viewModelFactory = InventoryViewModelFactory(repository)
-        inventoryViewModel = ViewModelProvider(this, viewModelFactory).get(InventoryViewModel::class.java)
+        // Setup ViewModels
+        val database = OrderlyThreadsDatabase.getDatabase(applicationContext)
+        
+        // Inventory ViewModel
+        val inventoryRepo = InventoryRepository(database.inventoryDao())
+        val inventoryFactory = InventoryViewModelFactory(inventoryRepo)
+        inventoryViewModel = ViewModelProvider(this, inventoryFactory).get(InventoryViewModel::class.java)
+
+        // Orders ViewModel
+        val ordersRepo = OrdersRepository(database.ordersDao())
+        val ordersFactory = object : ViewModelProvider.Factory {
+            override fun <T : androidx.lifecycle.ViewModel> create(modelClass: Class<T>): T {
+                if (modelClass.isAssignableFrom(OrdersViewModel::class.java)) {
+                    @Suppress("UNCHECKED_CAST")
+                    return OrdersViewModel(ordersRepo) as T
+                }
+                throw IllegalArgumentException("Unknown ViewModel class")
+            }
+        }
+        ordersViewModel = ViewModelProvider(this, ordersFactory).get(OrdersViewModel::class.java)
 
         // Observe inventory items from the database
         inventoryViewModel.inventoryItems.observe(this) { inventoryList ->
@@ -81,18 +101,20 @@ class Approve_Order_Check : AppCompatActivity() {
             if (lowStockItems.isNotEmpty()) {
                 Toast.makeText(this, "Warning: Approving order with low stock items: $lowStockItems", Toast.LENGTH_LONG).show()
             }
-            // Send result back to Order_Stock_Check with "Approved" status
-            val resultIntent = Intent()
-            resultIntent.putExtra("orderIndex", index)
-            resultIntent.putExtra("orderStatus", "Approved")
-            setResult(RESULT_OK, resultIntent)
+            
+            if (currentOrderId != -1) {
+                ordersViewModel.updateOrderStatus(currentOrderId, "Approved")
+                Toast.makeText(this, "Order Approved", Toast.LENGTH_SHORT).show()
+            } else {
+                Toast.makeText(this, "Error: Order ID not found", Toast.LENGTH_SHORT).show()
+            }
             finish()
         }
 
         // Reject order
         rejectButton.setOnClickListener {
             val lowStockItems = orderMaterials.filter { it.stock <= 15 }.map { it.name }
-            showRejectDialog(index, lowStockItems)
+            showRejectDialog(lowStockItems)
         }
     }
 
@@ -120,7 +142,7 @@ class Approve_Order_Check : AppCompatActivity() {
         }
     }
 
-    private fun showRejectDialog(index: Int, lowStockMaterials: List<String>) {
+    private fun showRejectDialog(lowStockMaterials: List<String>) {
         val dialogView = LayoutInflater.from(this).inflate(R.layout.dialog_reject_order, null)
         val dialogBuilder = AlertDialog.Builder(this)
             .setView(dialogView)
@@ -184,13 +206,12 @@ class Approve_Order_Check : AppCompatActivity() {
         }
 
         rejectConfirmButton.setOnClickListener {
-            // Send result back to Order_Stock_Check with "Rejected" status
-            val resultIntent = Intent()
-            resultIntent.putExtra("orderIndex", index)
-            resultIntent.putExtra("orderStatus", "Rejected")
-            setResult(RESULT_OK, resultIntent) 
-            
-            Toast.makeText(this@Approve_Order_Check, "Order Rejected", Toast.LENGTH_SHORT).show()
+            if (currentOrderId != -1) {
+                ordersViewModel.updateOrderStatus(currentOrderId, "Rejected")
+                Toast.makeText(this@Approve_Order_Check, "Order Rejected", Toast.LENGTH_SHORT).show()
+            } else {
+                Toast.makeText(this@Approve_Order_Check, "Error: Order ID not found", Toast.LENGTH_SHORT).show()
+            }
             dialog.dismiss()
             finish()
         }

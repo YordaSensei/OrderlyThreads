@@ -2,7 +2,6 @@ package com.example.orderlythreads.Database
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-// You can remove: import java.util.Date
 
 @Entity(tableName = "orders")
 data class Orders (
@@ -37,5 +36,8 @@ data class Orders (
     val lowerAccentColorHex: String,
     val lowerAccentQuantity: Int,
 
-    val additionalNotes: String
+    val additionalNotes: String,
+    
+    // New field for Stock Check
+    val status: String = "Pending Approval"
 )
