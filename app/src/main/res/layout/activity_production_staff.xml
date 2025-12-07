@@ -53,7 +53,7 @@
             android:gravity="center"
             android:text="Not Started"
             android:textColor="@color/font_colorstate_graytowhite"
-            android:textSize="16dp" />
+            android:textSize="14dp" />
 
         <TextView
             android:id="@+id/tab2"
@@ -66,7 +66,7 @@
             android:gravity="center"
             android:text="Cutting"
             android:textColor="@color/font_colorstate_graytowhite"
-            android:textSize="16dp"
+            android:textSize="14dp"
             android:layout_marginStart="6dp" />
 
         <TextView
@@ -80,7 +80,7 @@
             android:gravity="center"
             android:text="Sewing"
             android:textColor="@color/font_colorstate_graytowhite"
-            android:textSize="16dp"
+            android:textSize="14dp"
             android:layout_marginStart="6dp"/>
 
         <TextView
@@ -95,7 +95,7 @@
             android:gravity="center"
             android:text="Complete"
             android:textColor="@color/font_colorstate_graytowhite"
-            android:textSize="16dp" />
+            android:textSize="14dp" />
     </LinearLayout>
 
     <androidx.recyclerview.widget.RecyclerView
