@@ -108,7 +108,7 @@ class Order_Stock_Check : AppCompatActivity() {
         
         val logOutBtn = findViewById<android.view.View>(R.id.logOutBtn)
         logOutBtn.setOnClickListener {
-            val intent = Intent(this, RFlogin::class.java)
+            val intent = Intent(this, login::class.java)
             intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
             startActivity(intent)
             finish()

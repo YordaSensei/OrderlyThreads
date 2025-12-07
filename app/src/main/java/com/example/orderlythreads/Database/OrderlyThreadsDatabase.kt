@@ -11,7 +11,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import android.net.Uri 
 
-@Database(entities = [Accounts::class, Orders::class, Inventory::class], version = 4, exportSchema = false)
+@Database(entities = [Accounts::class, Orders::class, Inventory::class], version = 5, exportSchema = false)
 abstract class OrderlyThreadsDatabase : RoomDatabase() {
 
     abstract fun accountsDao(): AccountsDao

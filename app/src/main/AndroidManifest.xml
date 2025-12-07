@@ -33,6 +33,9 @@
             android:name=".SelectDesignAttributes"
             android:exported="false" />
         <activity
+            android:name=".Inventory"
+            android:exported="false" />
+        <activity
             android:name=".login"
             android:exported="true">
         <intent-filter>

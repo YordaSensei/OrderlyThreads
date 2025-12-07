@@ -26,6 +26,7 @@ import com.example.orderlythreads.Database.OrdersViewModelFactory
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
+import androidx.core.graphics.toColorInt
 
 class SelectDesignAttributes : AppCompatActivity() {
 
@@ -151,9 +152,9 @@ class SelectDesignAttributes : AppCompatActivity() {
             android.graphics.Color.LTGRAY,
             android.graphics.Color.WHITE,
             android.graphics.Color.RED,
-            android.graphics.Color.parseColor("#800000"), // Maroon
+            "#800000".toColorInt(), // Maroon
             android.graphics.Color.BLUE,
-            android.graphics.Color.parseColor("#000080"), // Navy
+            "#000080".toColorInt(), // Navy
             android.graphics.Color.CYAN,
             android.graphics.Color.GREEN,
             android.graphics.Color.YELLOW,

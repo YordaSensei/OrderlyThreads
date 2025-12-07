@@ -19,8 +19,8 @@
     <!-- A Ring to show selection (Hidden by default) -->
     <ImageView
         android:id="@+id/imgSelectionRing"
-        android:layout_width="60dp"
-        android:layout_height="60dp"
+        android:layout_width="90dp"
+        android:layout_height="90dp"
         android:src="@drawable/rounded_bg_border_only"
         android:visibility="gone"
         app:layout_constraintTop_toTopOf="@id/imgColorCircle"

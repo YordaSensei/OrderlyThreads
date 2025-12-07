@@ -51,6 +51,11 @@ class InventoryViewModel(private val repository: InventoryRepository) : ViewMode
     fun deleteItem(inventory: Inventory) = viewModelScope.launch(Dispatchers.IO) {
         repository.deleteItem(inventory)
     }
+
+    // Helper to get only "Fabric" items
+    fun getFabrics(): LiveData<List<Inventory>> {
+        return repository.getInventoryByCategory("Fabric")
+    }
 }
 
 class InventoryViewModelFactory(private val repository: InventoryRepository) : ViewModelProvider.Factory {
