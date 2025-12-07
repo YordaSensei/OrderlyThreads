@@ -169,14 +169,30 @@ class manage_accounts : AppCompatActivity() {
             updateDialog.dismiss()
         }
 
+        val deleteDialog = Dialog(this)
+        deleteDialog.setContentView(R.layout.dialog_delete_account)
+        deleteDialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
+
+        val confirmDeleteBtn = deleteDialog.findViewById<Button>(R.id.btn_delete_yes)
+        val cancelDeleteBtn = deleteDialog.findViewById<Button>(R.id.btn_delete_no)
 
         val deleteBtn = infoDialog.findViewById<Button>(R.id.deleteAccBtn)
 
         deleteBtn.setOnClickListener {
+            deleteDialog.show()
+            infoDialog.dismiss()
+        }
+
+        confirmDeleteBtn?.setOnClickListener {
             selectedAccountId?.let{ id ->
                 viewModel.deleteById(id)
+                Toast.makeText(this, "Account Deleted", Toast.LENGTH_SHORT).show()
             }
-            infoDialog.dismiss()
+            deleteDialog.dismiss()
+        }
+
+        cancelDeleteBtn?.setOnClickListener {
+            deleteDialog.dismiss()
         }
 
         recyclerView.addItemDecoration(SpacingItemDecoration(20)) //Gap between items
