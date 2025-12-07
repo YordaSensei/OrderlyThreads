@@ -27,6 +27,9 @@ import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
 import androidx.core.graphics.toColorInt
+import com.example.orderlythreads.Database.InventoryRepository
+import com.example.orderlythreads.Database.InventoryViewModel
+import com.example.orderlythreads.Database.InventoryViewModelFactory
 
 class SelectDesignAttributes : AppCompatActivity() {
 
@@ -66,8 +69,14 @@ class SelectDesignAttributes : AppCompatActivity() {
     private lateinit var adapterLowerColor: ColorAdapter
     private lateinit var adapterLowerAccents: ImageAdapter
     private lateinit var adapterLowerAccentColors: ColorAdapter
-
     private lateinit var ordersViewModel: OrdersViewModel
+    private lateinit var inventoryViewModel: InventoryViewModel
+    private lateinit var realUpperFabricAdapter: FabricSelectionAdapter
+    private lateinit var realLowerFabricAdapter: FabricSelectionAdapter
+    private lateinit var realUpperAccentAdapter: AccentSelectionAdapter
+    private lateinit var realLowerAccentAdapter: AccentSelectionAdapter
+
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -79,6 +88,10 @@ class SelectDesignAttributes : AppCompatActivity() {
         val factory = OrdersViewModelFactory(repository)
         ordersViewModel =
             ViewModelProvider(this, factory).get(OrdersViewModel::class.java)
+
+        val inventoryRepo = InventoryRepository(database.inventoryDao()) // Ensure you have this
+        val inventoryFactory = InventoryViewModelFactory(inventoryRepo)
+        inventoryViewModel = ViewModelProvider(this, inventoryFactory).get(InventoryViewModel::class.java)
 
         initializeViews()
 
@@ -151,14 +164,8 @@ class SelectDesignAttributes : AppCompatActivity() {
             android.graphics.Color.GRAY,
             android.graphics.Color.LTGRAY,
             android.graphics.Color.WHITE,
-            android.graphics.Color.RED,
             "#800000".toColorInt(), // Maroon
-            android.graphics.Color.BLUE,
             "#000080".toColorInt(), // Navy
-            android.graphics.Color.CYAN,
-            android.graphics.Color.GREEN,
-            android.graphics.Color.YELLOW,
-            android.graphics.Color.MAGENTA
         )
 
         // Upper Wear Adapters
@@ -242,6 +249,51 @@ class SelectDesignAttributes : AppCompatActivity() {
             layoutManager = LinearLayoutManager(this@SelectDesignAttributes, LinearLayoutManager.HORIZONTAL, false)
             adapter = adapterLowerAccentColors
         }
+
+        realUpperFabricAdapter = FabricSelectionAdapter { selectedItem ->
+            // Optional: Toast to confirm selection
+            // Toast.makeText(this, "Selected: ${selectedItem.material}", Toast.LENGTH_SHORT).show()
+        }
+        findViewById<RecyclerView>(R.id.rvUpperFabrics).apply {
+            layoutManager = LinearLayoutManager(this@SelectDesignAttributes, LinearLayoutManager.HORIZONTAL, false)
+            adapter = realUpperFabricAdapter
+        }
+
+        realLowerFabricAdapter = FabricSelectionAdapter { _ -> }
+        findViewById<RecyclerView>(R.id.rvLowerFabrics).apply {
+            layoutManager = LinearLayoutManager(this@SelectDesignAttributes, LinearLayoutManager.HORIZONTAL, false)
+            adapter = realLowerFabricAdapter
+        }
+
+        inventoryViewModel.getFabrics().observe(this) { fabricList ->
+            if (fabricList != null) {
+                realUpperFabricAdapter.setData(fabricList)
+                realLowerFabricAdapter.setData(fabricList)
+            }
+        }
+
+        realUpperAccentAdapter = AccentSelectionAdapter { selectedItem ->
+            // Optional: Logic when an accent is selected
+        }
+        findViewById<RecyclerView>(R.id.rvUpperAccents).apply {
+            layoutManager = LinearLayoutManager(this@SelectDesignAttributes, LinearLayoutManager.HORIZONTAL, false)
+            adapter = realUpperAccentAdapter
+        }
+
+        // --- REAL LOWER ACCENTS ---
+        realLowerAccentAdapter = AccentSelectionAdapter { _ -> }
+        findViewById<RecyclerView>(R.id.rvLowerAccents).apply {
+            layoutManager = LinearLayoutManager(this@SelectDesignAttributes, LinearLayoutManager.HORIZONTAL, false)
+            adapter = realLowerAccentAdapter
+        }
+
+        // --- OBSERVE DATABASE FOR ACCENTS ---
+        inventoryViewModel.getAccents().observe(this) { accentList ->
+            if (accentList != null) {
+                realUpperAccentAdapter.setData(accentList)
+                realLowerAccentAdapter.setData(accentList)
+            }
+        }
     }
     private fun setupRecyclerView(recyclerViewId: Int, data: List<Int>, names: List<String>, itemLayoutId: Int): ImageAdapter {
         lateinit var adapter: ImageAdapter
@@ -318,30 +370,38 @@ class SelectDesignAttributes : AppCompatActivity() {
     }
 
     private fun showConfirmationDialog() {
+        // 1. Get Design Names (These still use the old ImageAdapters, which is fine)
         val upperDesign = if (adapterUpperCasual.selectedPosition != RecyclerView.NO_POSITION) adapterUpperCasual.getSelectionName() else adapterUpperFormal.getSelectionName()
         val lowerDesign = if (adapterLowerCasual.selectedPosition != RecyclerView.NO_POSITION) adapterLowerCasual.getSelectionName() else adapterLowerFormal.getSelectionName()
+
         val clientName = etClientName.text.toString()
+
+        // 2. Build Summary using REAL adapters
         val summary = """
-            <b>Client:</b> $clientName<br/>
-            <b>Contact:</b> ${etContactInfo.text}<br/><br/>
-            <big><b>Measurements</b></big><br/>
-            Waist: ${etWaist.text}, Hips: ${etHips.text}<br/>
-            Chest: ${etChest.text}, Length: ${etLength.text}<br/>
-            Shoulder: ${etShoulder.text}, Sleeve: ${etSleeve.text}<br/><br/>
-            <big><b>Upper Wear Selection</b></big><br/>
-            <b>Design:</b> "$upperDesign"<br/>
-            <b>Fabric:</b> ${adapterUpperFabric.getSelectionName()}<br/>
-            <b>Accent Design:</b> ${adapterUpperAccents.getSelectionName()}<br/>
-            <b>Accent Quantity:</b> $upperAccentQty<br/><br/>
-            <big><b>Lower Wear Selection</b></big><br/>
-            <b>Design:</b> "$lowerDesign"<br/>
-            <b>Fabric:</b> ${adapterLowerFabric.getSelectionName()}<br/>
-            <b>Accent Design:</b> ${adapterLowerAccents.getSelectionName()}<br/>
-            <b>Accent Quantity:</b> $lowerAccentQty<br/><br/>
-            <big><b>Notes</b></big><br/>
-            ${etNotes.text}<br/><br/>
-            <i>Proceed with this order?</i>
-        """.trimIndent()
+        <b>Client:</b> $clientName<br/>
+        <b>Contact:</b> ${etContactInfo.text}<br/><br/>
+        
+        <big><b>Measurements</b></big><br/>
+        Waist: ${etWaist.text}, Hips: ${etHips.text}<br/>
+        Chest: ${etChest.text}, Length: ${etLength.text}<br/>
+        Shoulder: ${etShoulder.text}, Sleeve: ${etSleeve.text}<br/><br/>
+        
+        <big><b>Upper Wear Selection</b></big><br/>
+        <b>Design:</b> "$upperDesign"<br/>
+        <b>Fabric:</b> ${realUpperFabricAdapter.getSelectedName()}<br/>
+        <b>Accent Design:</b> ${realUpperAccentAdapter.getSelectedName()}<br/>
+        <b>Accent Quantity:</b> $upperAccentQty<br/><br/>
+        
+        <big><b>Lower Wear Selection</b></big><br/>
+        <b>Design:</b> "$lowerDesign"<br/>
+        <b>Fabric:</b> ${realLowerFabricAdapter.getSelectedName()}<br/>
+        <b>Accent Design:</b> ${realLowerAccentAdapter.getSelectedName()}<br/>
+        <b>Accent Quantity:</b> $lowerAccentQty<br/><br/>
+        
+        <big><b>Notes</b></big><br/>
+        ${etNotes.text}<br/><br/>
+        <i>Proceed with this order?</i>
+    """.trimIndent()
 
         val dialogView = layoutInflater.inflate(R.layout.dialog_save_order, null)
         val dialog = AlertDialog.Builder(this).setView(dialogView).create()
@@ -420,17 +480,17 @@ class SelectDesignAttributes : AppCompatActivity() {
 
             // Upper Selection
             upperDesignId = uDesignId,
-            upperFabricId = adapterUpperFabric.getSelectedResourceId(),
+            upperFabricId = realUpperFabricAdapter.getSelectedId(),
             upperColorHex = adapterUpperColor.getSelectedHex(),
-            upperAccentDesignId = adapterUpperAccents.getSelectedResourceId(),
+            upperAccentDesignId = realUpperAccentAdapter.getSelectedId(),
             upperAccentColorHex = adapterUpperAccentColors.getSelectedHex(),
             upperAccentQuantity = upperAccentQty,
 
             // Lower Selection
             lowerDesignId = lDesignId,
-            lowerFabricId = adapterLowerFabric.getSelectedResourceId(),
+            lowerFabricId = realLowerFabricAdapter.getSelectedId(),
             lowerColorHex = adapterLowerColor.getSelectedHex(),
-            lowerAccentDesignId = adapterLowerAccents.getSelectedResourceId(),
+            lowerAccentDesignId = realLowerAccentAdapter.getSelectedId(),
             lowerAccentColorHex = adapterLowerAccentColors.getSelectedHex(),
             lowerAccentQuantity = lowerAccentQty,
 
