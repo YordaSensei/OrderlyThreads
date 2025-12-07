@@ -1,5 +1,6 @@
 package com.example.orderlythreads
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.widget.Button
@@ -95,6 +96,10 @@ class SelectDesignAttributes : AppCompatActivity() {
 
         initializeViews()
 
+        val backButton = findViewById<ImageView>(R.id.btnBack)
+        backButton.setOnClickListener {
+            finish()
+        }
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)

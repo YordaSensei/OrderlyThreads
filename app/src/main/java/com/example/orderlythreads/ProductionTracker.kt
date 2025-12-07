@@ -165,7 +165,6 @@ class ProductionTracker : AppCompatActivity() {
 
                 dialog.show()
                 }  else {
-                Toast.makeText(this, "Order not yet finished!", Toast.LENGTH_SHORT).show()
                 sendResultandFinish(newStatus)
                     }
             }

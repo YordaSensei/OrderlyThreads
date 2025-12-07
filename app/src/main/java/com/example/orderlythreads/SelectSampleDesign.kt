@@ -16,6 +16,7 @@ import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.core.graphics.drawable.toDrawable
 
 class SelectSampleDesign : AppCompatActivity() {
 
@@ -38,19 +39,18 @@ class SelectSampleDesign : AppCompatActivity() {
         val recyclerView = findViewById<RecyclerView>(R.id.rvSampleDesigns)
 
         val designs = listOf(
-            DesignItem(R.drawable.img_placeholder, "Gown 1", "An Elegant red evening gown."),
-            DesignItem(R.drawable.img_placeholder, "Gown 2", "A Modern silk dress."),
-            DesignItem(R.drawable.img_placeholder, "Gown 3", "A Classic vintage style."),
-            DesignItem(R.drawable.img_placeholder, "Gown 4", "A Summer floral pattern."),
-            DesignItem(R.drawable.img_placeholder, "Gown 5", "A Professional wear."),
-            DesignItem(R.drawable.img_placeholder, "Gown 6", "A Casual chic outfit."),
-            DesignItem(R.drawable.img_placeholder, "Gown 7", "A Bohemian style."),
-            DesignItem(R.drawable.img_placeholder, "Gown 8", "A Avant-garde design.")
+            DesignItem(R.drawable.custom_order_1, "Bloody Mary Gown", "An Elegant red evening gown."),
+            DesignItem(R.drawable.custom_order_2, "Smoothz Dress", "A Modern silk dress."),
+            DesignItem(R.drawable.custom_order_3, "Classic Chap", "A Classic vintage style."),
+            DesignItem(R.drawable.custom_order_4, "Florescent", "A Summer floral pattern."),
+            DesignItem(R.drawable.custom_order_5, "Classic Suit", "A Professional wear."),
+            DesignItem(R.drawable.custom_order_6, "Slizzy Dress", "A Casual slick outfit."),
         )
 
         val adapter = SampleDesignAdapter(designs) { selectedDesign ->
             showDesignDialog(selectedDesign)
         }
+
 
         recyclerView.layoutManager = GridLayoutManager(this, 2)
         recyclerView.adapter = adapter
@@ -60,7 +60,7 @@ class SelectSampleDesign : AppCompatActivity() {
         val dialog = Dialog(this)
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
         dialog.setContentView(R.layout.dialog_design_details)
-        dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        dialog.window?.setBackgroundDrawable(Color.TRANSPARENT.toDrawable())
         dialog.window?.setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
 
         val img = dialog.findViewById<ImageView>(R.id.dialogImgDesign)
@@ -107,7 +107,7 @@ class SelectSampleDesign : AppCompatActivity() {
 
         override fun getItemCount() = items.size
     }
-    //    val logoutBtn = findViewById<ImageButton>(R.id.logOutBtn)
+//    val logoutBtn = findViewById<ImageButton>(R.id.logOutBtn)
 //
 //    logoutBtn.setOnClickListener {
 //        val intent = Intent(this, login::class.java)
