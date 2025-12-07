@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.activity.result.contract.ActivityResultContracts
 import android.widget.ImageButton
+import android.widget.Toast
 
 class ProductionStaff : AppCompatActivity() {
 
@@ -191,12 +192,14 @@ class ProductionStaff : AppCompatActivity() {
         val logoutBtn = findViewById<ImageButton>(R.id.logOutBtn)
 
         logoutBtn.setOnClickListener {
-            //val intent = Intent(this, login::class.java)
+            val intent = Intent(this, login::class.java)
 
             // Clear history so the user can't go back
             intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
 
             startActivity(intent)
+
+            Toast.makeText(this, "Logged Out", Toast.LENGTH_SHORT).show()
 
             // Close the current screen.
             finish()

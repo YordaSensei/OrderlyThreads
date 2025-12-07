@@ -37,14 +37,14 @@
         android:layout_width="363dp"
         android:layout_height="30dp"
         android:layout_marginTop="12dp"
-        android:layout_marginStart="25dp"
+        android:layout_marginStart="23dp"
         android:orientation="horizontal"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/sectionTitle">
 
         <TextView
             android:id="@+id/tab1"
-            android:layout_width="97dp"
+            android:layout_width="105dp"
             android:layout_height="24dp"
             android:background="@drawable/btn_topbuttons"
             android:clickable="true"
@@ -57,7 +57,7 @@
 
         <TextView
             android:id="@+id/tab2"
-            android:layout_width="75dp"
+            android:layout_width="80dp"
             android:layout_height="24dp"
             android:background="@drawable/btn_topbuttons"
             android:clickable="true"
@@ -67,11 +67,11 @@
             android:text="Cutting"
             android:textColor="@color/font_colorstate_graytowhite"
             android:textSize="16dp"
-            android:layout_marginStart="13dp" />
+            android:layout_marginStart="6dp" />
 
         <TextView
             android:id="@+id/tab3"
-            android:layout_width="70dp"
+            android:layout_width="75dp"
             android:layout_height="24dp"
             android:background="@drawable/btn_topbuttons"
             android:clickable="true"
@@ -81,19 +81,19 @@
             android:text="Sewing"
             android:textColor="@color/font_colorstate_graytowhite"
             android:textSize="16dp"
-            android:layout_marginStart="13dp"/>
+            android:layout_marginStart="6dp"/>
 
         <TextView
             android:id="@+id/tab4"
-            android:layout_width="80dp"
+            android:layout_width="85dp"
             android:layout_height="24dp"
-            android:layout_marginStart="15dp"
+            android:layout_marginStart="6dp"
             android:background="@drawable/btn_topbuttons"
             android:clickable="true"
             android:focusable="true"
             android:fontFamily="@font/dm_sans_extrabold"
             android:gravity="center"
-            android:text="Finishing"
+            android:text="Complete"
             android:textColor="@color/font_colorstate_graytowhite"
             android:textSize="16dp" />
     </LinearLayout>
