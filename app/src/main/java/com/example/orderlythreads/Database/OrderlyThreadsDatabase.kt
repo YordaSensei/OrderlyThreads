@@ -11,12 +11,13 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import android.net.Uri 
 
-@Database(entities = [Accounts::class, Orders::class, Inventory::class], version = 6, exportSchema = false)
+@Database(entities = [Accounts::class, Orders::class, Inventory::class, OrderCheck::class], version = 7, exportSchema = false)
 abstract class OrderlyThreadsDatabase : RoomDatabase() {
 
     abstract fun accountsDao(): AccountsDao
     abstract fun ordersDao(): OrdersDao
     abstract fun inventoryDao(): InventoryDao
+    abstract fun orderCheckDao(): OrderCheckDao
 
     companion object {
         @Volatile
@@ -37,8 +38,15 @@ abstract class OrderlyThreadsDatabase : RoomDatabase() {
 
         val MIGRATION_5_6 = object : Migration(5, 6) {
             override fun migrate(database: SupportSQLiteDatabase) {
-                // Add 'status' column to 'orders' table with a default value
                 database.execSQL("ALTER TABLE orders ADD COLUMN status TEXT NOT NULL DEFAULT 'Pending Approval'")
+            }
+        }
+
+        val MIGRATION_6_7 = object : Migration(6, 7) {
+            override fun migrate(database: SupportSQLiteDatabase) {
+                database.execSQL(
+                    "CREATE TABLE IF NOT EXISTS `order_checks` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `orderId` INTEGER NOT NULL, `inventoryId` INTEGER NOT NULL, `status` TEXT NOT NULL, FOREIGN KEY(`orderId`) REFERENCES `orders`(`orderId`) ON UPDATE NO ACTION ON DELETE CASCADE, FOREIGN KEY(`inventoryId`) REFERENCES `inventory`(`id`) ON UPDATE NO ACTION ON DELETE CASCADE)"
+                )
             }
         }
 
@@ -53,13 +61,10 @@ abstract class OrderlyThreadsDatabase : RoomDatabase() {
                     override fun onCreate(db: SupportSQLiteDatabase) {
                         super.onCreate(db)
 
-                        // Insert admin safely
                         db.execSQL("INSERT INTO Accounts (username, email, password, position) " +
                                 "VALUES ('admin', 'admin@gmail.com', 'admin123', 'Admin')")
 
-                        // Insert admin and default inventory
                         CoroutineScope(Dispatchers.IO).launch {
-                            // Pre-populate Fabric inventory items
                             val inventoryDao = INSTANCE?.inventoryDao()
                             val packageName = context.packageName
                             val fabrics = listOf(
@@ -86,7 +91,7 @@ abstract class OrderlyThreadsDatabase : RoomDatabase() {
                         }
                     }
                 })
-                .addMigrations(MIGRATION_1_2, MIGRATION_5_6)
+                .addMigrations(MIGRATION_1_2, MIGRATION_5_6, MIGRATION_6_7)
                 .build()
 
                 INSTANCE = instance

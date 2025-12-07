@@ -93,6 +93,9 @@ class Order_Stock_Check : AppCompatActivity() {
             approvedList.clear()
 
             orders.forEach { order ->
+                // Skip Rejected orders
+                if (order.status == "Rejected") return@forEach
+
                 // Map Entity to UI Model
                 val item = OrderItem(
                     id = order.orderId,
@@ -106,7 +109,7 @@ class Order_Stock_Check : AppCompatActivity() {
                 if (item.status == "Approved") {
                     approvedList.add(item)
                 } else {
-                    pendingList.add(item) // "Pending Approval" or others
+                    pendingList.add(item) // "Pending Approval"
                 }
             }
 

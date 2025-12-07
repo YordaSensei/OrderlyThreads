@@ -26,7 +26,11 @@ import com.example.orderlythreads.Database.InventoryViewModelFactory
 import com.example.orderlythreads.Database.OrdersRepository
 import com.example.orderlythreads.Database.OrdersViewModel
 import com.example.orderlythreads.Database.Orders
-import com.example.orderlythreads.Database.Inventory // Import Inventory Entity
+import com.example.orderlythreads.Database.Inventory
+import com.example.orderlythreads.Database.OrderCheck
+import com.example.orderlythreads.Database.OrderCheckDao
+import com.example.orderlythreads.Database.OrderCheckRepository
+import com.example.orderlythreads.Database.OrderCheckViewModel
 
 data class MaterialItem(val category: String, val name: String, val stock: Int)
 
@@ -34,8 +38,9 @@ class Approve_Order_Check : AppCompatActivity() {
 
     private lateinit var inventoryViewModel: InventoryViewModel
     private lateinit var ordersViewModel: OrdersViewModel
+    private lateinit var orderCheckViewModel: OrderCheckViewModel
     private var orderMaterials: List<MaterialItem> = emptyList()
-    private var matchedInventoryItems: List<Inventory> = emptyList() // Track actual Inventory objects
+    private var matchedInventoryItems: List<Inventory> = emptyList() 
     private var allInventoryItems: List<Inventory> = emptyList()
     private var currentOrderId: Int = -1
     private var currentOrder: Orders? = null
@@ -78,7 +83,6 @@ class Approve_Order_Check : AppCompatActivity() {
 
         // Get data from Intent
         currentOrderId = intent.getIntExtra("orderId", -1)
-        // We still populate these from intent for immediate display, but could fetch from DB
         orderName.text = intent.getStringExtra("orderName")
         orderDateTime.text = intent.getStringExtra("orderDate")
         orderLabel.text = intent.getStringExtra("orderLabel")
@@ -105,6 +109,20 @@ class Approve_Order_Check : AppCompatActivity() {
         }
         ordersViewModel = ViewModelProvider(this, ordersFactory).get(OrdersViewModel::class.java)
 
+        // OrderCheck ViewModel
+        val orderCheckRepo = OrderCheckRepository(database.orderCheckDao())
+        val orderCheckFactory = object : ViewModelProvider.Factory {
+            override fun <T : androidx.lifecycle.ViewModel> create(modelClass: Class<T>): T {
+                if (modelClass.isAssignableFrom(OrderCheckViewModel::class.java)) {
+                    @Suppress("UNCHECKED_CAST")
+                    return OrderCheckViewModel(orderCheckRepo) as T
+                }
+                throw IllegalArgumentException("Unknown ViewModel class")
+            }
+        }
+        orderCheckViewModel = ViewModelProvider(this, orderCheckFactory).get(OrderCheckViewModel::class.java)
+
+
         // 1. Fetch the specific order
         if (currentOrderId != -1) {
             ordersViewModel.fetchOrder(currentOrderId)
@@ -114,7 +132,7 @@ class Approve_Order_Check : AppCompatActivity() {
         ordersViewModel.currentOrder.observe(this) { order ->
             currentOrder = order
             if (order != null) {
-                populateOrderDetails(order) // Populate variables
+                populateOrderDetails(order)
                 if (allInventoryItems.isNotEmpty()) {
                     filterMaterialsForOrder(order, allInventoryItems, materialsListContainer)
                 }
@@ -126,10 +144,8 @@ class Approve_Order_Check : AppCompatActivity() {
             allInventoryItems = inventoryList
             if (currentOrder != null) {
                 filterMaterialsForOrder(currentOrder!!, inventoryList, materialsListContainer)
-                // Re-populate details to ensure fabric name is resolved if needed
                 populateOrderDetails(currentOrder!!) 
             } else if (currentOrderId == -1) {
-                // Fallback if no order ID provided
                 orderMaterials = inventoryList
                     .filter { it.category != "Basic Materials" }
                     .map { MaterialItem(it.category, it.material, it.quantity) }
@@ -148,12 +164,20 @@ class Approve_Order_Check : AppCompatActivity() {
                 // 1. Update Order Status
                 ordersViewModel.updateOrderStatus(currentOrderId, "Approved")
 
-                // 2. Deduct Materials
+                // 2. Deduct Materials & Create Order Check Records
                 matchedInventoryItems.forEach { inventoryItem ->
-                    // Deduct 2 from quantity, ensure it doesn't go below 0
+                    // Deduct stock
                     val newQuantity = if (inventoryItem.quantity >= 2) inventoryItem.quantity - 2 else 0
                     val updatedItem = inventoryItem.copy(quantity = newQuantity)
                     inventoryViewModel.updateItem(updatedItem)
+
+                    // Create Order Check Record (Approved) - ONLY for Approved
+                    val orderCheck = OrderCheck(
+                        orderId = currentOrderId,
+                        inventoryId = inventoryItem.id,
+                        status = "Approved"
+                    )
+                    orderCheckViewModel.addOrderCheck(orderCheck)
                 }
 
                 Toast.makeText(this, "Order Approved & Stock Deducted", Toast.LENGTH_SHORT).show()
@@ -171,16 +195,13 @@ class Approve_Order_Check : AppCompatActivity() {
     }
 
     private fun populateOrderDetails(order: Orders) {
-        // Order ID
         tvOrderId.text = "OD${order.orderId}"
 
-        // Garment Type (Derive from Resource ID name)
         val garmentResId = order.upperDesignId
         var garmentName = "(Not specified)"
         if (garmentResId != 0) {
             try {
                 val resEntryName = resources.getResourceEntryName(garmentResId)
-                // Clean up name: "casual_upper_t_shirt" -> "T Shirt"
                 garmentName = resEntryName
                     .replace("casual_upper_", "")
                     .replace("formal_upper_", "")
@@ -192,7 +213,6 @@ class Approve_Order_Check : AppCompatActivity() {
         }
         tvGarment.text = garmentName
 
-        // Fabric Type (Resolve from Inventory ID)
         var fabricName = "(Not specified)"
         if (order.upperFabricId != 0) {
             val matchedFabric = allInventoryItems.find { it.id == order.upperFabricId }
@@ -202,7 +222,6 @@ class Approve_Order_Check : AppCompatActivity() {
         }
         tvFabric.text = fabricName
 
-        // Color/Pattern
         var colorName = order.upperColorHex
         if (colorName.isNullOrEmpty() || colorName == "0") {
              colorName = "(Not specified)"
@@ -211,7 +230,6 @@ class Approve_Order_Check : AppCompatActivity() {
         }
         tvColorPattern.text = colorName
 
-        // Notes
         tvNotes.text = if (order.additionalNotes.isNotBlank()) order.additionalNotes else "(Not specified)"
     }
 
@@ -222,7 +240,6 @@ class Approve_Order_Check : AppCompatActivity() {
         if (order.upperAccentDesignId != 0) requiredIds.add(order.upperAccentDesignId)
         if (order.lowerAccentDesignId != 0) requiredIds.add(order.lowerAccentDesignId)
 
-        // Store the full Inventory objects so we can update them later
         matchedInventoryItems = inventoryList.filter { inventoryItem ->
             requiredIds.contains(inventoryItem.id)
         }
@@ -324,6 +341,7 @@ class Approve_Order_Check : AppCompatActivity() {
         rejectConfirmButton.setOnClickListener {
             if (currentOrderId != -1) {
                 ordersViewModel.updateOrderStatus(currentOrderId, "Rejected")
+                // Removed OrderCheck creation for rejected orders as requested
                 Toast.makeText(this@Approve_Order_Check, "Order Rejected", Toast.LENGTH_SHORT).show()
             } else {
                 Toast.makeText(this@Approve_Order_Check, "Error: Order ID not found", Toast.LENGTH_SHORT).show()
