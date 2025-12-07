@@ -19,4 +19,8 @@ class OrdersRepository(private val ordersDao: OrdersDao) {
     fun getAllOrders(): LiveData<List<Orders>> {
         return ordersDao.getAllOrders()
     }
+
+    suspend fun getOrderById(orderId: Int): Orders? {
+        return ordersDao.getOrderById(orderId)
+    }
 }
