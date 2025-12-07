@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.RecyclerView
 
 // MODEL
 data class OrderItem(
+    val id: Int,
     val name: String,
     val date: String,
     val label: String,

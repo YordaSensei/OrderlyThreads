@@ -29,7 +29,7 @@ import androidx.core.view.WindowInsetsCompat
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.bumptech.glide.Glide // Added Glide import
+import com.bumptech.glide.Glide
 import com.example.orderlythreads.Database.Inventory
 import com.example.orderlythreads.Database.InventoryDao
 import com.example.orderlythreads.Database.OrderlyThreadsDatabase
@@ -47,7 +47,7 @@ class Inventory : AppCompatActivity() {
     private lateinit var inventoryDao: InventoryDao
 
     // Category names matching the tabs
-    private val categoryNames = listOf("Fabric", "Color/Pattern", "Basic Materials", "Accent")
+    private val categoryNames = listOf("Fabric", "Color/Pattern", "Accents")
 
     // For Add Item Dialog
     private var currentImageUri: Uri? = null
@@ -99,7 +99,7 @@ class Inventory : AppCompatActivity() {
         setContentView(R.layout.inventory)
 
         setupWindowInsets()
-        setupLogoutButton() // Initialize logout button
+        setupLogoutButton()
         setupFooterNavigation()
 
         inventoryDao = OrderlyThreadsDatabase.getDatabase(applicationContext).inventoryDao()
@@ -152,7 +152,9 @@ class Inventory : AppCompatActivity() {
         val tab4 = findViewById<TextView>(R.id.tab4)
         val addButton = findViewById<FrameLayout>(R.id.addButton)
 
-        val tabs = listOf(tab1, tab2, tab3, tab4)
+        tab3.text = "Accents"
+
+        val tabs = listOf(tab1, tab2, tab3)
 
         tabs.forEachIndexed { index, tab ->
             tab.setOnClickListener {

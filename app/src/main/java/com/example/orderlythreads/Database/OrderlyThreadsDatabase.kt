@@ -11,7 +11,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import android.net.Uri 
 
-@Database(entities = [Accounts::class, Orders::class, Inventory::class], version = 5, exportSchema = false)
+@Database(entities = [Accounts::class, Orders::class, Inventory::class], version = 6, exportSchema = false)
 abstract class OrderlyThreadsDatabase : RoomDatabase() {
 
     abstract fun accountsDao(): AccountsDao
@@ -24,18 +24,21 @@ abstract class OrderlyThreadsDatabase : RoomDatabase() {
 
         val MIGRATION_1_2 = object : Migration(1, 2) {
             override fun migrate(database: SupportSQLiteDatabase) {
-                // Create new table with imageUri column
                 database.execSQL(
                     "CREATE TABLE inventory_new (id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, category TEXT NOT NULL, material TEXT NOT NULL, quantity INTEGER NOT NULL, imageUri TEXT)"
                 )
-                // Copy data from old table to new table, excluding imageRes
                 database.execSQL(
                     "INSERT INTO inventory_new (id, category, material, quantity) SELECT id, category, material, quantity FROM inventory"
                 )
-                // Remove old table
                 database.execSQL("DROP TABLE inventory")
-                // Rename new table to inventory
                 database.execSQL("ALTER TABLE inventory_new RENAME TO inventory")
+            }
+        }
+
+        val MIGRATION_5_6 = object : Migration(5, 6) {
+            override fun migrate(database: SupportSQLiteDatabase) {
+                // Add 'status' column to 'orders' table with a default value
+                database.execSQL("ALTER TABLE orders ADD COLUMN status TEXT NOT NULL DEFAULT 'Pending Approval'")
             }
         }
 
@@ -46,7 +49,6 @@ abstract class OrderlyThreadsDatabase : RoomDatabase() {
                     OrderlyThreadsDatabase::class.java,
                     "orderlyThreads_database"
                 )
-
                 .addCallback(object : RoomDatabase.Callback() {
                     override fun onCreate(db: SupportSQLiteDatabase) {
                         super.onCreate(db)
@@ -84,7 +86,7 @@ abstract class OrderlyThreadsDatabase : RoomDatabase() {
                         }
                     }
                 })
-                .addMigrations(MIGRATION_1_2)
+                .addMigrations(MIGRATION_1_2, MIGRATION_5_6)
                 .build()
 
                 INSTANCE = instance
