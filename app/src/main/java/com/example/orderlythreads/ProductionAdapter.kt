@@ -90,7 +90,7 @@ class ProductionAdapter ( //list of items and track button function when clicked
 
             if (item.status == "Completed") {
                 itemRectangleParams.height = TypedValue.applyDimension(
-                    TypedValue.COMPLEX_UNIT_DIP, 125f, displayMetrics
+                    TypedValue.COMPLEX_UNIT_DIP, 120f, displayMetrics
                 ).toInt() // Convert Float result to Int
 
                 holder.status.textSize = 9f // This is correct (Float)
@@ -99,7 +99,7 @@ class ProductionAdapter ( //list of items and track button function when clicked
                     TypedValue.COMPLEX_UNIT_DIP, 140f, displayMetrics
                 ).toInt() // Convert Float result to Int
 
-                holder.status.textSize = 13f
+                holder.status.textSize = 11f
             }
             // Apply the changed parameters to the view.
             holder.itemRectangle.layoutParams = itemRectangleParams
