@@ -11,7 +11,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import android.net.Uri 
 
-@Database(entities = [Accounts::class, Orders::class, Inventory::class], version = 2, exportSchema = false)
+@Database(entities = [Accounts::class, Orders::class, Inventory::class], version = 5, exportSchema = false)
 abstract class OrderlyThreadsDatabase : RoomDatabase() {
 
     abstract fun accountsDao(): AccountsDao
@@ -46,21 +46,17 @@ abstract class OrderlyThreadsDatabase : RoomDatabase() {
                     OrderlyThreadsDatabase::class.java,
                     "orderlyThreads_database"
                 )
+
                 .addCallback(object : RoomDatabase.Callback() {
                     override fun onCreate(db: SupportSQLiteDatabase) {
                         super.onCreate(db)
+
+                        // Insert admin safely
+                        db.execSQL("INSERT INTO Accounts (username, email, password, position) " +
+                                "VALUES ('admin', 'admin@gmail.com', 'admin123', 'Admin')")
+
                         // Insert admin and default inventory
                         CoroutineScope(Dispatchers.IO).launch {
-                            val accountsDao = INSTANCE?.accountsDao()
-                            accountsDao?.addAccount(
-                                Accounts(
-                                    username = "admin",
-                                    email = "admin@gmail.com",
-                                    password = "admin123",
-                                    position = "Admin"
-                                )
-                            )
-
                             // Pre-populate Fabric inventory items
                             val inventoryDao = INSTANCE?.inventoryDao()
                             val packageName = context.packageName

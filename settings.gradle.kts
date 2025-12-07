@@ -19,5 +19,5 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "OrderlyThreads"
+rootProject.name = "Orderly Threads"
 include(":app")

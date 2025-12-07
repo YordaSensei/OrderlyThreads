@@ -1,5 +1,6 @@
 package com.example.orderlythreads
 
+import android.R.attr.data
 import android.content.Context
 import android.graphics.Color
 import android.view.LayoutInflater
@@ -29,7 +30,6 @@ class ImageAdapter(
         val imageView: ImageView? = if (view is ViewGroup) {
             view.findViewWithTag("image_for_adapter") as? ImageView
                 ?: view.findViewById(R.id.imgGarment)
-                ?: view.findViewById(R.id.imgColor)
                 ?: view.findViewById(R.id.imgFabric)
         } else {
             view as? ImageView
@@ -122,5 +122,12 @@ class ImageAdapter(
         val previousPos = selectedPosition
         selectedPosition = RecyclerView.NO_POSITION
         notifyItemChanged(previousPos)
+    }
+
+    fun getSelectedResourceId(): Int {
+        if (selectedPosition != RecyclerView.NO_POSITION && selectedPosition < imageList.size) {
+            return imageList[selectedPosition]
+        }
+        return 0 // Return 0 if nothing selected
     }
 }

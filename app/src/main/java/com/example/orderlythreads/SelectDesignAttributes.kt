@@ -15,8 +15,21 @@ import androidx.core.text.HtmlCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.isVisible
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.orderlythreads.Database.OrderlyThreadsDatabase
+import com.example.orderlythreads.Database.Orders
+import com.example.orderlythreads.Database.OrdersRepository
+import com.example.orderlythreads.Database.OrdersViewModel
+import com.example.orderlythreads.Database.OrdersViewModelFactory
+import java.text.SimpleDateFormat
+import java.util.Date
+import java.util.Locale
+import androidx.core.graphics.toColorInt
+import com.example.orderlythreads.Database.InventoryRepository
+import com.example.orderlythreads.Database.InventoryViewModel
+import com.example.orderlythreads.Database.InventoryViewModelFactory
 
 class SelectDesignAttributes : AppCompatActivity() {
 
@@ -47,20 +60,38 @@ class SelectDesignAttributes : AppCompatActivity() {
     private lateinit var adapterUpperCasual: ImageAdapter
     private lateinit var adapterUpperFormal: ImageAdapter
     private lateinit var adapterUpperFabric: ImageAdapter
-    private lateinit var adapterUpperColor: ImageAdapter
+    private lateinit var adapterUpperColor: ColorAdapter
     private lateinit var adapterUpperAccents: ImageAdapter
-    private lateinit var adapterUpperAccentColors: ImageAdapter
+    private lateinit var adapterUpperAccentColors: ColorAdapter
     private lateinit var adapterLowerCasual: ImageAdapter
     private lateinit var adapterLowerFormal: ImageAdapter
     private lateinit var adapterLowerFabric: ImageAdapter
-    private lateinit var adapterLowerColor: ImageAdapter
+    private lateinit var adapterLowerColor: ColorAdapter
     private lateinit var adapterLowerAccents: ImageAdapter
-    private lateinit var adapterLowerAccentColors: ImageAdapter
+    private lateinit var adapterLowerAccentColors: ColorAdapter
+    private lateinit var ordersViewModel: OrdersViewModel
+    private lateinit var inventoryViewModel: InventoryViewModel
+    private lateinit var realUpperFabricAdapter: FabricSelectionAdapter
+    private lateinit var realLowerFabricAdapter: FabricSelectionAdapter
+    private lateinit var realUpperAccentAdapter: AccentSelectionAdapter
+    private lateinit var realLowerAccentAdapter: AccentSelectionAdapter
+
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContentView(R.layout.activity_select_design_attributes)
+
+        val database = OrderlyThreadsDatabase.getDatabase(this)
+        val repository = OrdersRepository(database.ordersDao())
+        val factory = OrdersViewModelFactory(repository)
+        ordersViewModel =
+            ViewModelProvider(this, factory).get(OrdersViewModel::class.java)
+
+        val inventoryRepo = InventoryRepository(database.inventoryDao()) // Ensure you have this
+        val inventoryFactory = InventoryViewModelFactory(inventoryRepo)
+        inventoryViewModel = ViewModelProvider(this, inventoryFactory).get(InventoryViewModel::class.java)
 
         initializeViews()
 
@@ -127,13 +158,32 @@ class SelectDesignAttributes : AppCompatActivity() {
         val lowerAccentColorImages = mutableListOf(R.drawable.ic_search).apply { addAll(List(12) { R.drawable.sample_color }) }
         val lowerAccentColorNames = listOf("Search Accent Color") + (1..12).map { "Accent Color #$it" }
 
+        val colorList = listOf(
+            android.graphics.Color.BLACK,
+            android.graphics.Color.DKGRAY,
+            android.graphics.Color.GRAY,
+            android.graphics.Color.LTGRAY,
+            android.graphics.Color.WHITE,
+            "#800000".toColorInt(), // Maroon
+            "#000080".toColorInt(), // Navy
+        )
 
         // Upper Wear Adapters
-        adapterUpperCasual = ImageAdapter(this, casualUpperImages, R.layout.item_garment_card, nameList = casualUpperNames) { position ->
+        adapterUpperCasual = ImageAdapter(
+            this,
+            casualUpperImages,
+            R.layout.item_garment_card,
+            nameList = casualUpperNames  // <--- Pass the names here!
+        ) { position ->
             adapterUpperCasual.setSelection(position)
             if (::adapterUpperFormal.isInitialized) adapterUpperFormal.clearSelection()
         }
-        adapterUpperFormal = ImageAdapter(this, formalUpperImages, R.layout.item_garment_card, nameList = formalUpperNames) { position ->
+        adapterUpperFormal = ImageAdapter(
+            this,
+            formalUpperImages,
+            R.layout.item_garment_card,
+            nameList = formalUpperNames // <--- Pass it here
+        ) { position ->
             adapterUpperFormal.setSelection(position)
             if (::adapterUpperCasual.isInitialized) adapterUpperCasual.clearSelection()
         }
@@ -141,12 +191,24 @@ class SelectDesignAttributes : AppCompatActivity() {
         attachAdapterToView(R.id.rvUpperFormal, adapterUpperFormal)
 
         // Lower Wear Adapters
-        adapterLowerCasual = ImageAdapter(this, casualLowerImages, R.layout.item_garment_card, nameList = casualLowerNames) { position ->
+        adapterLowerCasual = ImageAdapter(
+            this,
+            casualLowerImages,
+            R.layout.item_garment_card,
+            nameList = casualLowerNames // <--- Pass the names here!
+            ) { position ->
             adapterLowerCasual.setSelection(position)
+            // Clear the other category if selected
             if (::adapterLowerFormal.isInitialized) adapterLowerFormal.clearSelection()
         }
-        adapterLowerFormal = ImageAdapter(this, formalLowerImages, R.layout.item_garment_card, nameList = formalLowerNames) { position ->
+        adapterLowerFormal = ImageAdapter(
+            this,
+            formalLowerImages,
+            R.layout.item_garment_card,
+            nameList = formalLowerNames // <--- Pass the names here!
+            ) { position ->
             adapterLowerFormal.setSelection(position)
+            // Clear the other category if selected
             if (::adapterLowerCasual.isInitialized) adapterLowerCasual.clearSelection()
         }
         attachAdapterToView(R.id.rvLowerCasual, adapterLowerCasual)
@@ -154,14 +216,84 @@ class SelectDesignAttributes : AppCompatActivity() {
 
         // Browsable and Accent Adapters
         adapterUpperFabric = setupRecyclerView(R.id.rvUpperFabrics, upperFabricImages, upperFabricNames, R.layout.item_fabric_card)
-        adapterUpperColor = setupRecyclerView(R.id.rvUpperColors, upperColorImages, upperColorNames, R.layout.item_color_circle)
+        adapterUpperColor = ColorAdapter(this, colorList) { selectedColor ->
+            // Logic when a color is clicked (Optional: Save to a variable)
+            // Example: selectedUpperColor = selectedColor
+        }
+        findViewById<RecyclerView>(R.id.rvUpperColors).apply {
+            layoutManager = LinearLayoutManager(this@SelectDesignAttributes, LinearLayoutManager.HORIZONTAL, false)
+            adapter = adapterUpperColor
+        }
         adapterUpperAccents = setupRecyclerView(R.id.rvUpperAccents, upperAccentImages, upperAccentNames, R.layout.item_garment_card)
-        adapterUpperAccentColors = setupRecyclerView(R.id.rvUpperAccentsColors, upperAccentColorImages, upperAccentColorNames, R.layout.item_color_circle)
+        adapterUpperAccentColors = ColorAdapter(this, colorList) { selectedColor ->
+            // Logic for accent color
+        }
+        findViewById<RecyclerView>(R.id.rvUpperAccentsColors).apply {
+            layoutManager = LinearLayoutManager(this@SelectDesignAttributes, LinearLayoutManager.HORIZONTAL, false)
+            adapter = adapterUpperAccentColors
+        }
 
         adapterLowerFabric = setupRecyclerView(R.id.rvLowerFabrics, lowerFabricImages, lowerFabricNames, R.layout.item_fabric_card)
-        adapterLowerColor = setupRecyclerView(R.id.rvLowerColors, lowerColorImages, lowerColorNames, R.layout.item_color_circle)
+        adapterLowerColor = ColorAdapter(this, colorList) { selectedColor ->
+            // Logic when lower color is clicked
+        }
+        findViewById<RecyclerView>(R.id.rvLowerColors).apply {
+            layoutManager = LinearLayoutManager(this@SelectDesignAttributes, LinearLayoutManager.HORIZONTAL, false)
+            adapter = adapterLowerColor
+        }
         adapterLowerAccents = setupRecyclerView(R.id.rvLowerAccents, lowerAccentImages, lowerAccentNames, R.layout.item_garment_card)
-        adapterLowerAccentColors = setupRecyclerView(R.id.rvLowerAccentColors, lowerAccentColorImages, lowerAccentColorNames, R.layout.item_color_circle)
+        adapterLowerAccentColors = ColorAdapter(this, colorList) { selectedColor ->
+            // Logic for accent color
+        }
+        findViewById<RecyclerView>(R.id.rvLowerAccentColors).apply {
+            layoutManager = LinearLayoutManager(this@SelectDesignAttributes, LinearLayoutManager.HORIZONTAL, false)
+            adapter = adapterLowerAccentColors
+        }
+
+        realUpperFabricAdapter = FabricSelectionAdapter { selectedItem ->
+            // Optional: Toast to confirm selection
+            // Toast.makeText(this, "Selected: ${selectedItem.material}", Toast.LENGTH_SHORT).show()
+        }
+        findViewById<RecyclerView>(R.id.rvUpperFabrics).apply {
+            layoutManager = LinearLayoutManager(this@SelectDesignAttributes, LinearLayoutManager.HORIZONTAL, false)
+            adapter = realUpperFabricAdapter
+        }
+
+        realLowerFabricAdapter = FabricSelectionAdapter { _ -> }
+        findViewById<RecyclerView>(R.id.rvLowerFabrics).apply {
+            layoutManager = LinearLayoutManager(this@SelectDesignAttributes, LinearLayoutManager.HORIZONTAL, false)
+            adapter = realLowerFabricAdapter
+        }
+
+        inventoryViewModel.getFabrics().observe(this) { fabricList ->
+            if (fabricList != null) {
+                realUpperFabricAdapter.setData(fabricList)
+                realLowerFabricAdapter.setData(fabricList)
+            }
+        }
+
+        realUpperAccentAdapter = AccentSelectionAdapter { selectedItem ->
+            // Optional: Logic when an accent is selected
+        }
+        findViewById<RecyclerView>(R.id.rvUpperAccents).apply {
+            layoutManager = LinearLayoutManager(this@SelectDesignAttributes, LinearLayoutManager.HORIZONTAL, false)
+            adapter = realUpperAccentAdapter
+        }
+
+        // --- REAL LOWER ACCENTS ---
+        realLowerAccentAdapter = AccentSelectionAdapter { _ -> }
+        findViewById<RecyclerView>(R.id.rvLowerAccents).apply {
+            layoutManager = LinearLayoutManager(this@SelectDesignAttributes, LinearLayoutManager.HORIZONTAL, false)
+            adapter = realLowerAccentAdapter
+        }
+
+        // --- OBSERVE DATABASE FOR ACCENTS ---
+        inventoryViewModel.getAccents().observe(this) { accentList ->
+            if (accentList != null) {
+                realUpperAccentAdapter.setData(accentList)
+                realLowerAccentAdapter.setData(accentList)
+            }
+        }
     }
     private fun setupRecyclerView(recyclerViewId: Int, data: List<Int>, names: List<String>, itemLayoutId: Int): ImageAdapter {
         lateinit var adapter: ImageAdapter
@@ -238,34 +370,38 @@ class SelectDesignAttributes : AppCompatActivity() {
     }
 
     private fun showConfirmationDialog() {
+        // 1. Get Design Names (These still use the old ImageAdapters, which is fine)
         val upperDesign = if (adapterUpperCasual.selectedPosition != RecyclerView.NO_POSITION) adapterUpperCasual.getSelectionName() else adapterUpperFormal.getSelectionName()
         val lowerDesign = if (adapterLowerCasual.selectedPosition != RecyclerView.NO_POSITION) adapterLowerCasual.getSelectionName() else adapterLowerFormal.getSelectionName()
+
         val clientName = etClientName.text.toString()
+
+        // 2. Build Summary using REAL adapters
         val summary = """
-            <b>Client:</b> $clientName<br/>
-            <b>Contact:</b> ${etContactInfo.text}<br/><br/>
-            <big><b>Measurements</b></big><br/>
-            Waist: ${etWaist.text}, Hips: ${etHips.text}<br/>
-            Chest: ${etChest.text}, Length: ${etLength.text}<br/>
-            Shoulder: ${etShoulder.text}, Sleeve: ${etSleeve.text}<br/><br/>
-            <big><b>Upper Wear Selection</b></big><br/>
-            <b>Design:</b> "$upperDesign"<br/>
-            <b>Fabric:</b> ${adapterUpperFabric.getSelectionName()}<br/>
-            <b>Color:</b> ${adapterUpperColor.getSelectionName()}<br/>
-            <b>Accent Design:</b> ${adapterUpperAccents.getSelectionName()}<br/>
-            <b>Accent Color:</b> ${adapterUpperAccentColors.getSelectionName()}<br/>
-            <b>Accent Quantity:</b> $upperAccentQty<br/><br/>
-            <big><b>Lower Wear Selection</b></big><br/>
-            <b>Design:</b> "$lowerDesign"<br/>
-            <b>Fabric:</b> ${adapterLowerFabric.getSelectionName()}<br/>
-            <b>Color:</b> ${adapterLowerColor.getSelectionName()}<br/>
-            <b>Accent Design:</b> ${adapterLowerAccents.getSelectionName()}<br/>
-            <b>Accent Color:</b> ${adapterLowerAccentColors.getSelectionName()}<br/>
-            <b>Accent Quantity:</b> $lowerAccentQty<br/><br/>
-            <big><b>Notes</b></big><br/>
-            ${etNotes.text}<br/><br/>
-            <i>Proceed with this order?</i>
-        """.trimIndent()
+        <b>Client:</b> $clientName<br/>
+        <b>Contact:</b> ${etContactInfo.text}<br/><br/>
+        
+        <big><b>Measurements</b></big><br/>
+        Waist: ${etWaist.text}, Hips: ${etHips.text}<br/>
+        Chest: ${etChest.text}, Length: ${etLength.text}<br/>
+        Shoulder: ${etShoulder.text}, Sleeve: ${etSleeve.text}<br/><br/>
+        
+        <big><b>Upper Wear Selection</b></big><br/>
+        <b>Design:</b> "$upperDesign"<br/>
+        <b>Fabric:</b> ${realUpperFabricAdapter.getSelectedName()}<br/>
+        <b>Accent Design:</b> ${realUpperAccentAdapter.getSelectedName()}<br/>
+        <b>Accent Quantity:</b> $upperAccentQty<br/><br/>
+        
+        <big><b>Lower Wear Selection</b></big><br/>
+        <b>Design:</b> "$lowerDesign"<br/>
+        <b>Fabric:</b> ${realLowerFabricAdapter.getSelectedName()}<br/>
+        <b>Accent Design:</b> ${realLowerAccentAdapter.getSelectedName()}<br/>
+        <b>Accent Quantity:</b> $lowerAccentQty<br/><br/>
+        
+        <big><b>Notes</b></big><br/>
+        ${etNotes.text}<br/><br/>
+        <i>Proceed with this order?</i>
+    """.trimIndent()
 
         val dialogView = layoutInflater.inflate(R.layout.dialog_save_order, null)
         val dialog = AlertDialog.Builder(this).setView(dialogView).create()
@@ -277,7 +413,7 @@ class SelectDesignAttributes : AppCompatActivity() {
         tvSummary.text = HtmlCompat.fromHtml(summary, HtmlCompat.FROM_HTML_MODE_LEGACY)
 
         btnConfirm.setOnClickListener {
-            Toast.makeText(this, "Order Saved Successfully!", Toast.LENGTH_SHORT).show()
+            saveOrderToDatabase()
             dialog.dismiss()
         }
         btnEdit.setOnClickListener { dialog.dismiss() }
@@ -293,6 +429,81 @@ class SelectDesignAttributes : AppCompatActivity() {
         layout.visibility = if (isVisible) View.GONE else View.VISIBLE
         icon.animate().rotationBy(if (isVisible) -135f else 135f).setDuration(200).start()
     }
+
+    private fun saveOrderToDatabase() {
+        // 1. Get Client Data
+        val name = etClientName.text.toString()
+        if (name.isBlank()) {
+            Toast.makeText(this, "Please enter Client Name", Toast.LENGTH_SHORT).show()
+            return
+        }
+
+        // 2. Determine Upper Design (Casual vs Formal)
+        // If Casual has a selection, use it. Otherwise check Formal.
+        var uDesignId = 0
+        var uDesignName = "None"
+
+        if (adapterUpperCasual.selectedPosition != RecyclerView.NO_POSITION) {
+            uDesignId = adapterUpperCasual.getSelectedResourceId()
+            uDesignName = adapterUpperCasual.getSelectionName()
+        } else if (adapterUpperFormal.selectedPosition != RecyclerView.NO_POSITION) {
+            uDesignId = adapterUpperFormal.getSelectedResourceId()
+            uDesignName = adapterUpperFormal.getSelectionName()
+        }
+
+        // 3. Determine Lower Design (Casual vs Formal)
+        var lDesignId = 0
+        if (adapterLowerCasual.selectedPosition != RecyclerView.NO_POSITION) {
+            lDesignId = adapterLowerCasual.getSelectedResourceId()
+        } else if (adapterLowerFormal.selectedPosition != RecyclerView.NO_POSITION) {
+            lDesignId = adapterLowerFormal.getSelectedResourceId()
+        }
+
+
+
+        // 4. Create the Order Object
+        // Note: Ensure your Orders.kt Entity has these matching fields!
+        val newOrder = Orders(
+            clientName = name,
+            contact = etContactInfo.text.toString(),
+            orderDate = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(Date()),
+            dueDate = "TBD", // Or add a date picker
+            quantity = 1, // Or add a quantity field
+
+            // Measurements
+            waist = etWaist.text.toString(),
+            hips = etHips.text.toString(),
+            chest = etChest.text.toString(),
+            length = etLength.text.toString(),
+            shoulder = etShoulder.text.toString(),
+            sleeve = etSleeve.text.toString(),
+
+            // Upper Selection
+            upperDesignId = uDesignId,
+            upperFabricId = realUpperFabricAdapter.getSelectedId(),
+            upperColorHex = adapterUpperColor.getSelectedHex(),
+            upperAccentDesignId = realUpperAccentAdapter.getSelectedId(),
+            upperAccentColorHex = adapterUpperAccentColors.getSelectedHex(),
+            upperAccentQuantity = upperAccentQty,
+
+            // Lower Selection
+            lowerDesignId = lDesignId,
+            lowerFabricId = realLowerFabricAdapter.getSelectedId(),
+            lowerColorHex = adapterLowerColor.getSelectedHex(),
+            lowerAccentDesignId = realLowerAccentAdapter.getSelectedId(),
+            lowerAccentColorHex = adapterLowerAccentColors.getSelectedHex(),
+            lowerAccentQuantity = lowerAccentQty,
+
+            additionalNotes = etNotes.text.toString()
+        )
+
+        // 5. Save to Database
+        ordersViewModel.addOrder(newOrder)
+
+        Toast.makeText(this, "Order Saved to Database!", Toast.LENGTH_LONG).show()
+        finish() // Close the screen
+    }
+
 
 //    val logoutBtn = findViewById<ImageButton>(R.id.logOutBtn)
 //

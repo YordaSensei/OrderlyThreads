@@ -18,7 +18,7 @@
             android:name=".account_item"
             android:exported="false" />
         <activity
-            android:name=".login"
+            android:name=".SelectDesignAttributes"
             android:exported="false" />
         <activity
             android:name=".SelectSampleDesign"
@@ -34,6 +34,15 @@
             android:exported="false" />
         <activity
             android:name=".Inventory"
+            android:exported="false" />
+        <activity
+            android:name=".ProductionTracker"
+            android:exported="false" />
+        <activity
+            android:name=".ProductionStaff"
+            android:exported="false" />
+        <activity
+            android:name=".login"
             android:exported="true">
         <intent-filter>
             <action android:name="android.intent.action.MAIN" />

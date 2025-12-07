@@ -130,7 +130,7 @@ class Inventory : AppCompatActivity() {
     private fun setupLogoutButton() {
         val logoutBtn = findViewById<View>(R.id.logOutBtn)
         logoutBtn?.setOnClickListener {
-            val intent = Intent(this, RFlogin::class.java)
+            val intent = Intent(this, login::class.java)
             intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
             startActivity(intent)
             finish()
@@ -149,6 +149,7 @@ class Inventory : AppCompatActivity() {
         val tab1 = findViewById<TextView>(R.id.tab1)
         val tab2 = findViewById<TextView>(R.id.tab2)
         val tab3 = findViewById<TextView>(R.id.tab3)
+        val tab4 = findViewById<TextView>(R.id.tab4)
         val addButton = findViewById<FrameLayout>(R.id.addButton)
 
         tab3.text = "Accents"

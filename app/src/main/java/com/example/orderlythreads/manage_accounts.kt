@@ -2,11 +2,13 @@ package com.example.orderlythreads
 
 import SpacingItemDecoration
 import android.app.Dialog
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.widget.ArrayAdapter
 import android.widget.Button
 import android.widget.EditText
+import android.widget.ImageButton
 import android.widget.Spinner
 import android.widget.TextView
 import androidx.activity.enableEdgeToEdge
@@ -20,6 +22,7 @@ import com.example.orderlythreads.Database.Accounts
 import com.example.orderlythreads.Database.AccountsViewModel
 import com.example.orderlythreads.Database.Positions
 import com.google.android.material.textfield.TextInputLayout
+import android.widget.Toast
 
 
 
@@ -185,6 +188,22 @@ class manage_accounts : AppCompatActivity() {
             accounts?.let {
                 adapter.setData(it)
             }
+        }
+
+        val logoutBtn = findViewById<ImageButton>(R.id.logOutBtn)
+
+        logoutBtn.setOnClickListener {
+            val intent = Intent(this, login::class.java)
+
+            // Clear history so the user can't go back
+            intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+
+            startActivity(intent)
+
+            Toast.makeText(this, "Logged Out", Toast.LENGTH_SHORT).show()
+
+            // Close the current screen.
+            finish()
         }
 
     }

@@ -51,6 +51,17 @@ class InventoryViewModel(private val repository: InventoryRepository) : ViewMode
     fun deleteItem(inventory: Inventory) = viewModelScope.launch(Dispatchers.IO) {
         repository.deleteItem(inventory)
     }
+
+    // Helper to get only "Fabric" items
+    fun getFabrics(): LiveData<List<Inventory>> {
+        return repository.getInventoryByCategory("Fabric")
+    }
+
+    fun getAccents(): LiveData<List<Inventory>> {
+        // Assumes your database items are saved with category "Accent"
+        // If you saved them as "Buttons", "Zippers", etc., you might need a different query.
+        return repository.getInventoryByCategory("Accent")
+    }
 }
 
 class InventoryViewModelFactory(private val repository: InventoryRepository) : ViewModelProvider.Factory {
