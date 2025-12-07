@@ -60,7 +60,7 @@ class InventoryViewModel(private val repository: InventoryRepository) : ViewMode
     fun getAccents(): LiveData<List<Inventory>> {
         // Assumes your database items are saved with category "Accent"
         // If you saved them as "Buttons", "Zippers", etc., you might need a different query.
-        return repository.getInventoryByCategory("Accent")
+        return repository.getInventoryByCategory("Accents")
     }
 }
 

@@ -36,13 +36,13 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
-                android:layout_marginEnd="16dp"
+                android:layout_marginEnd="8dp"
                 android:ellipsize="end"
                 android:fontFamily="@font/dm_sans_bold"
                 android:maxLines="1"
                 android:text="Position"
                 app:layout_constraintBottom_toBottomOf="@+id/bar"
-                app:layout_constraintEnd_toEndOf="@+id/moreBtn"
+                app:layout_constraintEnd_toEndOf="@+id/bar"
                 app:layout_constraintHorizontal_weight="1"
                 app:layout_constraintStart_toEndOf="@+id/txtUsername"
                 app:layout_constraintTop_toTopOf="@+id/bar" />
@@ -61,18 +61,6 @@
                 app:layout_constraintHorizontal_weight="1"
                 app:layout_constraintStart_toStartOf="@+id/bar"
                 app:layout_constraintTop_toTopOf="@+id/bar" />
-
-            <ImageButton
-                android:id="@+id/moreBtn"
-                android:layout_width="20dp"
-                android:layout_height="40dp"
-                android:layout_marginEnd="16dp"
-                android:backgroundTint="@color/white"
-                android:scaleType="centerCrop"
-                app:layout_constraintBottom_toBottomOf="@+id/bar"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/bar"
-                app:srcCompat="@drawable/ic_more_vert" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.cardview.widget.CardView>

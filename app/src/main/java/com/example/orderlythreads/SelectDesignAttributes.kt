@@ -50,7 +50,7 @@ class SelectDesignAttributes : AppCompatActivity() {
     private lateinit var etShoulder: EditText
     private lateinit var etSleeve: EditText
     private lateinit var etNotes: EditText
-
+    private lateinit var etOrderDate: EditText
     private lateinit var btnSaveOrder: Button
     private lateinit var btnAddUpperAccentQty: Button
     private lateinit var btnAddLowerAccentQty: Button
@@ -94,7 +94,35 @@ class SelectDesignAttributes : AppCompatActivity() {
         val inventoryFactory = InventoryViewModelFactory(inventoryRepo)
         inventoryViewModel = ViewModelProvider(this, inventoryFactory).get(InventoryViewModel::class.java)
 
+        fun setupDatePicker() {
+            etOrderDate.setOnClickListener {
+                val calendar = java.util.Calendar.getInstance()
+                val year = calendar.get(java.util.Calendar.YEAR)
+                val month = calendar.get(java.util.Calendar.MONTH)
+                val day = calendar.get(java.util.Calendar.DAY_OF_MONTH)
+
+                val datePickerDialog = android.app.DatePickerDialog(
+                    this,
+                    { _, selectedYear, selectedMonth, selectedDay ->
+                        // Format the date (e.g., "2023-10-25")
+                        // Note: Month is 0-indexed, so we add 1 for display if needed,
+                        // or use Calendar/SimpleDateFormat
+                        val selectedCalendar = java.util.Calendar.getInstance()
+                        selectedCalendar.set(selectedYear, selectedMonth, selectedDay)
+
+                        val format = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
+                        etOrderDate.setText(format.format(selectedCalendar.time))
+                    },
+                    year,
+                    month,
+                    day
+                )
+                datePickerDialog.show()
+            }
+        }
+
         initializeViews()
+        setupDatePicker()
 
         val backButton = findViewById<ImageView>(R.id.btnBack)
         backButton.setOnClickListener {
@@ -111,6 +139,8 @@ class SelectDesignAttributes : AppCompatActivity() {
         btnAddUpperAccentQty.setOnClickListener { showQuantityDialog("Upper Accents") { qty -> upperAccentQty = qty } }
         btnAddLowerAccentQty.setOnClickListener { showQuantityDialog("Lower Accents") { qty -> lowerAccentQty = qty } }
         btnSaveOrder.setOnClickListener { showConfirmationDialog() }
+
+
     }
 
     private fun initializeViews() {
@@ -128,6 +158,7 @@ class SelectDesignAttributes : AppCompatActivity() {
         etLength = findViewById(R.id.lengthMeasurement)
         etShoulder = findViewById(R.id.shoulderMeasurement)
         etSleeve = findViewById(R.id.sleeveMeasurement)
+        etOrderDate = findViewById(R.id.etOrderDate)
         etNotes = findViewById(R.id.notesDetails)
         btnSaveOrder = findViewById(R.id.btnSubmitOrder)
         btnAddUpperAccentQty = findViewById(R.id.addUpperAccentsBtn)
@@ -464,7 +495,8 @@ class SelectDesignAttributes : AppCompatActivity() {
             lDesignId = adapterLowerFormal.getSelectedResourceId()
         }
 
-
+        val selectedDate = etOrderDate.text.toString()
+        val finalDueDate = if (selectedDate.isNotBlank()) selectedDate else "TBD"
 
         // 4. Create the Order Object
         // Note: Ensure your Orders.kt Entity has these matching fields!
@@ -472,7 +504,7 @@ class SelectDesignAttributes : AppCompatActivity() {
             clientName = name,
             contact = etContactInfo.text.toString(),
             orderDate = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(Date()),
-            dueDate = "TBD", // Or add a date picker
+            dueDate = finalDueDate, // Or add a date picker
             quantity = 1, // Or add a quantity field
 
             // Measurements

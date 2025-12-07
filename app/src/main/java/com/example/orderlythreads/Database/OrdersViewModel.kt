@@ -9,7 +9,13 @@ import kotlinx.coroutines.launch
 class OrdersViewModel(private val repository: OrdersRepository) : ViewModel() {
 
     val allOrders: LiveData<List<Orders>> = repository.getAllOrders()
-    
+    val readApprovedOrders: LiveData<List<Orders>>
+
+    init {
+        // ... existing init code ...
+        readApprovedOrders = repository.readApprovedOrders
+    }
+
     private val _currentOrder = MutableLiveData<Orders?>()
     val currentOrder: LiveData<Orders?> = _currentOrder
 
