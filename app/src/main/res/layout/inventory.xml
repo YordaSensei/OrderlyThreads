@@ -41,27 +41,32 @@
     </FrameLayout>
 
 
-    <!-- SEARCH BAR  -->
-    <FrameLayout
+    <EditText
         android:id="@+id/searchBar"
         android:layout_width="0dp"
         android:layout_height="30dp"
         android:background="@drawable/bg_default_white"
         android:layout_marginStart="60dp"
         android:layout_marginEnd="12dp"
+        android:hint="Search..."
+        android:paddingStart="12dp"
+        android:paddingEnd="40dp"
+        android:textSize="14sp"
+        android:inputType="text"
         app:layout_constraintTop_toTopOf="@id/sectionTitle"
         app:layout_constraintBottom_toBottomOf="@id/sectionTitle"
         app:layout_constraintStart_toEndOf="@id/sectionTitle"
-        app:layout_constraintEnd_toStartOf="@id/addButton">
+        app:layout_constraintEnd_toStartOf="@id/addButton"/>
 
-        <ImageView
-            android:id="@+id/searchIcon"
-            android:layout_width="24dp"
-            android:layout_height="24dp"
-            android:layout_gravity="end|center_vertical"
-            android:layout_marginEnd="8dp"
-            android:src="@drawable/ic_search"/>
-    </FrameLayout>
+    <ImageView
+        android:id="@+id/searchIcon"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_marginEnd="12dp"
+        android:src="@drawable/ic_search"
+        app:layout_constraintEnd_toEndOf="@id/searchBar"
+        app:layout_constraintTop_toTopOf="@id/searchBar"
+        app:layout_constraintBottom_toBottomOf="@id/searchBar"/>
 
     <!--    Category Navigation-->
     <LinearLayout
@@ -150,10 +155,49 @@
         app:spanCount="2"
         tools:listitem="@layout/item_inventory_card"
         app:layout_constraintTop_toBottomOf="@id/tabsContainer"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/footer"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         android:padding="12dp"/>
 
+    <LinearLayout
+        android:id="@+id/footer"
+        android:layout_width="0dp"
+        android:layout_height="60dp"
+        android:background="@android:color/white"
+        android:elevation="10dp"
+        android:gravity="center"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <ImageButton
+            android:id="@+id/stockCheckBtn"
+            android:layout_width="0dp"
+            android:layout_height="30dp"
+            android:layout_weight="1"
+            android:background="@android:color/transparent"
+            android:src="@drawable/ic_list"
+            android:scaleType="centerInside" />
+
+        <ImageButton
+            android:id="@+id/inventoryBtn"
+            android:layout_width="0dp"
+            android:layout_height="30dp"
+            android:layout_weight="1"
+            android:background="@android:color/transparent"
+            android:src="@drawable/ic_search"
+            android:scaleType="centerInside" />
+
+        <ImageButton
+            android:id="@+id/logOutBtn"
+            android:layout_width="0dp"
+            android:layout_height="30dp"
+            android:layout_weight="1"
+            android:background="@android:color/transparent"
+            app:srcCompat="@drawable/ic_logout"
+            android:scaleType="centerInside" />
+    </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

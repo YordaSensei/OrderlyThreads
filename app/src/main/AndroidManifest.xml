@@ -30,7 +30,7 @@
             android:name=".Order_Stock_Check"
             android:exported="false" />
         <activity
-            android:name=".Inventory"
+            android:name=".SelectDesignAttributes"
             android:exported="false" />
         <activity
             android:name=".login"

@@ -1,11 +1,13 @@
 package com.example.orderlythreads
 
+import android.net.Uri
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide // Added Glide import
 import com.example.orderlythreads.Database.Inventory
 
 class InventoryAdapter(
@@ -35,7 +37,17 @@ class InventoryAdapter(
         val item = data[position]
         holder.name.text = item.material
         holder.quantity.text = "Item Quantity: ${item.quantity}"
-        holder.image.setImageResource(item.imageRes)
+
+        if (!item.imageUri.isNullOrEmpty()) {
+            Glide.with(holder.itemView.context)
+                .load(Uri.parse(item.imageUri))
+                .placeholder(R.drawable.img_placeholder)
+                .error(R.drawable.img_placeholder)
+                .into(holder.image)
+        } else {
+            holder.image.setImageResource(R.drawable.img_placeholder)
+        }
+
         holder.menu.setOnClickListener {
             onMenuClick(item, position, holder.menu)
         }

@@ -8,6 +8,10 @@ class InventoryRepository(private val inventoryDao: InventoryDao) {
         return inventoryDao.getInventoryByCategory(category)
     }
 
+    fun searchInventoryByCategory(category: String, searchQuery: String): LiveData<List<Inventory>> {
+        return inventoryDao.searchInventoryByCategory(category, searchQuery)
+    }
+
     suspend fun addItem(inventory: Inventory) {
         inventoryDao.addItem(inventory)
     }

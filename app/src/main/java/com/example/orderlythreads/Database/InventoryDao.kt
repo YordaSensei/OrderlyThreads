@@ -22,4 +22,7 @@ interface InventoryDao {
 
     @Query("SELECT * FROM inventory WHERE category = :category ORDER BY id ASC")
     fun getInventoryByCategory(category: String): LiveData<List<Inventory>>
+
+    @Query("SELECT * FROM inventory WHERE category = :category AND material LIKE :searchQuery ORDER BY id ASC")
+    fun searchInventoryByCategory(category: String, searchQuery: String): LiveData<List<Inventory>>
 }

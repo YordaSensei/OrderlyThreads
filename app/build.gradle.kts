@@ -3,7 +3,7 @@ plugins {
     alias(libs.plugins.kotlin.android)
 
     id("org.jetbrains.kotlin.kapt")
-    id("androidx.navigation.safeargs.kotlin") // now recognized
+    id("androidx.navigation.safeargs.kotlin")
 }
 
 android {
@@ -56,18 +56,15 @@ dependencies {
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
-
-    // Navigation Component
-    implementation("androidx.navigation:navigation-fragment-ktx:2.8.0")
-    implementation("androidx.navigation:navigation-ui-ktx:2.8.0")
+    implementation("com.github.bumptech.glide:glide:4.16.0")
+    annotationProcessor("com.github.bumptech.glide:compiler:4.16.0")
 
     // Room components
     implementation ("androidx.room:room-runtime:2.6.1")
     kapt ("androidx.room:room-compiler:2.6.1")
     implementation ("androidx.room:room-ktx:2.6.1")
 
-    // Lifecycle components
-    implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.8.0")
+    // Lifecycle components - LiveData (not in toml, so keeping hardcoded)
     implementation("androidx.lifecycle:lifecycle-livedata-ktx:2.8.0")
 
     // Kotlin components
