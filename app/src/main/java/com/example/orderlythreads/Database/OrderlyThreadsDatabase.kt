@@ -86,11 +86,15 @@ abstract class OrderlyThreadsDatabase : RoomDatabase() {
                                     quantity = 40,
                                     imageUri = imageUri
                                 )
+
                                 inventoryDao?.addItem(inventory)
                             }
+
                         }
+
                     }
                 })
+                
                 .addMigrations(MIGRATION_1_2, MIGRATION_5_6, MIGRATION_6_7)
                 .build()
 
