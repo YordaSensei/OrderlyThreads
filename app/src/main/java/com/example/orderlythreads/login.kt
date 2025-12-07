@@ -48,6 +48,8 @@ class login : AppCompatActivity() {
                         startActivity(Intent(this, SelectSampleDesign::class.java))
                     } else if (account.position == "Inventory Manager") {
                         startActivity(Intent(this, Inventory::class.java))
+                    } else if (account.position  == "Production Staff") {
+                        startActivity(Intent(this, ProductionStaff::class.java))
                     }
 
                     Toast.makeText(this, "Position = ${account.position}", Toast.LENGTH_LONG).show()
