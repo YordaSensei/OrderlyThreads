@@ -197,7 +197,7 @@ class Approve_Order_Check : AppCompatActivity() {
     private fun populateOrderDetails(order: Orders) {
         tvOrderId.text = "OD${order.orderId}"
 
-        val garmentResId = order.upperDesignId
+        val garmentResId = if (order.upperDesignId != 0) order.upperDesignId else order.lowerDesignId
         var garmentName = "(Not specified)"
         if (garmentResId != 0) {
             try {
@@ -205,6 +205,8 @@ class Approve_Order_Check : AppCompatActivity() {
                 garmentName = resEntryName
                     .replace("casual_upper_", "")
                     .replace("formal_upper_", "")
+                    .replace("casual_lower_", "")
+                    .replace("formal_lower_", "")
                     .replace("_", " ")
                     .split(" ").joinToString(" ") { it.capitalize() }
             } catch (e: Exception) {
@@ -213,16 +215,18 @@ class Approve_Order_Check : AppCompatActivity() {
         }
         tvGarment.text = garmentName
 
+        val fabricId = if (order.upperFabricId != 0) order.upperFabricId else order.lowerFabricId
         var fabricName = "(Not specified)"
-        if (order.upperFabricId != 0) {
-            val matchedFabric = allInventoryItems.find { it.id == order.upperFabricId }
+        if (fabricId != 0) {
+            val matchedFabric = allInventoryItems.find { it.id == fabricId }
             if (matchedFabric != null) {
                 fabricName = matchedFabric.material
             }
         }
         tvFabric.text = fabricName
 
-        var colorName = order.upperColorHex
+        val colorHex = if (!order.upperColorHex.isNullOrEmpty() && order.upperColorHex != "0") order.upperColorHex else order.lowerColorHex
+        var colorName = colorHex
         if (colorName.isNullOrEmpty() || colorName == "0") {
              colorName = "(Not specified)"
         } else {

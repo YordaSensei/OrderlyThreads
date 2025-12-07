@@ -38,48 +38,68 @@ class ProductionStaff : AppCompatActivity() {
             val finalStatus = data.getStringExtra("finalStatus")
 
 
-            if (orderIndex != -1) {
+            if (orderIndex != -1 && originalStatus != null && finalStatus != null) {
+                var itemToMove: ProductionItems? = null
+
                 when (originalStatus) {
                     "Pending" -> {
-                        val updatedItem = pendingList.removeAt(orderIndex) // deletes the item from the pending list
-                        pendingAdapter.notifyItemRemoved (orderIndex)
-
-                        if (finalStatus == "Cutting") {
-                            cuttingList.add(0, updatedItem.copy(status = "Cutting"))
-                            cuttingAdapter.notifyItemInserted(0)
+                        if (orderIndex < pendingList.size) {
+                            itemToMove = pendingList.removeAt(orderIndex)
+                            pendingAdapter.notifyItemRemoved(orderIndex)
                         }
                     }
                     "Cutting" -> {
-                        val updatedItem = cuttingList.removeAt(orderIndex) // deletes the item from the pending list
-                        cuttingAdapter.notifyItemRemoved(orderIndex)
-
-                        if (finalStatus ==  "Sewing") {
-                            sewingList.add(0, updatedItem.copy(status = "Sewing"))
-                            sewingAdapter.notifyItemInserted(0)
+                        if (orderIndex < cuttingList.size) {
+                            itemToMove = cuttingList.removeAt(orderIndex)
+                            cuttingAdapter.notifyItemRemoved(orderIndex)
                         }
                     }
                     "Sewing" -> {
-                        val updatedItem =sewingList.removeAt(orderIndex) // deletes the item from the pending list
-                        sewingAdapter.notifyItemRemoved(orderIndex)
-
-                        if (finalStatus == "Finishing") {
-                            finishingList.add(0, updatedItem.copy(status = "Finishing"))
-                            finishingAdapter.notifyItemInserted(0)
-                        } else if (finalStatus == "Completed") {
-                            finishingList.add(0, updatedItem.copy(status = "Completed"))
-                            finishingAdapter.notifyItemInserted(0)
+                        if (orderIndex < sewingList.size) {
+                            itemToMove = sewingList.removeAt(orderIndex)
+                            sewingAdapter.notifyItemRemoved(orderIndex)
                         }
                     }
                     "Finishing" -> {
-                        if (finalStatus == "Completed") {
-                            val itemToUpdate = finishingList[orderIndex] //get item
-                            val updatedItem = itemToUpdate.copy(status = "Completed") //variable for updating item status
-                            finishingList[orderIndex] = updatedItem //updates the item status with the new one  ^
+                        if (finalStatus == "Completed" && orderIndex < finishingList.size) {
+                            val itemToUpdate = finishingList[orderIndex]
+                            val updatedItem = itemToUpdate.copy(status = "Completed")
+                            finishingList[orderIndex] = updatedItem
                             finishingAdapter.notifyItemChanged(orderIndex)
+                        }
+                        else if (orderIndex < finishingList.size) {
+                            itemToMove = finishingList.removeAt(orderIndex)
+                            finishingAdapter.notifyItemRemoved(orderIndex)
+                        }
+                    }
+                }
+
+                if (itemToMove != null) {
+                    when (finalStatus) {
+                        "Pending" -> {
+                            pendingList.add(0, itemToMove.copy(status = "Pending"))
+                            pendingAdapter.notifyItemInserted(0)
+                        }
+                        "Cutting" -> {
+                            cuttingList.add(0, itemToMove.copy(status = "Cutting"))
+                            cuttingAdapter.notifyItemInserted(0)
+                        }
+                        "Sewing" -> {
+                            sewingList.add(0, itemToMove.copy(status = "Sewing"))
+                            sewingAdapter.notifyItemInserted(0)
+                        }
+                        "Finishing" -> {
+                            finishingList.add(0, itemToMove.copy(status = "Finishing"))
+                            finishingAdapter.notifyItemInserted(0)
+                        }
+                        "Completed" -> {
+                            finishingList.add(0, itemToMove.copy(status = "Completed"))
+                            finishingAdapter.notifyItemInserted(0)
                         }
                     }
                 }
             }
+
         }
     }
 
@@ -154,37 +174,6 @@ class ProductionStaff : AppCompatActivity() {
         }
 
         finishingAdapter = ProductionAdapter(finishingList) {  _, _ ->}
-
-        //pendingList.addAll(
-            //listOf(
-                //ProductionItems(R.drawable.gray_background, "Amira Gimeno", "December 23 - 4PM", "Custom Order", "Pending"),
-                //ProductionItems(R.drawable.gray_background, "Nathan Alilam", "December 26 - 4PM", "Custom Order", "Pending")
-            //)
-        //)
-
-        //cuttingList.addAll(
-            //listOf(
-                //ProductionItems(R.drawable.yellow_background, "Lorraine Sevilla", "December 23 - 4PM", "Custom Order", "Cutting"),
-                //ProductionItems(R.drawable.yellow_background, "Josh Malto", "December 26 - 4PM", "Custom Order", "Cutting")
-            //)
-        //)
-
-        //sewingList.addAll(
-            //listOf(
-                //ProductionItems(R.drawable.orange_background, "Client D", "December 22 - 1PM", "Prototype", "Sewing")
-            //)
-        //)
-
-        //finishingList.addAll(
-            //listOf(
-                //ProductionItems(R.drawable.green_background, "Client F", "December 20 - 9AM", "Final Uniforms", "Completed")
-            //)
-        //)
-
-       //endingAdapter.notifyDataSetChanged()
-        //cuttingAdapter.notifyDataSetChanged()
-        //sewingAdapter.notifyDataSetChanged()
-        //finishingAdapter.notifyDataSetChanged()
 
         recyclerview.adapter = pendingAdapter
         tab1.isSelected = true

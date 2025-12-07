@@ -97,13 +97,21 @@ class Order_Stock_Check : AppCompatActivity() {
                 if (order.status == "Rejected") return@forEach
 
                 // Map Entity to UI Model
+                val imageRes = if (order.upperDesignId != 0) {
+                    order.upperDesignId
+                } else if (order.lowerDesignId != 0) {
+                    order.lowerDesignId
+                } else {
+                    R.drawable.img_placeholder // Fallback if both are 0
+                }
+
                 val item = OrderItem(
                     id = order.orderId,
                     name = order.clientName,
                     date = order.orderDate,
                     label = "Custom Order", // Default label or derive if needed
                     status = order.status,
-                    imageRes = if (order.upperDesignId != 0) order.upperDesignId else R.drawable.img_placeholder // Handle 0/null
+                    imageRes = imageRes
                 )
 
                 if (item.status == "Approved") {
