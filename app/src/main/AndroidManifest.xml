@@ -21,7 +21,7 @@
             android:name=".login"
             android:exported="false" />
         <activity
-            android:name=".SelectSampleDesign"
+            android:name=".SelectDesignAttributes"
             android:exported="false" />
         <activity
             android:name=".Approve_Order_Check"
@@ -33,7 +33,7 @@
             android:name=".Inventory"
             android:exported="false" />
         <activity
-            android:name=".SelectDesignAttributes"
+            android:name=".SelectSampleDesign"
             android:exported="true">
         <intent-filter>
             <action android:name="android.intent.action.MAIN" />
