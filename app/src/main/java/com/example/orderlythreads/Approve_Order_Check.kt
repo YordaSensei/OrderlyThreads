@@ -111,13 +111,11 @@ class Approve_Order_Check : AppCompatActivity() {
 
         // OrderCheck ViewModel
         val orderCheckRepo = OrderCheckRepository(database.orderCheckDao())
-        val productionDao = database.productionDao()
         val orderCheckFactory = object : ViewModelProvider.Factory {
             override fun <T : androidx.lifecycle.ViewModel> create(modelClass: Class<T>): T {
                 if (modelClass.isAssignableFrom(OrderCheckViewModel::class.java)) {
                     @Suppress("UNCHECKED_CAST")
-                    // --- NEW: Pass BOTH arguments to the constructor ---
-                    return OrderCheckViewModel(orderCheckRepo, productionDao) as T
+                    return OrderCheckViewModel(orderCheckRepo) as T
                 }
                 throw IllegalArgumentException("Unknown ViewModel class")
             }
@@ -173,7 +171,7 @@ class Approve_Order_Check : AppCompatActivity() {
                     val updatedItem = inventoryItem.copy(quantity = newQuantity)
                     inventoryViewModel.updateItem(updatedItem)
 
-                    // Create Order Check Record
+                    // Create Order Check Record (Approved) - ONLY for Approved
                     val orderCheck = OrderCheck(
                         orderId = currentOrderId,
                         inventoryId = inventoryItem.id,
@@ -181,8 +179,6 @@ class Approve_Order_Check : AppCompatActivity() {
                     )
                     orderCheckViewModel.addOrderCheck(orderCheck)
                 }
-
-                orderCheckViewModel.approveOrder(0, currentOrderId)
 
                 Toast.makeText(this, "Order Approved & Stock Deducted", Toast.LENGTH_SHORT).show()
             } else {

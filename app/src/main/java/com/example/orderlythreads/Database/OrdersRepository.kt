@@ -23,6 +23,4 @@ class OrdersRepository(private val ordersDao: OrdersDao) {
     suspend fun getOrderById(orderId: Int): Orders? {
         return ordersDao.getOrderById(orderId)
     }
-    // In OrdersRepository class
-    val readApprovedOrders: LiveData<List<Orders>> = ordersDao.getApprovedOrders()
 }

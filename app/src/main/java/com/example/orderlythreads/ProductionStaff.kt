@@ -2,150 +2,197 @@ package com.example.orderlythreads
 
 import android.content.Intent
 import android.os.Bundle
-import android.widget.ImageButton
 import android.widget.TextView
-import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
-import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.orderlythreads.Database.ProductionStatus
-import com.example.orderlythreads.Database.ProductionViewModel
-import com.example.orderlythreads.Database.ProductionWithDetails
+import androidx.activity.result.contract.ActivityResultContracts
+import android.widget.ImageButton
+import android.widget.Toast
 
 class ProductionStaff : AppCompatActivity() {
 
-    // 1. Lists for the UI
+    //global lists of production to manage the individual data sets
     private val pendingList = mutableListOf<ProductionItems>()
     private val cuttingList = mutableListOf<ProductionItems>()
     private val sewingList = mutableListOf<ProductionItems>()
     private val finishingList = mutableListOf<ProductionItems>()
 
-    // 2. Adapters
+    //separate adapters to manage each list (for tab switching)
     private lateinit var pendingAdapter: ProductionAdapter
     private lateinit var cuttingAdapter: ProductionAdapter
     private lateinit var sewingAdapter: ProductionAdapter
     private lateinit var finishingAdapter: ProductionAdapter
 
-    // 3. ViewModel
-    private lateinit var productionViewModel: ProductionViewModel
+    private val  trackOrderLauncher = registerForActivityResult(
+        ActivityResultContracts.StartActivityForResult()
+    ) { result ->
+
+        if (result.resultCode == RESULT_OK && result.data != null) {
+            val data = result.data!!
+            val orderIndex = data.getIntExtra("orderIndex", -1)
+            val originalStatus = data.getStringExtra("originalStatus")
+            val finalStatus = data.getStringExtra("finalStatus")
+
+
+            if (orderIndex != -1 && originalStatus != null && finalStatus != null) {
+                var itemToMove: ProductionItems? = null
+
+                when (originalStatus) {
+                    "Pending" -> {
+                        if (orderIndex < pendingList.size) {
+                            itemToMove = pendingList.removeAt(orderIndex)
+                            pendingAdapter.notifyItemRemoved(orderIndex)
+                        }
+                    }
+                    "Cutting" -> {
+                        if (orderIndex < cuttingList.size) {
+                            itemToMove = cuttingList.removeAt(orderIndex)
+                            cuttingAdapter.notifyItemRemoved(orderIndex)
+                        }
+                    }
+                    "Sewing" -> {
+                        if (orderIndex < sewingList.size) {
+                            itemToMove = sewingList.removeAt(orderIndex)
+                            sewingAdapter.notifyItemRemoved(orderIndex)
+                        }
+                    }
+                    "Finishing" -> {
+                        if (finalStatus == "Completed" && orderIndex < finishingList.size) {
+                            val itemToUpdate = finishingList[orderIndex]
+                            val updatedItem = itemToUpdate.copy(status = "Completed")
+                            finishingList[orderIndex] = updatedItem
+                            finishingAdapter.notifyItemChanged(orderIndex)
+                        }
+                        else if (orderIndex < finishingList.size) {
+                            itemToMove = finishingList.removeAt(orderIndex)
+                            finishingAdapter.notifyItemRemoved(orderIndex)
+                        }
+                    }
+                }
+
+                if (itemToMove != null) {
+                    when (finalStatus) {
+                        "Pending" -> {
+                            pendingList.add(0, itemToMove.copy(status = "Pending"))
+                            pendingAdapter.notifyItemInserted(0)
+                        }
+                        "Cutting" -> {
+                            cuttingList.add(0, itemToMove.copy(status = "Cutting"))
+                            cuttingAdapter.notifyItemInserted(0)
+                        }
+                        "Sewing" -> {
+                            sewingList.add(0, itemToMove.copy(status = "Sewing"))
+                            sewingAdapter.notifyItemInserted(0)
+                        }
+                        "Finishing" -> {
+                            finishingList.add(0, itemToMove.copy(status = "Finishing"))
+                            finishingAdapter.notifyItemInserted(0)
+                        }
+                        "Completed" -> {
+                            finishingList.add(0, itemToMove.copy(status = "Completed"))
+                            finishingAdapter.notifyItemInserted(0)
+                        }
+                    }
+                }
+            }
+
+        }
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContentView(R.layout.activity_production_staff)
-
-        // Window Insets
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
 
-        // Initialize ViewModel
-        productionViewModel = ViewModelProvider(this)[ProductionViewModel::class.java]
-
-        // Setup RecyclerView
         val recyclerview = findViewById<RecyclerView>(R.id.recyclerItems)
         recyclerview.layoutManager = LinearLayoutManager(this)
 
-        // Initialize Adapters
-        // We pass the 'openTracker' function to handle clicks
-        pendingAdapter = ProductionAdapter(pendingList) { item, _ -> openTracker(item) }
-        cuttingAdapter = ProductionAdapter(cuttingList) { item, _ -> openTracker(item) }
-        sewingAdapter = ProductionAdapter(sewingList) { item, _ -> openTracker(item) }
-        finishingAdapter = ProductionAdapter(finishingList) { item, _ -> openTracker(item) }
-
-        // Set Default Adapter
-        recyclerview.adapter = pendingAdapter
-
-        // --- OBSERVE DATABASE ---
-        // This automatically updates the UI when DB changes
-        productionViewModel.allProductionJobs.observe(this) { dbList ->
-            updateUILists(dbList)
-        }
-
-        setupTabs(recyclerview)
-        setupLogout()
-    }
-
-    private fun updateUILists(dbList: List<ProductionWithDetails>) {
-        // 1. Clear current lists
-        pendingList.clear()
-        cuttingList.clear()
-        sewingList.clear()
-        finishingList.clear()
-
-        // 2. Sort DB data into UI lists
-        for (item in dbList) {
-            val uiItem = ProductionItems(
-                id = item.productionId, // This requires Step 1 to be done
-                clientName = item.clientName,
-                date = item.dueDate,
-                label = "Order #${item.orderId}",
-                image = 0,
-                status = item.status.name
-            )
-
-            when (item.status) {
-                ProductionStatus.PENDING -> pendingList.add(uiItem)
-                ProductionStatus.CUTTING -> cuttingList.add(uiItem)
-                ProductionStatus.SEWING -> sewingList.add(uiItem)
-                ProductionStatus.FINISHING -> finishingList.add(uiItem)
-                else -> { /* Completed items are ignored */ }
-            }
-        }
-
-        // 3. Refresh Adapters
-        pendingAdapter.notifyDataSetChanged()
-        cuttingAdapter.notifyDataSetChanged()
-        sewingAdapter.notifyDataSetChanged()
-        finishingAdapter.notifyDataSetChanged()
-    }
-
-    private fun openTracker(item: ProductionItems) {
-        val intent = Intent(this, ProductionTracker::class.java).apply {
-            putExtra("productionId", item.id) // Pass the Database ID!
-            putExtra("clientName", item.clientName)
-            putExtra("orderDate", item.date)
-            putExtra("originalStatus", item.status)
-        }
-        startActivity(intent)
-    }
-
-    private fun setupTabs(recyclerview: RecyclerView) {
         val tab1 = findViewById<TextView>(R.id.tab1)
         val tab2 = findViewById<TextView>(R.id.tab2)
         val tab3 = findViewById<TextView>(R.id.tab3)
         val tab4 = findViewById<TextView>(R.id.tab4)
+
         val tabs = listOf(tab1, tab2, tab3, tab4)
 
-        tab1.isSelected = true
-
+        //loop that handles selection of each tab
         tabs.forEach { tab ->
             tab.setOnClickListener {
-                tabs.forEach { it.isSelected = false }
-                tab.isSelected = true
-                recyclerview.adapter = when (tab.id) {
-                    R.id.tab1 -> pendingAdapter
-                    R.id.tab2 -> cuttingAdapter
-                    R.id.tab3 -> sewingAdapter
-                    else -> finishingAdapter
-                }
+
+                tabs.forEach { it.isSelected = false } //deselects the current tab open
+
+                tab.isSelected = true //highlights the selected tab
+                recyclerview.adapter = if (tab.id == R.id.tab1) pendingAdapter
+                else if (tab.id == R.id.tab2) cuttingAdapter
+                else if (tab.id == R.id.tab3) sewingAdapter
+                else finishingAdapter
             }
         }
-    }
 
-    private fun setupLogout() {
-        findViewById<ImageButton>(R.id.logOutBtn).setOnClickListener {
+        pendingAdapter = ProductionAdapter(pendingList) { item, position ->
+            val intent = Intent(this, ProductionTracker::class.java).apply {
+                putExtra("orderIndex", position)
+                putExtra("clientName", item.clientName)
+                putExtra("orderDate", item.date)
+                putExtra("orderLabel", item.label)
+                putExtra("orderImage", item.image)
+                putExtra("originalStatus", item.status)
+            }
+            trackOrderLauncher.launch(intent)
+        }
+
+        cuttingAdapter = ProductionAdapter(cuttingList) { item, position ->
+            val intent = Intent(this, ProductionTracker::class.java).apply {
+                putExtra("orderIndex", position)
+                putExtra("clientName", item.clientName)
+                putExtra("orderDate", item.date)
+                putExtra("orderLabel", item.label)
+                putExtra("orderImage", item.image)
+                putExtra("originalStatus", item.status)
+            }
+            trackOrderLauncher.launch(intent)
+        }
+
+        sewingAdapter = ProductionAdapter(sewingList) { item, position ->
+            val intent = Intent(this, ProductionTracker::class.java).apply {
+                putExtra("orderIndex", position)
+                putExtra("clientName", item.clientName)
+                putExtra("orderDate", item.date)
+                putExtra("orderLabel", item.label)
+                putExtra("orderImage", item.image)
+                putExtra("originalStatus", item.status)
+            }
+            trackOrderLauncher.launch(intent)
+        }
+
+        finishingAdapter = ProductionAdapter(finishingList) {  _, _ ->}
+
+        recyclerview.adapter = pendingAdapter
+        tab1.isSelected = true
+
+        val logoutBtn = findViewById<ImageButton>(R.id.logOutBtn)
+
+        logoutBtn.setOnClickListener {
             val intent = Intent(this, login::class.java)
+
+            // Clear history so the user can't go back
             intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+
             startActivity(intent)
+
             Toast.makeText(this, "Logged Out", Toast.LENGTH_SHORT).show()
+
+            // Close the current screen.
             finish()
         }
+
     }
 }

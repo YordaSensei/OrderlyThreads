@@ -23,11 +23,4 @@ interface OrdersDao {
 
     @Query("SELECT * FROM orders WHERE orderId = :orderId LIMIT 1")
     suspend fun getOrderById(orderId: Int): Orders?
-
-    @Query("""
-    SELECT * FROM orders
-    INNER JOIN order_checks ON orders.orderId = order_checks.orderId 
-    WHERE order_checks.status = 'Approved'
-    """)
-    fun getApprovedOrders(): LiveData<List<Orders>>
 }

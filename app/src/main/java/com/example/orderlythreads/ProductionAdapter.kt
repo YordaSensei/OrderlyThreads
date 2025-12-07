@@ -9,7 +9,6 @@ import androidx.recyclerview.widget.RecyclerView
 import android.util.TypedValue
 
 data class ProductionItems(
-    val id: Int,
     val image: Int,
     val clientName: String,
     val date: String,
