@@ -43,7 +43,7 @@
             android:fontFamily="@font/league_spartan_extrabold"
             android:textSize="33dp"
             android:textColor="@color/white"
-            android:layout_marginStart="27dp"
+            android:layout_marginStart="25dp"
             android:layout_marginTop="14dp"/>
 
         </FrameLayout>
@@ -56,7 +56,7 @@
             android:fontFamily="@font/dm_sans"
             android:textSize="25dp"
             android:textColor="@color/black"
-            android:layout_marginStart="65dp"
+            android:layout_marginStart="60dp"
             android:layout_marginTop="138dp"/>
 
         <LinearLayout
@@ -64,7 +64,7 @@
             android:layout_height="45dp"
             android:orientation="horizontal"
             android:layout_marginTop="200dp"
-            android:layout_marginStart="20dp">
+            android:layout_marginStart="15dp">
 
         <Button
             android:id="@+id/yesBtn"
