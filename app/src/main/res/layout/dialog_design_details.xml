@@ -22,7 +22,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:scaleType="centerCrop"
-                android:src="@drawable/img_placeholder" />
+                android:src="@drawable/sample_design_test" />
 
             <ImageButton
                 android:id="@+id/btnCloseDialog"

@@ -58,7 +58,7 @@ class FabricSelectionAdapter(
         // --- HANDLE SELECTION VISUALS ---
         if (selectedPosition == position) {
             // Visual feedback for selected item (e.g., Red Border or Darker Background)
-            holder.itemView.setBackgroundResource(R.drawable.rounded_bg_border_rectangular_only) // Using the red ring file we made
+            holder.itemView.setBackgroundResource(R.drawable.rounded_bg_border_only) // Using the red ring file we made
         } else {
             holder.itemView.background = null
         }
