@@ -47,7 +47,7 @@ class Inventory : AppCompatActivity() {
     private lateinit var inventoryDao: InventoryDao
 
     // Category names matching the tabs
-    private val categoryNames = listOf("Fabric", "Color/Pattern", "Basic Materials", "Accents")
+    private val categoryNames = listOf("Fabric", "Color/Pattern", "Basic Materials", "Accent")
 
     // For Add Item Dialog
     private var currentImageUri: Uri? = null
