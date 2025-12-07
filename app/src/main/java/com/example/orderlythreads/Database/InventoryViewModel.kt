@@ -6,8 +6,6 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.switchMap
 import androidx.lifecycle.viewModelScope
-import com.example.orderlythreads.Database.Inventory
-import com.example.orderlythreads.Database.InventoryRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
@@ -30,7 +28,7 @@ class InventoryViewModel(private val repository: InventoryRepository) : ViewMode
     }
 
     init {
-        // Set initial category, e.g., "Fabric"
+
         _selectedCategory.value = "Fabric"
     }
 

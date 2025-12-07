@@ -51,18 +51,18 @@ class Order_Stock_Check : AppCompatActivity() {
             }
         }
 
-        // Sample pending orders
-        pendingList.addAll(
-            listOf(
-                OrderItem("Jeff Marquez", "November 22 - 9 AM", "Custom Order", "Pending Approval", R.drawable.img_fabric_merino),
-                OrderItem("Amira Gimeno", "November 23 - 2 PM", "Custom Order", "Pending Approval", R.drawable.img_fabric_merino)
-            )
-        )
+        // Sample pending orders (Commented out for dynamic data implementation)
+//        pendingList.addAll(
+//            listOf(
+//                OrderItem("Jeff Marquez", "November 22 - 9 AM", "Custom Order", "Pending Approval", R.drawable.img_fabric_merino),
+//                OrderItem("Amira Gimeno", "November 23 - 2 PM", "Custom Order", "Pending Approval", R.drawable.img_fabric_merino)
+//            )
+//        )
 
-        // Sample approved orders
-        approvedList.add(
-            OrderItem("Sophia Abuyo", "November 24 - 1 PM", "Custom Order", "Approved", R.drawable.img_fabric_merino)
-        )
+        // Sample approved orders (Commented out for dynamic data implementation)
+//        approvedList.add(
+//            OrderItem("Sophia Abuyo", "November 24 - 1 PM", "Custom Order", "Approved", R.drawable.img_fabric_merino)
+//        )
 
         // Adapters
         pendingAdapter = OrdersAdapter(pendingList) { item, position ->
@@ -108,7 +108,7 @@ class Order_Stock_Check : AppCompatActivity() {
         
         val logOutBtn = findViewById<android.view.View>(R.id.logOutBtn)
         logOutBtn.setOnClickListener {
-            val intent = Intent(this, login::class.java)
+            val intent = Intent(this, RFlogin::class.java)
             intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
             startActivity(intent)
             finish()

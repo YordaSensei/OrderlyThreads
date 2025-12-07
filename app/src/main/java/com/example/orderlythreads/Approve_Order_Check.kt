@@ -18,18 +18,26 @@ import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import androidx.lifecycle.ViewModelProvider
+import com.example.orderlythreads.Database.OrderlyThreadsDatabase
+import com.example.orderlythreads.Database.InventoryRepository
+import com.example.orderlythreads.Database.InventoryViewModel
+import com.example.orderlythreads.Database.InventoryViewModelFactory
 
 data class MaterialItem(val category: String, val name: String, val stock: Int)
 
 class Approve_Order_Check : AppCompatActivity() {
 
-    // Placeholder data representing database items
+    // placeholder data
 //    private val placeholderMaterials = listOf(
 //        MaterialItem("Fabric", "Cotton", 20),
-//        MaterialItem("Basic Materials", "White Thread", 5),
+//        MaterialItem("Basic Materials", "White Thread", 5), // Low stock
 //        MaterialItem("Accents", "Small Buttons", 100),
-//        MaterialItem("Accents", "Zipper Type A", 12)
+//        MaterialItem("Accents", "Zipper Type A", 12) // Low stock
 //    )
+
+    private lateinit var inventoryViewModel: InventoryViewModel
+    private var orderMaterials: List<MaterialItem> = emptyList()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -59,33 +67,24 @@ class Approve_Order_Check : AppCompatActivity() {
         orderLabel.text = intent.getStringExtra("orderLabel")
         orderShirtImage.setImageResource(intent.getIntExtra("orderImage", 0))
 
-        // Populate materials and check stock
-        materialsListContainer.removeAllViews()
-        val lowStockItems = mutableListOf<String>()
+        // Setup ViewModel for Inventory
+        val inventoryDao = OrderlyThreadsDatabase.getDatabase(applicationContext).inventoryDao()
+        val repository = InventoryRepository(inventoryDao)
+        val viewModelFactory = InventoryViewModelFactory(repository)
+        inventoryViewModel = ViewModelProvider(this, viewModelFactory).get(InventoryViewModel::class.java)
 
-        for (material in placeholderMaterials) {
-            val itemView = LayoutInflater.from(this).inflate(R.layout.item_material_row, materialsListContainer, false)
-            
-            val categoryText = itemView.findViewById<TextView>(R.id.materialCategory)
-            val nameText = itemView.findViewById<TextView>(R.id.materialName)
-            val stockText = itemView.findViewById<TextView>(R.id.materialStock)
-
-            categoryText.text = material.category
-            nameText.text = material.name
-            stockText.text = material.stock.toString()
-
-            if (material.stock <= 15) {
-                stockText.setTextColor(Color.RED)
-                lowStockItems.add(material.name)
-            } else {
-                stockText.setTextColor(Color.parseColor("#4CAF50")) // Green
+        // Observe inventory items from the database
+        inventoryViewModel.inventoryItems.observe(this) { inventoryList ->
+            // For now, treat all inventory items as 'order materials'
+            orderMaterials = inventoryList.map { 
+                MaterialItem(it.category, it.material, it.quantity)
             }
-            
-            materialsListContainer.addView(itemView)
+            displayOrderMaterials(materialsListContainer)
         }
 
         // Approve order
         verifyButton.setOnClickListener {
+            val lowStockItems = orderMaterials.filter { it.stock <= 15 }.map { it.name }
             if (lowStockItems.isNotEmpty()) {
                 Toast.makeText(this, "Warning: Approving order with low stock items: $lowStockItems", Toast.LENGTH_LONG).show()
             }
@@ -99,7 +98,32 @@ class Approve_Order_Check : AppCompatActivity() {
 
         // Reject order
         rejectButton.setOnClickListener {
+            val lowStockItems = orderMaterials.filter { it.stock <= 15 }.map { it.name }
             showRejectDialog(index, lowStockItems)
+        }
+    }
+
+    private fun displayOrderMaterials(materialsListContainer: LinearLayout) {
+        materialsListContainer.removeAllViews() // Clear any existing views
+
+        for (material in orderMaterials) {
+            val itemView = LayoutInflater.from(this).inflate(R.layout.item_material_row, materialsListContainer, false)
+            
+            val categoryText = itemView.findViewById<TextView>(R.id.materialCategory)
+            val nameText = itemView.findViewById<TextView>(R.id.materialName)
+            val stockText = itemView.findViewById<TextView>(R.id.materialStock)
+
+            categoryText.text = material.category
+            nameText.text = material.name
+            stockText.text = material.stock.toString()
+
+            if (material.stock <= 15) {
+                stockText.setTextColor(Color.RED)
+            } else {
+                stockText.setTextColor(Color.parseColor("#4CAF50")) // Green
+            }
+            
+            materialsListContainer.addView(itemView)
         }
     }
 
@@ -115,7 +139,9 @@ class Approve_Order_Check : AppCompatActivity() {
         val cancelButton = dialogView.findViewById<Button>(R.id.cancelButton)
         val rejectConfirmButton = dialogView.findViewById<Button>(R.id.rejectConfirmButton)
 
-        val rejectionReasons = listOf("Fabric", "Color/Pattern", "Basic Materials", "Accents")
+        // Categories from all available inventory items
+        val categories = orderMaterials.map { it.category }.distinct()
+        val rejectionReasons = if (categories.isNotEmpty()) categories else listOf("None")
         val reasonAdapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, rejectionReasons)
         reasonAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         spinnerRejectReason.adapter = reasonAdapter
@@ -129,7 +155,7 @@ class Approve_Order_Check : AppCompatActivity() {
                 selectedRejectReason = parent?.getItemAtPosition(position).toString()
 
                 // Filter items based on the selected category and if they are low stock
-                val filteredItems = placeholderMaterials.filter { 
+                val filteredItems = orderMaterials.filter { 
                     it.category == selectedRejectReason && it.stock <= 15
                 }.map { it.name }
 
@@ -165,7 +191,6 @@ class Approve_Order_Check : AppCompatActivity() {
             val resultIntent = Intent()
             resultIntent.putExtra("orderIndex", index)
             resultIntent.putExtra("orderStatus", "Rejected")
-
             setResult(RESULT_OK, resultIntent) 
             
             Toast.makeText(this@Approve_Order_Check, "Order Rejected", Toast.LENGTH_SHORT).show()

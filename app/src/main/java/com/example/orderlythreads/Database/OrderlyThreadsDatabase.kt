@@ -4,7 +4,6 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
-import androidx.room.TypeConverters
 import androidx.room.migration.Migration
 import androidx.sqlite.db.SupportSQLiteDatabase
 import kotlinx.coroutines.CoroutineScope
@@ -12,11 +11,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import android.net.Uri 
 
-@Database(entities = [Accounts::class, Inventory::class], version = 2, exportSchema = false) // Version incremented to 2
-abstract class OrderlyThreadsDatabase : RoomDatabase() {
-
-    abstract fun accountsDao(): AccountsDao
-@Database(entities = [Accounts::class, Orders::class, Inventory::class], version = 1, exportSchema = false)
+@Database(entities = [Accounts::class, Orders::class, Inventory::class], version = 2, exportSchema = false)
 abstract class OrderlyThreadsDatabase : RoomDatabase() {
 
     abstract fun accountsDao(): AccountsDao
@@ -26,6 +21,7 @@ abstract class OrderlyThreadsDatabase : RoomDatabase() {
     companion object {
         @Volatile
         private var INSTANCE: OrderlyThreadsDatabase? = null
+
         val MIGRATION_1_2 = object : Migration(1, 2) {
             override fun migrate(database: SupportSQLiteDatabase) {
                 // Create new table with imageUri column
@@ -45,53 +41,55 @@ abstract class OrderlyThreadsDatabase : RoomDatabase() {
 
         fun getDatabase(context: Context): OrderlyThreadsDatabase {
             return INSTANCE ?: synchronized(this) {
-
                 val instance = Room.databaseBuilder(
                     context.applicationContext,
                     OrderlyThreadsDatabase::class.java,
                     "orderlyThreads_database"
                 )
-                    .addCallback(object : RoomDatabase.Callback() {
-                        override fun onCreate(db: SupportSQLiteDatabase) {
-                            super.onCreate(db)
-
-                            // Insert admin safely
-                            CoroutineScope(Dispatchers.IO).launch {
-                                val accountsDao = INSTANCE?.accountsDao()
-                                accountsDao?.addAccount(
-                                    Accounts(
-                                        username = "admin",
-                                        email = "admin@gmail.com",
-                                        password = "admin123",
-                                        position = "Admin"
-                                    )
+                .addCallback(object : RoomDatabase.Callback() {
+                    override fun onCreate(db: SupportSQLiteDatabase) {
+                        super.onCreate(db)
+                        // Insert admin and default inventory
+                        CoroutineScope(Dispatchers.IO).launch {
+                            val accountsDao = INSTANCE?.accountsDao()
+                            accountsDao?.addAccount(
+                                Accounts(
+                                    username = "admin",
+                                    email = "admin@gmail.com",
+                                    password = "admin123",
+                                    position = "Admin"
                                 )
+                            )
 
-                                // Pre-populate Fabric inventory items
-                                val inventoryDao = INSTANCE?.inventoryDao()
-                                val packageName = context.packageName
-                                val fabrics = listOf(
-                                    "img_merino", "img_lambswool", "img_cashmere", 
-                                    "img_milano_ribbed", "img_scouffle_yarn", "img_alpaca"
+                            // Pre-populate Fabric inventory items
+                            val inventoryDao = INSTANCE?.inventoryDao()
+                            val packageName = context.packageName
+                            val fabrics = listOf(
+                                "img_fabric_merino", "img_fabric_lambswool", "img_fabric_cashmere",
+                                "img_fabric_milano_ribbed", "img_fabric_scouffle_yarn", "img_fabric_alpaca"
+                            )
+                            
+                            fabrics.forEach { fabricResourceName ->
+                                val materialName = fabricResourceName
+                                    .removePrefix("img_fabric_")
+                                    .replace("_", " ")
+                                    .split(" ")
+                                    .joinToString(" ") { it.replaceFirstChar { char -> char.uppercase() } }
+                                
+                                val imageUri = Uri.parse("android.resource://$packageName/drawable/$fabricResourceName").toString()
+                                val inventory = Inventory(
+                                    category = "Fabric",
+                                    material = materialName,
+                                    quantity = 40,
+                                    imageUri = imageUri
                                 )
-                                val initialQuantity = 0
-
-                                fabrics.forEach { fabricResourceName ->
-                                    val materialName = fabricResourceName.removePrefix("img_").replace("_", " ").split(" ").joinToString(" ") { it.capitalize() } // Adjusted for 'img_' prefix
-                                    val imageUri = Uri.parse("android.resource://$packageName/drawable/$fabricResourceName").toString()
-                                    val inventory = Inventory(
-                                        category = "Fabric",
-                                        material = materialName,
-                                        quantity = initialQuantity,
-                                        imageUri = imageUri
-                                    )
-                                    inventoryDao?.addItem(inventory)
-                                }
+                                inventoryDao?.addItem(inventory)
                             }
                         }
-                    })
-                    .addMigrations(MIGRATION_1_2)
-                    .build()
+                    }
+                })
+                .addMigrations(MIGRATION_1_2)
+                .build()
 
                 INSTANCE = instance
                 instance
