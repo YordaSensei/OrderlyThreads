@@ -11,12 +11,13 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import android.net.Uri 
 
-@Database(entities = [Accounts::class, Orders::class, Inventory::class], version = 2, exportSchema = false)
+@Database(entities = [Accounts::class, Orders::class, Inventory::class, OrderCheck::class], version = 7, exportSchema = false)
 abstract class OrderlyThreadsDatabase : RoomDatabase() {
 
     abstract fun accountsDao(): AccountsDao
     abstract fun ordersDao(): OrdersDao
     abstract fun inventoryDao(): InventoryDao
+    abstract fun orderCheckDao(): OrderCheckDao
 
     companion object {
         @Volatile
@@ -24,18 +25,28 @@ abstract class OrderlyThreadsDatabase : RoomDatabase() {
 
         val MIGRATION_1_2 = object : Migration(1, 2) {
             override fun migrate(database: SupportSQLiteDatabase) {
-                // Create new table with imageUri column
                 database.execSQL(
                     "CREATE TABLE inventory_new (id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, category TEXT NOT NULL, material TEXT NOT NULL, quantity INTEGER NOT NULL, imageUri TEXT)"
                 )
-                // Copy data from old table to new table, excluding imageRes
                 database.execSQL(
                     "INSERT INTO inventory_new (id, category, material, quantity) SELECT id, category, material, quantity FROM inventory"
                 )
-                // Remove old table
                 database.execSQL("DROP TABLE inventory")
-                // Rename new table to inventory
                 database.execSQL("ALTER TABLE inventory_new RENAME TO inventory")
+            }
+        }
+
+        val MIGRATION_5_6 = object : Migration(5, 6) {
+            override fun migrate(database: SupportSQLiteDatabase) {
+                database.execSQL("ALTER TABLE orders ADD COLUMN status TEXT NOT NULL DEFAULT 'Pending Approval'")
+            }
+        }
+
+        val MIGRATION_6_7 = object : Migration(6, 7) {
+            override fun migrate(database: SupportSQLiteDatabase) {
+                database.execSQL(
+                    "CREATE TABLE IF NOT EXISTS `order_checks` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `orderId` INTEGER NOT NULL, `inventoryId` INTEGER NOT NULL, `status` TEXT NOT NULL, FOREIGN KEY(`orderId`) REFERENCES `orders`(`orderId`) ON UPDATE NO ACTION ON DELETE CASCADE, FOREIGN KEY(`inventoryId`) REFERENCES `inventory`(`id`) ON UPDATE NO ACTION ON DELETE CASCADE)"
+                )
             }
         }
 
@@ -49,19 +60,11 @@ abstract class OrderlyThreadsDatabase : RoomDatabase() {
                 .addCallback(object : RoomDatabase.Callback() {
                     override fun onCreate(db: SupportSQLiteDatabase) {
                         super.onCreate(db)
-                        // Insert admin and default inventory
-                        CoroutineScope(Dispatchers.IO).launch {
-                            val accountsDao = INSTANCE?.accountsDao()
-                            accountsDao?.addAccount(
-                                Accounts(
-                                    username = "admin",
-                                    email = "admin@gmail.com",
-                                    password = "admin123",
-                                    position = "Admin"
-                                )
-                            )
 
-                            // Pre-populate Fabric inventory items
+                        db.execSQL("INSERT INTO Accounts (username, email, password, position) " +
+                                "VALUES ('admin', 'admin@gmail.com', 'admin123', 'Admin')")
+
+                        CoroutineScope(Dispatchers.IO).launch {
                             val inventoryDao = INSTANCE?.inventoryDao()
                             val packageName = context.packageName
                             val fabrics = listOf(
@@ -88,7 +91,7 @@ abstract class OrderlyThreadsDatabase : RoomDatabase() {
                         }
                     }
                 })
-                .addMigrations(MIGRATION_1_2)
+                .addMigrations(MIGRATION_1_2, MIGRATION_5_6, MIGRATION_6_7)
                 .build()
 
                 INSTANCE = instance

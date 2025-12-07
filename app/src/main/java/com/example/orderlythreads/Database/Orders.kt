@@ -2,7 +2,6 @@ package com.example.orderlythreads.Database
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-// You can remove: import java.util.Date
 
 @Entity(tableName = "orders")
 data class Orders (
@@ -11,20 +10,34 @@ data class Orders (
 
     val clientName: String,
     val contact: String,
-
     val orderDate: String, // Automatic (Created Date)
     val dueDate: String,   // Selected by User
-
     val quantity: Int,
-    // Changed measurements to String to prevent crashes on empty inputs,
-    // OR keep as Int/Double if you ensure they are never empty.
-    // Assuming Int for now based on your file:
-    val chest: String,
-    val shoulderWidth: String,
-    val sleeveLength: String,
-    val armhole: String,
+
     val waist: String,
-    val neckline: String,
-    val garmentLength: String,
-    val additionalNotes: String
+    val hips: String,
+    val chest: String,
+    val length: String,
+    val shoulder: String,
+    val sleeve: String,
+
+    val upperDesignId: Int,       // Store the Drawable ID (e.g., R.drawable.tshirt)
+    val upperFabricId: Int,       // Store the Drawable ID
+    val upperColorHex: String,    // Store the Color Hex Code (e.g., "#FF0000")
+    val upperAccentDesignId: Int,
+    val upperAccentColorHex: String,
+    val upperAccentQuantity: Int,
+
+    // Lower Wear Details
+    val lowerDesignId: Int,
+    val lowerFabricId: Int,
+    val lowerColorHex: String,
+    val lowerAccentDesignId: Int,
+    val lowerAccentColorHex: String,
+    val lowerAccentQuantity: Int,
+
+    val additionalNotes: String,
+    
+    // New field for Stock Check
+    val status: String = "Pending Approval"
 )

@@ -1,24 +1,40 @@
 package com.example.orderlythreads.Database
 
-import android.app.Application
-import androidx.lifecycle.AndroidViewModel
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
 
-class OrdersViewModel(application: Application) : AndroidViewModel(application) {
+class OrdersViewModel(private val repository: OrdersRepository) : ViewModel() {
 
-    private val repository: OrdersRepository
-
-    init {
-        // Initialize Database and Repository
-        val database = OrderlyThreadsDatabase.getDatabase(application)
-        val ordersDao = database.ordersDao()
-        repository = OrdersRepository(ordersDao)
-    }
+    val allOrders: LiveData<List<Orders>> = repository.getAllOrders()
+    
+    private val _currentOrder = MutableLiveData<Orders?>()
+    val currentOrder: LiveData<Orders?> = _currentOrder
 
     fun addOrder(order: Orders) {
         viewModelScope.launch {
             repository.insertOrder(order)
+        }
+    }
+
+    fun updateOrder(order: Orders) {
+        viewModelScope.launch {
+            repository.updateOrder(order)
+        }
+    }
+
+    fun updateOrderStatus(orderId: Int, status: String) {
+        viewModelScope.launch {
+            repository.updateOrderStatus(orderId, status)
+        }
+    }
+
+    fun fetchOrder(orderId: Int) {
+        viewModelScope.launch {
+            val order = repository.getOrderById(orderId)
+            _currentOrder.postValue(order)
         }
     }
 }
