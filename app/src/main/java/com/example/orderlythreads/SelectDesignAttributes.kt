@@ -99,7 +99,10 @@ class SelectDesignAttributes : AppCompatActivity() {
         val inventoryFactory = InventoryViewModelFactory(inventoryRepo)
         inventoryViewModel = ViewModelProvider(this, inventoryFactory).get(InventoryViewModel::class.java)
 
+<<<<<<< HEAD
         // --- Initialize Views ---
+=======
+>>>>>>> parent of 7674129 (Fixed bugs)
         initializeViews()
 
         // --- Click Listeners ---
@@ -128,7 +131,14 @@ class SelectDesignAttributes : AppCompatActivity() {
 
         // --- Setup Adapters and Observe Data ---
         setupAllAdapters()
+<<<<<<< HEAD
         observeRealData() // This call is crucial to load data from the database
+=======
+
+        btnAddUpperAccentQty.setOnClickListener { showQuantityDialog("Upper Accents") { qty -> upperAccentQty = qty } }
+        btnAddLowerAccentQty.setOnClickListener { showQuantityDialog("Lower Accents") { qty -> lowerAccentQty = qty } }
+        btnSaveOrder.setOnClickListener { showConfirmationDialog() }
+>>>>>>> parent of 7674129 (Fixed bugs)
     }
 
 

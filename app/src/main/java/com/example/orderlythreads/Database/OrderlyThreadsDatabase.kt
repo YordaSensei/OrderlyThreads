@@ -86,15 +86,23 @@ abstract class OrderlyThreadsDatabase : RoomDatabase() {
                                     quantity = 40,
                                     imageUri = imageUri
                                 )
+<<<<<<< HEAD
 
+=======
+>>>>>>> parent of 7674129 (Fixed bugs)
                                 inventoryDao?.addItem(inventory)
                             }
 
                         }
+<<<<<<< HEAD
 
                     }
                 })
                 
+=======
+                    }
+                })
+>>>>>>> parent of 7674129 (Fixed bugs)
                 .addMigrations(MIGRATION_1_2, MIGRATION_5_6, MIGRATION_6_7)
                 .build()
 
